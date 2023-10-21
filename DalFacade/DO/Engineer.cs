@@ -6,14 +6,21 @@ using System.Threading.Tasks;
 
 namespace DO;
 
+/// <summary>
+/// 
+/// </summary>
+/// <param name="Id"></param>
+/// <param name="Name"></param>
+/// <param name="Email"></param>
+/// <param name="Level"></param>
+/// <param name="cost"></param>
 public record Engineer
 (
     int Id,
     string Name,
-    string? Alias = null,
-    bool IsActive = false,
-    Year CurrentYear = Year.FirstYear,
-     DateTime? BirthDate = null
+    string? Email = null,
+    EngineerExperience Level = EngineerExperience.Junior,
+    double? cost = 0
 );
 {
 }
