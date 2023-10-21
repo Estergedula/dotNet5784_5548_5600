@@ -11,7 +11,7 @@
     private static void Welcome5600()
     {
         Console.WriteLine("Enter your name: ");
-        string name = Console.ReadLine();
+        string? name = Console.ReadLine();
         Console.WriteLine("{0}, welcome to my first application", name);
     }
 }
