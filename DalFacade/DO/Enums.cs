@@ -1,7 +1,6 @@
 ﻿
 namespace DO;
-
-enum EngineerExperience
+public enum EngineerExperience
 {
     Expert,
     Junior,

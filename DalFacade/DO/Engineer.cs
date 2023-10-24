@@ -1,4 +1,5 @@
-﻿namespace DO;
+﻿
+namespace DO;
 /// <summary>
 /// Engineer Entity represents a student with all its prop
 /// </summary>
@@ -6,12 +7,12 @@
 /// <param name="Name">Name of the engineer</param>
 /// <param name="Email">Email address of the engineer</param>
 /// <param name="Level">The level of the engineer</param>
-/// <param name="cost">Hourly cost of the engineer</param>
+/// <param name="Cost">Hourly cost of the engineer</param>
 public record Engineer
 (
-    int Id,
+       int Id,
     string Name,
     string? Email = null,
-    EngineerExperience Level = EngineerExperience.Junior,
-    double? Cost = 0 
- );
+   EngineerExperience Level = EngineerExperience.Junior,
+    double? Cost = 0
+);
