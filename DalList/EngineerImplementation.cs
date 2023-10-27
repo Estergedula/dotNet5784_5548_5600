@@ -10,7 +10,10 @@ public class EngineerImplementation : IEngineer
 {
     public int Create(Engineer item)
     {
-        throw new NotImplementedException();
+        if (Read(item.Id) is not null)
+            throw new Exception($"Engineer with ID={item.Id} already exists");
+        DataSource.Engineers.Add(item);
+        return item.Id;
     }
 
     public void Delete(int id)
@@ -20,12 +23,14 @@ public class EngineerImplementation : IEngineer
 
     public Engineer? Read(int id)
     {
-        throw new NotImplementedException();
+        if (DataSource.Engineers.Find(x => x.Id == id) is not null)
+            return DataSource.Engineers.Find(x => x.Id == id);
+        else return null;
     }
 
     public List<Engineer> ReadAll()
     {
-        throw new NotImplementedException();
+        return DataSource.Engineers;    
     }
 
     public void Update(Engineer item)
