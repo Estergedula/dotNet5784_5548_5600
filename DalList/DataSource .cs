@@ -20,5 +20,6 @@ internal static class DataSource
         {
             get => nextDependencyId++;
         }
+
     }
 }

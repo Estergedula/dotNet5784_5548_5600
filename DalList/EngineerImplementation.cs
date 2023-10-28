@@ -18,9 +18,10 @@ public class EngineerImplementation : IEngineer
 
     public void Delete(int id)
     {
-        if (DataSource.Engineers.Find(x => x.Id == id) is null)
+        Engineer? engineerToDelete = Read(id);
+        if (engineerToDelete is null)
             throw new Exception($"Engineer with ID={id} is not exists");
-        else DataSource.Engineers.Remove(Read(id));
+        else DataSource.Engineers.Remove(engineerToDelete);
     }
 
     public Engineer? Read(int id)
@@ -37,13 +38,11 @@ public class EngineerImplementation : IEngineer
 
     public void Update(Engineer item)
     {
-        if (DataSource.Engineers.Find(x => x.Id == item.Id) is null)
+        Engineer? engineerToUpdate = Read(item.Id);
+        if (engineerToUpdate is null)
             throw new Exception($"Engineer with ID={item.Id} is not exists");
-        else
-        {
-            DataSource.Engineers.Remove(Read(item.Id));
-            Engineer engineer = new(item.Id, item.Name, item.Email, item.Level, item.Cost);
-            DataSource.Engineers.Add(engineer);
-        }
+        DataSource.Engineers.Remove(engineerToUpdate);
+        Engineer engineer = new(item.Id, item.Name, item.Email, item.Level, item.Cost);
+        DataSource.Engineers.Add(engineer);
     }
 }
