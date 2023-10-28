@@ -25,8 +25,8 @@ public class TaskImplementation : ITask
 
     public Task? Read(int id)
     {
-        if (DataSource.Tasks.Find(x => x.Id == id) is not null)
-            return DataSource.Tasks.Find(x => x.Id == id);
+        if (DataSource.Tasks.Find(task => task.Id == id) is not null)
+            return DataSource.Tasks.Find(task => task.Id == id);
         else return null;
     }
 

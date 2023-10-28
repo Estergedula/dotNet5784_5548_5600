@@ -25,8 +25,8 @@ public class DependencyImplementation : IDependency
 
     public Dependency? Read(int id)
     {
-        if (DataSource.Dependencies.Find(x => x.Id == id) is not null)
-            return DataSource.Dependencies.Find(x => x.Id == id);
+        if (DataSource.Dependencies.Find(dependency => dependency.Id == id) is not null)
+            return DataSource.Dependencies.Find(dependency => dependency.Id == id);
         else return null;
     }
 

@@ -26,14 +26,14 @@ public class EngineerImplementation : IEngineer
 
     public Engineer? Read(int id)
     {
-        if (DataSource.Engineers.Find(x => x.Id == id) is not null)
-            return DataSource.Engineers.Find(x => x.Id == id);
+        if (DataSource.Engineers.Find(engineer => engineer.Id == id) is not null)
+            return DataSource.Engineers.Find(engineer => engineer.Id == id);
         else return null;
     }
 
     public List<Engineer> ReadAll()
     {
-        return new List<Engineer>( DataSource.Engineers);    
+        return new List<Engineer>(DataSource.Engineers);    
     }
 
     public void Update(Engineer item)
