@@ -19,7 +19,7 @@ public class DependencyImplementation : IDependency
     {
         Dependency? DependencyToDelete = Read(id);
         if (DependencyToDelete is null)
-            throw new Exception($"Engineer with ID={id} is not exists");
+            throw new Exception($"Engineer with ID={id} does not exist.");
         else DataSource.Dependencies.Remove(DependencyToDelete);
     }
 
@@ -39,7 +39,7 @@ public class DependencyImplementation : IDependency
     {
         Dependency? dependcyToUpdate=Read(item.Id);
         if (dependcyToUpdate is null)
-            throw new Exception($"Dependency with ID={item.Id} is not exists");
+            throw new Exception($"Dependency with ID={item.Id} does not exist.");
         DataSource. Dependencies.Remove(dependcyToUpdate);
         Dependency dependency = new(item.Id,item.DependentTask,item.DependOnTask);
         DataSource.Dependencies.Add(dependency);
