@@ -10,7 +10,7 @@ public class TaskImplementation : ITask
     public int Create(Task item)
     {
         int newID = DataSource.Config.NextTaskId;
-        Task copy = item whith(Id = newID);
+        Task copy = item with { Id=newID };
         DataSource.Tasks.Add(copy);
         return copy.Id;
     }
@@ -19,7 +19,7 @@ public class TaskImplementation : ITask
     {
         Task? TaskToDelete = Read(id);
         if (TaskToDelete is null)
-            throw new Exception($"Task with ID = {id} does not exsist.)
+            throw new Exception($"Task with ID = {id} does not exsist.");
         else DataSource.Tasks.Remove(TaskToDelete);
     }
 
@@ -32,16 +32,16 @@ public class TaskImplementation : ITask
 
     public List<Task> ReadAll()
     {
-        return DataSource.Tasks;
+        return new List<Task>(DataSource.Tasks);
     }
 
     public void Update(Task item)
     {
-        Task? TaskToUpdate = Read(item.Id);
-        if (TaskToUpdate is null)
-            throw new Exception($"Task with ID = {id} does not exist.");
-        DataSource.Tasks.Remove(TaskToUpdate);
-        Task newTask = new(item.Status, item.Alias, item.MileStone, item.CretedAt, item.Start, item.ScheduledDate, item.ForecadtDate, item.Deadline, item.Complete, item.Deliverables, item.Remarks, item.EngineerId, item.ComplexilyLevel);
-        DataSource.Tasks.Add.(newTask);
+        Task? taskToUpdate= Read(item.Id);
+        if (taskToUpdate is null)
+            throw new Exception($"Task with ID={item.Id} does not exist.");
+        DataSource.Tasks.Remove(taskToUpdate);
+        Task task = new(item.Id, item.Description, item.Alias, item.Milestone, item.CreatedAt, item.Start, item.ScheduledDate, item.ForecadtDate, item.Deadline, item.Complete, item.Deliverables, item.Remarks, item.EngineerId, item.ComplexilyLevel);
+        DataSource.Tasks.Add(task);
     }
 }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DalTest;
+﻿namespace DalTest;
 using DalApi;
 using DO;
 using System.Collections;
@@ -30,28 +24,52 @@ public static class Initialization
         "Ariela Levin",
         "Dina Klein",
         "Shira Israelof",
-        "Riki Kan",
-        "Miri Kan",
-        "Shira Choen",
-        "Rivka Choen",
-        "Ester Gedula Levi",
-        "Noami Choen",
-        "Dina Choen",
-        "Racheli Choen",
-        "Moni Mini",
-        "Riki Pinchasi",
-        "Dina Levi"
+        "Toiby Braish",
+        "Maly Kibelevitz",
+        "Ruti Salomon",
+        "Dvory Mimran",
+        "Sari Brodi",
+        "Roizy Lefkovit",
+        "Chani Rozinberg",
+        "Ayala Shraber",
+        "Chaya Klain",
+        "Esty Shvartz",
+        "Pnini Cohen",
+        "Giti Leder",
+        "Feigy Haker",
+        "Kaila Avramovitz",
+        "Rachely Vainberg",
+        "Gili Reker",
+        "Zehava Simcha",
+        "Nahama Levi",
+        "Hindi Nachumi",
+        "Leaha Segal",
+        "Chaya Toyal",
+        "Debbi Pety",
+        "Anna Coheni",
+        "Efrat Kati",
+        "Devora Tal",
+        "Tova Eliimelech",
+        "Yeudit Avramov",
+        "Sury Shvartz",
+        "Malki Gotfrid",
+        "Sari Brodi",
+        "Roizy Safrin",
+        "Eti Deblinger",
+        "Racheli Bekerman",
+        "Miri Kaner",
+        "Suly Eler"
         };
         foreach (var _name in engineerNames)
         {
             int _id;
             do
                 _id = s_rand.Next(MIN_ID, MAX_ID);
-            while (s_dalEngineer!.Read(_id) != null);
+            while (s_dalEngineer!.Read(_id) is not null);
             EngineerExperience _level= (EngineerExperience)s_rand.Next(0, 2);
             double doubleCost = s_rand.Next(0, 100)/100;
             double _cost = s_rand.Next(MIN_INTEGER_COST, MAX_INTEGER_COST)+doubleCost;
-            string _email = _name+_id%10000000+"@gmail.com";
+            string _email = _name+(int)(_id/10000000)+"@gmail.com";
             Engineer newEng = new(_id, _name, _email, _level,_cost);
             s_dalEngineer!.Create(newEng);
         }

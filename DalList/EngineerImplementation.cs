@@ -33,7 +33,7 @@ public class EngineerImplementation : IEngineer
 
     public List<Engineer> ReadAll()
     {
-        return DataSource.Engineers;    
+        return new List<Engineer>( DataSource.Engineers);    
     }
 
     public void Update(Engineer item)
