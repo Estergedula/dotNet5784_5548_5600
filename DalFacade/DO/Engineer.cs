@@ -11,7 +11,7 @@ namespace DO;
 public record Engineer
 (
        int Id,
-       string Name,
+       string ?Name,
        string? Email = null,
        EngineerExperience Level = EngineerExperience.Junior,
        double? Cost = 0

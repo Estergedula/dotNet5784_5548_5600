@@ -1,5 +1,6 @@
 ﻿using Dal;
 using DalApi;
+using DO;
 using System.Runtime.CompilerServices;
 
 namespace DalTest;
@@ -13,17 +14,67 @@ internal class Program
     {
         Console.WriteLine("Welcome To Our Program \nTo exit type 0 \nTo Engineers type 1 \nTo Tasks type 2 \nTo Dependencies type 3 ");
     }
-    public static void engineerMenu() 
-    { 
-        
+    public static void createEngineer() 
+    {
+        Console.WriteLine("Create Engineer \ntype ID");
+        int _id = Convert.ToInt32(Console.ReadLine());
+        Console.WriteLine("type name");
+        string? _name = Console.ReadLine();
+        Console.WriteLine("type email");
+        string? _email = Console.ReadLine();
+        Console.WriteLine("type level: 0-Expert, 1-Junior, 2-Tyro");
+        EngineerExperience _level = (EngineerExperience)Convert.ToInt32(Console.ReadLine());
+        Console.WriteLine("type hourly cost");
+        double? _cost = Convert.ToDouble(Console.ReadLine());
+        try { s_dalEngineer!.Create(new(_id, _name, _email, _level, _cost)); }
+        catch (Exception e) { Console.WriteLine(e.Message); }
     }
-    public static void taskMenu()
+    public static void displayEngineer()
+    {
+        Console.WriteLine("enter Id to search");
+        int _idToSearch = Convert.ToInt32(Console.ReadLine());
+        Engineer? findEngineer = s_dalEngineer!.Read(_idToSearch);
+        if (findEngineer is not null)
+            Console.WriteLine(findEngineer);
+        else Console.WriteLine("There is no id engineer");
+    }
+    public static void displayAllEngineers()
+    {
+        List<Engineer> allEngineers = s_dalEngineer!.ReadAll();
+        foreach(Engineer engineer in allEngineers)
+            Console.WriteLine(engineer);
+    }
+    public static void updateEngineer()
     {
 
     }
-    public static void dependencyMenu()
+    public static int engineerMenu() 
     {
-
+        Console.WriteLine();
+        int myChoice = Convert.ToInt32(Console.ReadLine());
+        switch (myChoice)
+        {
+            case 1: break;
+            case 2: createEngineer();
+                break;
+            case 3:displayEngineer();
+                break;
+            case 4:
+                displayAllEngineers();
+                break;
+            case 5:
+               updateEngineer();//
+                break;
+        }
+        return myChoice;
+    }
+    public static int taskMenu()
+    {
+        return 0;
+    }
+    public static int dependencyMenu()
+    {
+        return 0;
     }
     static void Main(string[] args)
     {
@@ -34,18 +85,21 @@ internal class Program
         myChoice=Convert.ToInt32( Console.ReadLine());
         while(myChoice != 0)
         {
+            int innerSwitch = 0;
             switch(myChoice)
             {
                 case 1:
-                    engineerMenu();
+                    innerSwitch= engineerMenu();
                     break;
                 case 2:
-                    taskMenu();
+                    innerSwitch= taskMenu();
                     break;
                 case 3:
-                    dependencyMenu();
+                    innerSwitch= dependencyMenu();
                     break;
             }
+            if (innerSwitch==1)
+                break;
             writeMenu();
             myChoice=Convert.ToInt32(Console.ReadLine());
         }
