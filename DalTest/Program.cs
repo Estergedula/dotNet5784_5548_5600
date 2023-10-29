@@ -120,7 +120,7 @@ internal class Program
         {
             Console.WriteLine("type ID of first task");
             _idOfFirstTask = Convert.ToInt32(Console.ReadLine());
-        }
+        }//
         int _idOfSecondTask;
         Console.WriteLine("Create Dependency \ntype ID of second task");
         _idOfSecondTask = Convert.ToInt32(Console.ReadLine());
