@@ -88,7 +88,8 @@ internal class Program
                 break;
             case 3:displayEngineer();
                 break;
-            case 4:  displayAllEngineers();
+            case 4:
+                displayAllEngineers();
                 break;
             case 5:updateEngineer();
                 break;
@@ -97,8 +98,10 @@ internal class Program
         }
         return myChoice;
     }
-    public static int getDetailsOfTask()
+    public static void creatTask()
     {
+        Console.WriteLine("Create a task \ntype ID number:\n");
+        int _id = Convert.ToInt32(Console.ReadLine());
         Console.WriteLine("type description:\n");
         string? _name = Console.ReadLine();
         Console.WriteLine("type alias:\n");
@@ -106,11 +109,11 @@ internal class Program
         Console.WriteLine("type milestone:\n");
         bool _milestone = Convert.ToBoolean(Console.ReadLine());
         Console.WriteLine("type date created\n");
-        DateTime _createdAt = Convert.ToDateTime(Console.ReadLine())
+        DateTime _createdAt = Convert.ToDateTime(Console.ReadLine());
         Console.WriteLine("type date started\n");
-        DateTime _start = Convert.ToDateTime(Console.ReadLine())
+        DateTime _start = Convert.ToDateTime(Console.ReadLine());
         Console.WriteLine("type date of forecast\n");
-        DateTime _ForecastDate = Convert.ToDateTime(Console.ReadLine())
+        DateTime _ForecastDate = Convert.ToDateTime(Console.ReadLine());
         Console.WriteLine("type date of deadline\n");
         DateTime _DeadLine = Convert.ToDateTime(Console.ReadLine());
         Console.WriteLine("type date of complete\n");
@@ -121,18 +124,14 @@ internal class Program
         string? _Remarks = Console.ReadLine();
         Console.WriteLine("type ID of engineer\n");
         int _engineerID = Convert.ToInt32(Console.ReadLine());
-    }
-    public static int creatTask()
-    {
-        Console.WriteLine("Create a task \ntype ID number:\n");
-        int _id = Convert.ToInt32(Console.ReadLine());
-        getDetailsOfTask();
-        try { s_dalTask!.create(new (_id, _name, _alias, _milestone,
+        try {
+            s_dalTask!.Create(new(_id, _name, _alias, _milestone,
             _createdAt, _start, _ForecastDate, _DeadLine, _Complete,
-            _Deliverables, _Deliverables, _Remarks, _engineerID)}
+            _Deliverables, _Deliverables,_engineerID,EngineerExperience.Junior));
+        }
         catch (Exception e) { Console.WriteLine(e.Message); }
     }
-    public static int displaytask()
+    public static void  displaytask()
     {
         Console.WriteLine("enter ID to search\n");
         int _idToSearch = Convert.ToInt32(Console.ReadLine());
@@ -141,7 +140,7 @@ internal class Program
             Console.WriteLine(findTask);
         else Console.WriteLine("There is no id task");
     }
-    public static void displayAllEngineers()
+    public static void displayAllTasks()
     {
         List<Task> allTasks = s_dalTask!.ReadAll();
         foreach (Task task in allTasks)
@@ -158,10 +157,31 @@ internal class Program
         }
         else
         {
-            getDetailsOfTask();
-            try { s_dalTask!.Update(new(_idToUpDate, _name, _alias, _milestone,
-            _createdAt, _start, _ForecastDate, _DeadLine, _Complete,
-            _Deliverables, _Deliverables, _Remarks, _engineerID)); }
+            Console.WriteLine("Create a task \ntype ID number:\n");
+            int _id = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("type description:\n");
+            string? _name = Console.ReadLine();
+            Console.WriteLine("type alias:\n");
+            string? _alias = Console.ReadLine();
+            Console.WriteLine("type milestone:\n");
+            bool _milestone = Convert.ToBoolean(Console.ReadLine());
+            Console.WriteLine("type date created\n");
+            DateTime _createdAt = Convert.ToDateTime(Console.ReadLine());
+            Console.WriteLine("type date started\n");
+            DateTime _start = Convert.ToDateTime(Console.ReadLine());
+            Console.WriteLine("type date of forecast\n");
+            DateTime _ForecastDate = Convert.ToDateTime(Console.ReadLine());
+            Console.WriteLine("type date of deadline\n");
+            DateTime _DeadLine = Convert.ToDateTime(Console.ReadLine());
+            Console.WriteLine("type date of complete\n");
+            DateTime _Complete = Convert.ToDateTime(Console.ReadLine());
+            Console.WriteLine("type deliverables\n");
+            string? _Deliverables = Console.ReadLine();
+            Console.WriteLine("type remarks\n");
+            string? _Remarks = Console.ReadLine();
+            Console.WriteLine("type ID of engineer\n");
+            int _engineerID = Convert.ToInt32(Console.ReadLine());
+            try { s_dalTask!.Update(new(_id, _name, _alias, _milestone, _createdAt, _start, _ForecastDate, _DeadLine, _Complete, _Deliverables, _Remarks, _engineerID, EngineerExperience.Junior)); }
             catch (Exception e) { Console.WriteLine(e.Message); }
         }
     }

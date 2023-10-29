@@ -19,8 +19,8 @@
 public record Task
 (
     int Id,
-    string Description,
-    string Alias,
+    string? Description,
+    string? Alias,
     bool Milestone,
     DateTime CreatedAt,
     DateTime Start,
