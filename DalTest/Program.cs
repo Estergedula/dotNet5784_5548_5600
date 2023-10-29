@@ -78,7 +78,7 @@ internal class Program
     }
     public static int engineerMenu() 
     {
-        Console.WriteLine();
+        Console.WriteLine("Please enter u=your choice 1-6:\n");
         int myChoice = Convert.ToInt32(Console.ReadLine());
         switch (myChoice)
         {
@@ -97,10 +97,8 @@ internal class Program
         }
         return myChoice;
     }
-    public static int creatTask()
+    public static int getDetailsOfTask()
     {
-        Console.WriteLine("Create a task \ntype ID number:\n");
-        int _id = Convert.ToInt32(Console.ReadLine());
         Console.WriteLine("type description:\n");
         string? _name = Console.ReadLine();
         Console.WriteLine("type alias:\n");
@@ -123,7 +121,12 @@ internal class Program
         string? _Remarks = Console.ReadLine();
         Console.WriteLine("type ID of engineer\n");
         int _engineerID = Convert.ToInt32(Console.ReadLine());
-        Console.WriteLine("type engineer experience");
+    }
+    public static int creatTask()
+    {
+        Console.WriteLine("Create a task \ntype ID number:\n");
+        int _id = Convert.ToInt32(Console.ReadLine());
+        getDetailsOfTask();
         try { s_dalTask!.create(new (_id, _name, _alias, _milestone,
             _createdAt, _start, _ForecastDate, _DeadLine, _Complete,
             _Deliverables, _Deliverables, _Remarks, _engineerID)}
@@ -146,11 +149,47 @@ internal class Program
     }
     public static int updateTask()
     {
-        Console.WriteLine()
+        Console.WriteLine("enter Id to delete");
+        int _idToUpDate = Convert.ToInt32(Console.ReadLine());
+        Task? taskToUpdate = s_dalTask!.Read(_idToUpDate);
+        if (taskToUpdate is null)
+        {
+            Console.WriteLine("The id number does not exist.");
+        }
+        else
+        {
+            getDetailsOfTask();
+            try { s_dalTask!.Update(new(_idToUpDate, _name, _alias, _milestone,
+            _createdAt, _start, _ForecastDate, _DeadLine, _Complete,
+            _Deliverables, _Deliverables, _Remarks, _engineerID)); }
+            catch (Exception e) { Console.WriteLine(e.Message); }
+        }
     }
     public static int taskMenu()
     {
-        return 0;
+        Console.WriteLine("Please enter u=your choice 1-6:\n");
+        int myChoice = Convert.ToInt32(Console.ReadLine());
+        switch (myChoice)
+        {
+            case 1:
+                break;
+            case 2:
+                createTask();
+                break;
+            case 3:
+                displayTask();
+                break;
+            case 4:
+                displayAllTasks();
+                break;
+            case 5:
+                updateTask();
+                break;
+            case 6:
+                deleteTask();
+                break;
+        }
+        return myChoice;
     }
     public static void deleteDependency()
     {
