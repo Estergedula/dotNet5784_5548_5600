@@ -10,8 +10,8 @@ internal class Program
     private static ITask? s_dalTask = new TaskImplementation();
     private static IDependency? s_dalDependencys = new DependencyImplementation();
     public static void writeMenu()
-    { 
-
+    {
+        Console.WriteLine("Welcome To Our Program \nTo exit type 0 \nTo Engineers type 1 \nTo Tasks type 2 \nTo Dependencies type 3 ");
     }
     public static void engineerMenu() 
     { 
