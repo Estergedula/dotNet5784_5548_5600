@@ -98,7 +98,7 @@ internal class Program
         }
         return myChoice;
     }
-    public static void creatTask()
+    public static void createTask()
     {
         Console.WriteLine("Create a task \ntype ID number:\n");
         int _id = Convert.ToInt32(Console.ReadLine());
@@ -122,35 +122,42 @@ internal class Program
         string? _Deliverables = Console.ReadLine();
         Console.WriteLine("type remarks\n");
         string? _Remarks = Console.ReadLine();
+        Console.WriteLine("type level: 0-Expert, 1-Junior, 2-Tyro\n");
+        EngineerExperience _level = (EngineerExperience)Convert.ToInt32(Console.ReadLine());
         Console.WriteLine("type ID of engineer\n");
         int _engineerID = Convert.ToInt32(Console.ReadLine());
+        while (s_dalEngineer!.Read(_engineerID) is null)
+        {
+            Console.WriteLine("type ID of first task");
+            _engineerID = Convert.ToInt32(Console.ReadLine());
+        }
         try {
             s_dalTask!.Create(new(_id, _name, _alias, _milestone,
             _createdAt, _start, _ForecastDate, _DeadLine, _Complete,
-            _Deliverables, _Deliverables,_engineerID,EngineerExperience.Junior));
+            _Deliverables, _Deliverables,_engineerID, _level));
         }
         catch (Exception e) { Console.WriteLine(e.Message); }
     }
-    public static void  displaytask()
+    public static void displayTask()
     {
         Console.WriteLine("enter ID to search\n");
         int _idToSearch = Convert.ToInt32(Console.ReadLine());
-        Task? findTask = s_dalTask!.Read(_idToSearch);
+        DO.Task? findTask = s_dalTask!.Read(_idToSearch);
         if (findTask is not null)
             Console.WriteLine(findTask);
         else Console.WriteLine("There is no id task");
     }
     public static void displayAllTasks()
     {
-        List<Task> allTasks = s_dalTask!.ReadAll();
-        foreach (Task task in allTasks)
+        List<DO.Task> allTasks = s_dalTask!.ReadAll();
+        foreach ( DO.Task task in allTasks)
             Console.WriteLine(task);
     }
-    public static int updateTask()
+    public static void updateTask()
     {
         Console.WriteLine("enter Id to delete");
         int _idToUpDate = Convert.ToInt32(Console.ReadLine());
-        Task? taskToUpdate = s_dalTask!.Read(_idToUpDate);
+        DO.Task? taskToUpdate = s_dalTask!.Read(_idToUpDate);
         if (taskToUpdate is null)
         {
             Console.WriteLine("The id number does not exist.");
@@ -179,11 +186,28 @@ internal class Program
             string? _Deliverables = Console.ReadLine();
             Console.WriteLine("type remarks\n");
             string? _Remarks = Console.ReadLine();
+            Console.WriteLine("type level: 0-Expert, 1-Junior, 2-Tyro\n");
+            EngineerExperience _level = (EngineerExperience)Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("type ID of engineer\n");
             int _engineerID = Convert.ToInt32(Console.ReadLine());
-            try { s_dalTask!.Update(new(_id, _name, _alias, _milestone, _createdAt, _start, _ForecastDate, _DeadLine, _Complete, _Deliverables, _Remarks, _engineerID, EngineerExperience.Junior)); }
+            while (s_dalEngineer!.Read(_engineerID) is null)
+            {
+                Console.WriteLine("type ID of first task");
+                _engineerID = Convert.ToInt32(Console.ReadLine());
+            }
+            try { s_dalTask!.Update(new(_id, _name, _alias, _milestone, _createdAt, _start, _ForecastDate, _DeadLine, _Complete, _Deliverables, _Remarks, _engineerID, _level)); }
             catch (Exception e) { Console.WriteLine(e.Message); }
         }
+    }
+    public static void deleteTask()
+    {
+        Console.WriteLine("enter Id to delete");
+        int _idToDelete = Convert.ToInt32(Console.ReadLine());
+        try
+        {
+            s_dalTask!.Delete(_idToDelete);
+        }
+        catch (Exception e) { Console.WriteLine(e.Message); }
     }
     public static int taskMenu()
     {
