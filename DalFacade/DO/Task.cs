@@ -24,7 +24,7 @@ public record Task
     bool Milestone,
     DateTime CreatedAt,
     DateTime Start,
-    DateTime ForecadtDate,
+    DateTime ForecastDate,
     DateTime DeadLine,
     DateTime Complete,
     string ?Deliverables=null,

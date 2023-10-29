@@ -68,6 +68,34 @@ internal class Program
         }
         return myChoice;
     }
+    public static int creatTask()
+    {
+        Console.WriteLine("Create a task \ntype ID number:\n");
+        int _id = Convert.ToInt32(Console.ReadLine());
+        Console.WriteLine("type description:\n");
+        string? _name = Console.ReadLine();
+        Console.WriteLine("type alias:\n");
+        string? _alias = Console.ReadLine();
+        Console.WriteLine("type milestone:\n");
+        bool _milestone = Convert.ToBoolean(Console.ReadLine());
+        Console.WriteLine("type date created\n");
+        DateTime _createdAt = Convert.ToDateTime(Console.ReadLine())
+        Console.WriteLine("type date started\n");
+        DateTime _start = Convert.ToDateTime(Console.ReadLine())
+        Console.WriteLine("type date of forecast\n");
+        DateTime _ForecastDate = Convert.ToDateTime(Console.ReadLine())
+        Console.WriteLine("type date of deadline\n");
+        DateTime _DeadLine = Convert.ToDateTime(Console.ReadLine());
+        Console.WriteLine("type date of complete\n");
+        DateTime _Complete = Convert.ToDateTime(Console.ReadLine());
+        Console.WriteLine("type deliverables\n");
+        string? _Deliverables = Console.ReadLine();
+        Console.WriteLine("type remarks\n");
+        string? _Remarks = Console.ReadLine();
+        Console.WriteLine("type ID of engineer\n");
+        int _engineerID = Convert.ToInt32(Console.ReadLine());
+        Console.WriteLine("type engineer experience")
+    }
     public static int taskMenu()
     {
         return 0;
