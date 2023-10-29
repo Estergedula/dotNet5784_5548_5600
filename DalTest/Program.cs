@@ -94,7 +94,30 @@ internal class Program
         string? _Remarks = Console.ReadLine();
         Console.WriteLine("type ID of engineer\n");
         int _engineerID = Convert.ToInt32(Console.ReadLine());
-        Console.WriteLine("type engineer experience")
+        Console.WriteLine("type engineer experience");
+        try { s_dalTask!.create(new (_id, _name, _alias, _milestone,
+            _createdAt, _start, _ForecastDate, _DeadLine, _Complete,
+            _Deliverables, _Deliverables, _Remarks, _engineerID)}
+        catch (Exception e) { Console.WriteLine(e.Message); }
+    }
+    public static int displaytask()
+    {
+        Console.WriteLine("enter ID to search\n");
+        int _idToSearch = Convert.ToInt32(Console.ReadLine());
+        Task? findTask = s_dalTask!.Read(_idToSearch);
+        if (findTask is not null)
+            Console.WriteLine(findTask);
+        else Console.WriteLine("There is no id task");
+    }
+    public static void displayAllEngineers()
+    {
+        List<Task> allTasks = s_dalTask!.ReadAll();
+        foreach (Task task in allTasks)
+            Console.WriteLine(task);
+    }
+    public static int updateTask()
+    {
+        Console.WriteLine()
     }
     public static int taskMenu()
     {
