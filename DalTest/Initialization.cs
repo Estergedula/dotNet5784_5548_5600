@@ -84,35 +84,35 @@ public static class Initialization
         string[] nums = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
         for (int i=0; i<100; i++)
         {
-            //string _description = letters[s_rand.Next(letters.Length)]+nums[s_rand.Next(nums.Length)]+letters[s_rand.Next(letters.Length)];
-            //string _alias= _description.Substring(0, 2);
-            //bool _milestone= s_rand.Next(0,1)==0?true:false;
-            //DateTime start = new DateTime(1995, 1, 1);
-            //int range = (DateTime.Today - start).Days;
-            //DateTime _createdAt = start.AddDays(s_rand.Next(range));
-            //range = (new DateTime(1,12,2040) - _createdAt).Days;
-            //DateTime _start = _createdAt.AddDays(s_rand.Next(range));
-            //range = (new DateTime(1, 12, 2060) - _start).Days;
-            //DateTime _scheduledDate = _start.AddDays(s_rand.Next(range));
-            //range= (new DateTime(1, 12, 2080)-_scheduledDate).Days;
-            //DateTime _forecadtDate = _scheduledDate.AddDays(s_rand.Next(range));
-            //range=(_forecadtDate-_scheduledDate).Days;
-            //DateTime _complete = _scheduledDate.AddDays(s_rand.Next(range));
-            //Engineer engineerDoTask=allEngineer[s_rand.Next(0, engineerCount-1)];
-            //int _engineerId = engineerDoTask.Id;
-            //EngineerExperience _complexilyLevel = engineerDoTask.Level;
-            //Task newTask = new(0, _description, _alias, _milestone, _createdAt, _start, _scheduledDate, _forecadtDate, _complete, " ", " ", _engineerId, _complexilyLevel);
-            //s_dalTask!.Create(newTask);
+            string _description = letters[s_rand.Next(letters.Length)]+nums[s_rand.Next(nums.Length)]+letters[s_rand.Next(letters.Length)];
+            string _alias = _description.Substring(0, 2);
+            bool _milestone = s_rand.Next(0, 1)==0 ? true : false;
+            DateTime start = new DateTime(1995, 1, 1);
+            int range = (DateTime.Today - start).Days;
+            DateTime _createdAt = start.AddDays(s_rand.Next(range));
+            range = (new DateTime(1, 12, 2040) - _createdAt).Days;
+            DateTime _start = _createdAt.AddDays(s_rand.Next(range));
+            range = (new DateTime(1, 12, 2060) - _start).Days;
+            DateTime _scheduledDate = _start.AddDays(s_rand.Next(range));
+            range= (new DateTime(1, 12, 2080)-_scheduledDate).Days;
+            DateTime _forecadtDate = _scheduledDate.AddDays(s_rand.Next(range));
+            range=(_forecadtDate-_scheduledDate).Days;
+            DateTime _complete = _scheduledDate.AddDays(s_rand.Next(range));
+            Engineer engineerDoTask = allEngineer[s_rand.Next(0, engineerCount-1)];
+            int _engineerId = engineerDoTask.Id;
+            EngineerExperience _complexilyLevel = engineerDoTask.Level;
+            Task newTask = new(0, _description, _alias, _milestone, _createdAt, _start, _scheduledDate, _forecadtDate, _complete, " ", " ", _engineerId, _complexilyLevel);
+            s_dalTask!.Create(newTask);
         }
     }
     private static void createDependcy()
     {
         List<Task> allTasks = s_dalTask!.ReadAll();
-        //for(int i=0;i<250;i++)
-        //{
-        //    Dependency dependency = new(0, allTasks[s_rand.Next(allTasks.Count-1)].Id, allTasks[s_rand.Next(allTasks.Count-1)].Id);
-        //    s_dalDependency!.Create(dependency);
-        //}
+        for (int i = 0; i<250; i++)
+        {
+            Dependency dependency = new(0, allTasks[s_rand.Next(allTasks.Count-1)].Id, allTasks[s_rand.Next(allTasks.Count-1)].Id);
+            s_dalDependency!.Create(dependency);
+        }
     }
     public static void Do(IEngineer? dalEngineer,ITask? dalTask,IDependency? dalDependency)
     {
