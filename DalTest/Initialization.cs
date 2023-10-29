@@ -107,7 +107,12 @@ public static class Initialization
     }
     private static void createDependcy()
     {
-
+        List<Task> allTasks = s_dalTask!.ReadAll();
+        for(int i=0;i<250;i++)
+        {
+            Dependency dependency = new(0, allTasks[s_rand.Next(allTasks.Count-1)].Id, allTasks[s_rand.Next(allTasks.Count-1)].Id);
+            s_dalDependency!.Create(dependency);
+        }
     }
     public static void Do(IEngineer? dalEngineer,ITask? dalTask,IDependency? dalDependency)
     {
