@@ -41,7 +41,7 @@ public class TaskImplementation : ITask
         if (taskToUpdate is null)
             throw new Exception($"Task with ID={item.Id} does not exist.");
         DataSource.Tasks.Remove(taskToUpdate);
-        Task task = new(item.Id, item.Description, item.Alias, item.Milestone, item.CreatedAt, item.Start, item.ForecadtDate, item.DeadLine, item.Complete, item.Deliverables, item.Remarks, item.EngineerId, item.ComplexilyLevel);
+        Task task = new(item.Id, item.Description, item.Alias, item.Milestone, item.CreatedAt, item.Start, item.ForecastDate, item.DeadLine, item.Complete, item.Deliverables, item.Remarks, item.EngineerId, item.ComplexilyLevel);
         DataSource.Tasks.Add(task);
     }
 }
