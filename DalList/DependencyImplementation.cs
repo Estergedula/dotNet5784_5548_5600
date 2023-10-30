@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 public class DependencyImplementation : IDependency
 {
-    public int Create(Dependency item)
+    public int Create(Dependency item)//Creates new Dependency object in DAL
     {
         int newId = DataSource.Config.NextDependencyId;
         Dependency copy=item with { Id = newId };
@@ -15,7 +15,7 @@ public class DependencyImplementation : IDependency
         return copy.Id;
     }
 
-    public void Delete(int id)
+    public void Delete(int id)//Deletes a Dependency by its Id
     {
         Dependency? DependencyToDelete = Read(id);
         if (DependencyToDelete is null)
@@ -23,19 +23,19 @@ public class DependencyImplementation : IDependency
         else DataSource.Dependencies.Remove(DependencyToDelete);
     }
 
-    public Dependency? Read(int id)
+    public Dependency? Read(int id) //Reads Dependency object by its ID 
     {
         if (DataSource.Dependencies.Find(dependency => dependency.Id == id) is not null)
             return DataSource.Dependencies.Find(dependency => dependency.Id == id);
         else return null;
     }
 
-    public List<Dependency> ReadAll()
+    public List<Dependency> ReadAll()// Reads all Dependencies objects
     {
         return new List<Dependency>(DataSource.Dependencies);
     }
 
-    public void Update(Dependency item)
+    public void Update(Dependency item)//Updates Dependency object
     {
         Dependency? dependcyToUpdate=Read(item.Id);
         if (dependcyToUpdate is null)

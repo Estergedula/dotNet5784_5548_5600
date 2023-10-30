@@ -10,18 +10,20 @@ internal class Program
     private static IEngineer? s_dalEngineer = new EngineerImplementation();
     private static ITask? s_dalTask = new TaskImplementation();
     private static IDependency? s_dalDependencys = new DependencyImplementation();
-    public static void writeMenu()
+    public static int writeMenu()//Explain for the user the options of the main menu and input his choice
     {
         Console.WriteLine("Welcome To Our Program \nTo exit type 0 \nTo Engineers type 1 \nTo Tasks type 2 \nTo Dependencies type 3 ");
+       int  myChoice = Convert.ToInt32(Console.ReadLine());
+        return myChoice;
     }
-    public static int writeInnerMenue()
+    public static int writeInnerMenue()//Explain for the user the options of the inner menu of each entity and input his choice
     {
-        Console.WriteLine("Please enter your choice \nType 1 to exit \nType 2 to create a new \nType 3 to display \nType 4 to display all \ntype 5 to update \ntype 6 to delate");
+        Console.WriteLine("Please enter your choice \nType 1 to exit \nType 2 to create a new \nType 3 to display \nType 4 to display all \nType 5 to update \nType 6 to delate");
         int myChoice = Convert.ToInt32(Console.ReadLine());
         return myChoice;
     }   
 
-    public static void createEngineer() 
+    public static void createEngineer() //input details of new engineer and create
     {
         Console.WriteLine("Create Engineer \ntype ID");
         int _id = Convert.ToInt32(Console.ReadLine());
@@ -106,7 +108,7 @@ internal class Program
         }
         return myChoice;
     }
-    public static void createTask()
+    public static void createTask()//input details of new task and create
     {
         Console.WriteLine("Create a task \n");
         Console.WriteLine("Enter description:\n");
@@ -251,7 +253,7 @@ internal class Program
         }
         catch (Exception e) { Console.WriteLine(e.Message); }
     }
-    public static void createDependency()
+    public static void createDependency()//input details of new dependency and create
     {
         int _idOfFirstTask;
         Console.WriteLine("Create Dependency \ntype ID of first task");
@@ -350,9 +352,7 @@ internal class Program
     static void Main(string[] args)
     {
         Initialization.Do(s_dalEngineer,s_dalTask,s_dalDependencys);
-        writeMenu();
-        int myChoice = 0;
-        myChoice=Convert.ToInt32( Console.ReadLine());
+        int myChoice=  writeMenu();
         while(myChoice != 0)
         {
             int innerChoice = 0;
