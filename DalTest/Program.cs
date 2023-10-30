@@ -40,7 +40,7 @@ internal class Program
         }
         catch (Exception e) { Console.WriteLine(e.Message); }
     }
-    public static void displayEngineer()
+    public static void displayEngineer()//input id of engineer and display his details
     {
         Console.WriteLine("enter Id to search");
         int _idToSearch = Convert.ToInt32(Console.ReadLine());
@@ -49,13 +49,13 @@ internal class Program
             Console.WriteLine(findEngineer);
         else Console.WriteLine("There is no id engineer");
     }
-    public static void displayAllEngineers()
+    public static void displayAllEngineers()//diplay all engineers
     {
         List<Engineer> allEngineers = s_dalEngineer!.ReadAll();
         foreach(Engineer engineer in allEngineers)
             Console.WriteLine(engineer+"\n");
     }
-    public static void updateEngineer()
+    public static void updateEngineer()//input id of engineer, his details and update
     {
         Console.WriteLine("Enter Id to delete");
         int _idToUpDate = Convert.ToInt32(Console.ReadLine());
@@ -148,7 +148,7 @@ internal class Program
         }
         catch (Exception e) { Console.WriteLine(e.Message); }
     }
-    public static void displayTask()
+    public static void displayTask()//input id of task and display his details
     {
         Console.WriteLine("enter ID to search\n");
         int _idToSearch = Convert.ToInt32(Console.ReadLine());
@@ -157,13 +157,13 @@ internal class Program
             Console.WriteLine(findTask);
         else Console.WriteLine("There is no id task");
     }
-    public static void displayAllTasks()
+    public static void displayAllTasks()//diplay all tasks
     {
         List<DO.Task> allTasks = s_dalTask!.ReadAll();
         foreach ( DO.Task task in allTasks)
             Console.WriteLine(task);
     }
-    public static void updateTask()
+    public static void updateTask()//input id of task, his details and update
     {
         Console.WriteLine("Enter Id to delete");
         int _idToUpDate = Convert.ToInt32(Console.ReadLine());
@@ -277,7 +277,7 @@ internal class Program
         }
         catch (Exception e) { Console.WriteLine(e.Message); }
     }
-    public static void displayDependency()
+    public static void displayDependency()//input id of Dependency and display his details
     {
         Console.WriteLine("Enter Id to search");
         int _idToSearch = Convert.ToInt32(Console.ReadLine());
@@ -292,7 +292,7 @@ internal class Program
         foreach (Dependency dependency in allDependencies)
             Console.WriteLine(dependency+"\n");
     }
-    public static void updateDependency()
+    public static void updateDependency()//input id of task//input id of engineer, his details and update, his details and update
     {
         Console.WriteLine("Enter Id to delete");
         int _idToUpDate = Convert.ToInt32(Console.ReadLine());
