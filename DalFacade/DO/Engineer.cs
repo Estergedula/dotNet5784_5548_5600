@@ -1,7 +1,7 @@
 ﻿
 namespace DO;
 /// <summary>
-/// Engineer Entity represents a engineer with all its prop
+/// Engineer Entity represents an engineer with all its props.
 /// </summary>
 /// <param name="Id">Personal unique ID of engineer (as in national id card)</param>
 /// <param name="Name">Name of the engineer</param>

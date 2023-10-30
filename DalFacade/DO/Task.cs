@@ -1,21 +1,24 @@
-﻿namespace DO;
+﻿using System.Threading.Tasks;
+
+namespace DO;
 
 /// <summary>
-/// 
+/// Task Entity represents a student with all its props
 /// </summary>
-/// <param name="Id"></param>
-/// <param name="Description"></param>
-/// <param name="Alias"></param>
-/// <param name="Milestone"></param>
-/// <param name="CreatedAt"></param>
-/// <param name="Start"></param>
-/// <param name="ForecadtDate"></param>
-/// <param name="DeadLine"></param>
-/// <param name="Complete"></param>
-/// <param name="Deliverables"></param>
-/// <param name="Remarks"></param>
-/// <param name="EngineerId"></param>
-/// <param name="ComplexilyLevel"></param>
+/// <param name="Id">unique ID (created automatically)</param>
+/// <param name="Description">Full description of the task</param>
+/// <param name="Alias">Short name of the task</param>
+/// <param name="Milestone">Boolean milestone of the task</param>
+/// <param name="CreatedAt">Creation date of the task.</param>
+/// <param name="Start">Start date of the task</param>
+/// <param name="ForecadtDate">Estimated date for completion of the task</param>
+/// <param name="DeadLine">Last date for completing the task</param>
+/// <param name="Complete">Actual assignment completion date</param>
+/// <param name="Deliverables">A string describing the product</param>
+/// <param name="Remarks">Notes on the task</param>
+/// <param name="EngineerId">The engineer ID assigned to the task</param>
+/// <param name="ComplexilyLevel">The difficulty level of the task</param>
+/// 
 public record Task
 (
     int Id,
