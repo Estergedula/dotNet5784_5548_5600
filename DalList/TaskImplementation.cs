@@ -12,7 +12,7 @@ public class TaskImplementation : ITask
     /// </summary>
     /// <param name="item">item of task to create</param>
     /// <returns></returns>
-    public int Create(Task item)//Creates new Task object in DAL
+    public int Create(Task item)
     {
         int newID = DataSource.Config.NextTaskId;
         Task copy = item with { Id=newID };
@@ -37,7 +37,7 @@ public class TaskImplementation : ITask
     /// <param name="id">id of the task to read</param>
     /// <returns></returns>
 
-    public Task? Read(int id) //Reads Task object by its ID 
+    public Task? Read(int id) 
     {
         if (DataSource.Tasks.Find(task => task.Id == id) is not null)
             return DataSource.Tasks.Find(task => task.Id == id);
@@ -47,7 +47,7 @@ public class TaskImplementation : ITask
     /// Reads all tasks objects
     /// </summary>
     /// <returns>the whole list of the tasks</returns>
-    public List<Task> ReadAll() // Reads all Tasks objects
+    public List<Task> ReadAll() 
     {
         return new List<Task>(DataSource.Tasks);
     }
