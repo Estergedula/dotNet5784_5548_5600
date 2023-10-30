@@ -16,7 +16,7 @@ internal class Program
     }
     public static int writeInnerMenue()
     {
-        Console.WriteLine("Please enter your choice \nType 1 to exit \nType 2 to create a new \nType 3 to display \nType 4 to display all \ntype 5 to update \ntype 6 to delate");
+        Console.WriteLine("Please enter your choice \nType 1 to exit \nType 2 to create a new \nType 3 to display \nType 4 to display all \nType 5 to update \nType 6 to delate");
         int myChoice = Convert.ToInt32(Console.ReadLine());
         return myChoice;
     }   
