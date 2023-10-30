@@ -7,6 +7,11 @@ using System.Collections.Generic;
 
 public class TaskImplementation : ITask
 {
+    /// <summary>
+    /// Creates new Task object in DAL
+    /// </summary>
+    /// <param name="item">item of task to create</param>
+    /// <returns></returns>
     public int Create(Task item)//Creates new Task object in DAL
     {
         int newID = DataSource.Config.NextTaskId;
@@ -14,7 +19,11 @@ public class TaskImplementation : ITask
         DataSource.Tasks.Add(copy);
         return copy.Id;
     }
-
+    /// <summary>
+    /// Deletes a Task by its Id
+    /// </summary>
+    /// <param name="id">id of object to delete</param>
+    /// <exception cref="Exception">the input id of the task does not exist</exception>
     public void Delete(int id)//Deletes a Task by its Id
     {
         Task? TaskToDelete = Read(id);
@@ -22,6 +31,11 @@ public class TaskImplementation : ITask
             throw new Exception($"Task with ID = {id} does not exsist.");
         else DataSource.Tasks.Remove(TaskToDelete);
     }
+    /// <summary>
+    /// Reads entity task by its ID
+    /// </summary>
+    /// <param name="id">id of the task to read</param>
+    /// <returns></returns>
 
     public Task? Read(int id) //Reads Task object by its ID 
     {
@@ -29,13 +43,20 @@ public class TaskImplementation : ITask
             return DataSource.Tasks.Find(task => task.Id == id);
         else return null;
     }
-
+    /// <summary>
+    /// Reads all tasks objects
+    /// </summary>
+    /// <returns>the whole list of the tasks</returns>
     public List<Task> ReadAll() // Reads all Tasks objects
     {
         return new List<Task>(DataSource.Tasks);
     }
-
-    public void Update(Task item) //Updates Task object
+    /// <summary>
+    /// Updates Task object
+    /// </summary>
+    /// <param name="item">object item of task to update</param>
+    /// <exception cref="Exception">the input id of the task does not exist</exception>
+    public void Update(Task item) 
     {
         Task? taskToUpdate= Read(item.Id);
         if (taskToUpdate is null)

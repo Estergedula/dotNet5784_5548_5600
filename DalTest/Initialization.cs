@@ -11,7 +11,10 @@ public static class Initialization
     private static IDependency? s_dalDependency;
     private static ITask? s_dalTask;
     private static readonly Random s_rand = new();
-    private static void createEngineer()//Create random Engineers objects
+    /// <summary>
+    /// Create random Engineers objects
+    /// </summary>
+    private static void createEngineer()
     {
         const int MIN_ID = 200000000;
         const int MAX_ID = 400000000;
@@ -76,7 +79,10 @@ public static class Initialization
             s_dalEngineer!.Create(newEng);
         }
     }
-    private static void createTask()//Create random Tasks objects
+    /// <summary>
+    /// Create random Tasks objects
+    /// </summary>
+    private static void createTask()
     {
         List<Engineer> allEngineer = s_dalEngineer!.ReadAll();
         int engineerCount= allEngineer.Count;
@@ -105,7 +111,10 @@ public static class Initialization
             s_dalTask!.Create(newTask);
         }
     }
-    private static void createDependency()//Create random Dependencies objects
+    /// <summary>
+    /// Create random Dependencies objects
+    /// </summary>
+    private static void createDependency()
     {
         List<Task> allTasks = s_dalTask!.ReadAll();
         for (int i = 0; i<250; i++)
@@ -114,6 +123,13 @@ public static class Initialization
             s_dalDependency!.Create(dependency);
         }
     }
+    /// <summary>
+    /// create the lists of each class and restart them
+    /// </summary>
+    /// <param name="dalEngineer">the interface of dal engineer</param>
+    /// <param name="dalTask">the interface of dal task</param>
+    /// <param name="dalDependency">the interface of dal dependency</param>
+    /// <exception cref="NullReferenceException"></exception>
     public static void Do(IEngineer? dalEngineer,ITask? dalTask,IDependency? dalDependency)
     {
         s_dalEngineer = dalEngineer ?? throw new NullReferenceException("DAL can not be null!");

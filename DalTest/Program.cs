@@ -10,55 +10,82 @@ internal class Program
     private static IEngineer? s_dalEngineer = new EngineerImplementation();
     private static ITask? s_dalTask = new TaskImplementation();
     private static IDependency? s_dalDependencys = new DependencyImplementation();
-    public static int writeMenu()//Explain for the user the options of the main menu and input his choice
+    /// <summary>
+    /// Explain for the user the options of the main menu and input his choice
+    /// </summary>
+    /// <returns>value of the user choice</returns>
+    public static int writeMenu()
     {
         Console.WriteLine("Welcome To Our Program \nTo exit type 0 \nTo Engineers type 1 \nTo Tasks type 2 \nTo Dependencies type 3 ");
-       int  myChoice = Convert.ToInt32(Console.ReadLine());
+        int myChoice;
+        int.TryParse(Console.ReadLine(), out myChoice);   
         return myChoice;
     }
-    public static int writeInnerMenue()//Explain for the user the options of the inner menu of each entity and input his choice
+    /// <summary>
+    /// Explain for the user the options of the inner menu of each entity and input his choice
+    /// </summary>
+    /// <returns>value of the user choice</returns>
+    public static int writeInnerMenue()
     {
-        Console.WriteLine("Please enter your choice \nType 1 to exit \nType 2 to create a new \nType 3 to display \nType 4 to display all \nType 5 to update \nType 6 to delate");
-        int myChoice = Convert.ToInt32(Console.ReadLine());
+       Console.WriteLine("Please enter your choice \nType 1 to exit \nType 2 to create a new \nType 3 to display \nType 4 to display all \nType 5 to update \nType 6 to delate");
+       int myChoice;
+       int.TryParse(Console.ReadLine(),out myChoice);
         return myChoice;
-    }   
-
-    public static void createEngineer() //input details of new engineer and create
+    }
+    /// <summary>
+    /// input details of new engineer and create
+    /// </summary>
+    public static void createEngineer() 
     {
         Console.WriteLine("Create Engineer \ntype ID");
-        int _id = Convert.ToInt32(Console.ReadLine());
+        int _id;
+        int.TryParse(Console.ReadLine(), out _id);
         Console.WriteLine("enter name\n");
         string? _name = Console.ReadLine();
         Console.WriteLine("enter email\n");
         string? _email = Console.ReadLine();
         Console.WriteLine("enter level: 0-Expert, 1-Junior, 2-Tyro\n");
-        EngineerExperience _level = (EngineerExperience)Convert.ToInt32(Console.ReadLine());
+        int choiceExperience;
+        int.TryParse(Console.ReadLine(), out choiceExperience);
+        EngineerExperience _level = (EngineerExperience)choiceExperience;
         Console.WriteLine("enter hourly cost\n");
-        double? _cost = Convert.ToDouble(Console.ReadLine());
+        double _cost;
+        double.TryParse(Console.ReadLine(),out _cost);
         try { int id =  s_dalEngineer!.Create(new(_id, _name, _email, _level, _cost));
             Console.WriteLine(id + "\n");
         }
         catch (Exception e) { Console.WriteLine(e.Message); }
     }
-    public static void displayEngineer()//input id of engineer and display his details
+    /// <summary>
+    /// input id of engineer and display his details
+    /// </summary>
+    public static void displayEngineer()
     {
         Console.WriteLine("enter Id to search");
-        int _idToSearch = Convert.ToInt32(Console.ReadLine());
+        int _idToSearch;
+        int.TryParse(Console.ReadLine(),out _idToSearch);
         Engineer? findEngineer = s_dalEngineer!.Read(_idToSearch);
         if (findEngineer is not null)
             Console.WriteLine(findEngineer);
         else Console.WriteLine("There is no id engineer");
     }
-    public static void displayAllEngineers()//diplay all engineers
+    /// <summary>
+    /// diplay all engineers
+    /// </summary>
+    public static void displayAllEngineers()
     {
         List<Engineer> allEngineers = s_dalEngineer!.ReadAll();
         foreach(Engineer engineer in allEngineers)
             Console.WriteLine(engineer+"\n");
     }
-    public static void updateEngineer()//input id of engineer, his details and update
+    /// <summary>
+    /// input id of engineer, his details and update
+    /// </summary>
+    public static void updateEngineer()
     {
         Console.WriteLine("Enter Id to delete");
-        int _idToUpDate = Convert.ToInt32(Console.ReadLine());
+        int _idToUpDate;
+        int.TryParse(Console.ReadLine(),out _idToUpDate);
         Engineer? engineerToUpdate = s_dalEngineer!.Read(_idToUpDate);
         if (engineerToUpdate is null)
         {
@@ -73,20 +100,29 @@ internal class Program
             Console.WriteLine("Enter level: 0-Expert, 1-Junior, 2-Tyro\n");
             EngineerExperience _level = (EngineerExperience)Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Enter hourly cost\n");
-            double? _cost = Convert.ToDouble(Console.ReadLine());
+            double _cost;
+             double.TryParse(Console.ReadLine(),out _cost);
             try { s_dalEngineer!.Update(new(_idToUpDate, _name, _email, _level, _cost)); }
             catch (Exception e) { Console.WriteLine(e.Message); }
         }
     }
+    /// <summary>
+    /// input id of engineer and delete
+    /// </summary>
     public static void deleteEngineer()
     {
         Console.WriteLine("Enter Id to delete");
-        int _idToDelete = Convert.ToInt32(Console.ReadLine());
+        int _idToDelete;
+        int.TryParse(Console.ReadLine(),out _idToDelete);
         try
         {
             s_dalEngineer!.Delete(_idToDelete);
         }catch (Exception e) { Console.WriteLine(e.Message); }
     }
+    /// <summary>
+    /// display the option of engineer menu and do the user choice
+    /// </summary>
+    /// <returns>the user choice</returns>
     public static int engineerMenu() 
     {
         int myChoice = writeInnerMenue();
@@ -108,7 +144,10 @@ internal class Program
         }
         return myChoice;
     }
-    public static void createTask()//input details of new task and create
+    /// <summary>
+    /// input details of new task and create
+    /// </summary>
+    public static void createTask()
     {
         Console.WriteLine("Create a task \n");
         Console.WriteLine("Enter description:\n");
@@ -116,29 +155,38 @@ internal class Program
         Console.WriteLine("Enter alias:\n");
         string? _alias = Console.ReadLine();
         Console.WriteLine("Enter milestone:\n");
-        bool _milestone = Convert.ToBoolean(Console.ReadLine());
+        bool _milestone;
+        bool.TryParse(Console.ReadLine(),out _milestone);
         Console.WriteLine("Enter date created\n");
-        DateTime _createdAt = Convert.ToDateTime(Console.ReadLine());
+        DateTime _createdAt;
+        DateTime.TryParse(Console.ReadLine(),out _createdAt);
         Console.WriteLine("Enter date started\n");
-        DateTime _start = Convert.ToDateTime(Console.ReadLine());
+        DateTime _start;
+        DateTime.TryParse(Console.ReadLine(),out _start);
         Console.WriteLine("Enter date of forecast\n");
-        DateTime _ForecastDate = Convert.ToDateTime(Console.ReadLine());
+        DateTime _ForecastDate;
+        DateTime.TryParse(Console.ReadLine(),out _ForecastDate);
         Console.WriteLine("Enter date of deadline\n");
-        DateTime _DeadLine = Convert.ToDateTime(Console.ReadLine());
+        DateTime _DeadLine;
+        DateTime.TryParse(Console.ReadLine(),out _DeadLine);
         Console.WriteLine("Enter date of complete\n");
-        DateTime _Complete = Convert.ToDateTime(Console.ReadLine());
+        DateTime _Complete;
+        DateTime.TryParse(Console.ReadLine(),out _Complete);
         Console.WriteLine("Enter deliverables\n");
         string? _Deliverables = Console.ReadLine();
         Console.WriteLine("Enter remarks\n");
         string? _Remarks = Console.ReadLine();
         Console.WriteLine("Enter level: 0-Expert, 1-Junior, 2-Tyro\n");
-        EngineerExperience _level = (EngineerExperience)Convert.ToInt32(Console.ReadLine());
+        int experienceChoice;
+        int.TryParse(Console.ReadLine(), out experienceChoice);
+        EngineerExperience _level = (EngineerExperience)experienceChoice;
         Console.WriteLine("Enter ID of engineer\n");
-        int _engineerID = Convert.ToInt32(Console.ReadLine());
+        int _engineerID;
+        int.TryParse(Console.ReadLine(),out _engineerID);
         while (s_dalEngineer!.Read(_engineerID) is null)
         {
             Console.WriteLine("Enter ID of first task");
-            _engineerID = Convert.ToInt32(Console.ReadLine());
+            int.TryParse(Console.ReadLine(), out _engineerID);
         }
         try {
             int id = s_dalTask!.Create(new(0, _name, _alias, _milestone,
@@ -148,25 +196,36 @@ internal class Program
         }
         catch (Exception e) { Console.WriteLine(e.Message); }
     }
-    public static void displayTask()//input id of task and display his details
+    /// <summary>
+    /// input id of task and display his details
+    /// </summary>
+    public static void displayTask()
     {
         Console.WriteLine("enter ID to search\n");
-        int _idToSearch = Convert.ToInt32(Console.ReadLine());
+        int _idToSearch;
+        int.TryParse(Console.ReadLine(),out _idToSearch);
         DO.Task? findTask = s_dalTask!.Read(_idToSearch);
         if (findTask is not null)
             Console.WriteLine(findTask);
         else Console.WriteLine("There is no id task");
     }
-    public static void displayAllTasks()//diplay all tasks
+    /// <summary>
+    /// diplay all tasks
+    /// </summary>
+    public static void displayAllTasks()
     {
         List<DO.Task> allTasks = s_dalTask!.ReadAll();
         foreach ( DO.Task task in allTasks)
             Console.WriteLine(task);
     }
-    public static void updateTask()//input id of task, his details and update
+    /// <summary>
+    /// input id of task, his details and update
+    /// </summary>
+    public static void updateTask()
     {
         Console.WriteLine("Enter Id to delete");
-        int _idToUpDate = Convert.ToInt32(Console.ReadLine());
+        int _idToUpDate;
+        int.TryParse(Console.ReadLine(),out _idToUpDate);
         DO.Task? taskToUpdate = s_dalTask!.Read(_idToUpDate);
         if (taskToUpdate is null)
         {
@@ -180,44 +239,61 @@ internal class Program
             Console.WriteLine("Enter alias:\n");
             string? _alias = Console.ReadLine();
             Console.WriteLine("Enter milestone:\n");
-            bool _milestone = Convert.ToBoolean(Console.ReadLine());
+            bool _milestone;
+            bool.TryParse(Console.ReadLine(),out _milestone);
             Console.WriteLine("Enter date created\n");
-            DateTime _createdAt = Convert.ToDateTime(Console.ReadLine());
+            DateTime _createdAt;
+            DateTime.TryParse(Console.ReadLine(),out _createdAt);
             Console.WriteLine("Enter date started\n");
-            DateTime _start = Convert.ToDateTime(Console.ReadLine());
+            DateTime _start;
+            DateTime.TryParse(Console.ReadLine(),out _start);
             Console.WriteLine("Enter date of forecast\n");
-            DateTime _ForecastDate = Convert.ToDateTime(Console.ReadLine());
+            DateTime _ForecastDate;
+            DateTime.TryParse(Console.ReadLine(),out _ForecastDate);
             Console.WriteLine("Enter date of deadline\n");
-            DateTime _DeadLine = Convert.ToDateTime(Console.ReadLine());
+            DateTime _DeadLine;
+            DateTime.TryParse(Console.ReadLine(),out _DeadLine);
             Console.WriteLine("Enter date of complete\n");
-            DateTime _Complete = Convert.ToDateTime(Console.ReadLine());
+            DateTime _Complete;
+            DateTime.TryParse(Console.ReadLine(),out _Complete);
             Console.WriteLine("Enter deliverables\n");
             string? _Deliverables = Console.ReadLine();
             Console.WriteLine("Enter remarks\n");
             string? _Remarks = Console.ReadLine();
             Console.WriteLine("Enter level: 0-Expert, 1-Junior, 2-Tyro\n");
-            EngineerExperience _level = (EngineerExperience)Convert.ToInt32(Console.ReadLine());
+            int experienceChoice;
+            int.TryParse(Console.ReadLine(), out experienceChoice);
+            EngineerExperience _level = (EngineerExperience)experienceChoice;
             Console.WriteLine("Enter ID of engineer\n");
-            int _engineerID = Convert.ToInt32(Console.ReadLine());
+            int _engineerID;
+            int.TryParse(Console.ReadLine(),out _engineerID);
             while (s_dalEngineer!.Read(_engineerID) is null)
             {
                 Console.WriteLine("Enter ID of first task");
-                _engineerID = Convert.ToInt32(Console.ReadLine());
+                int.TryParse(Console.ReadLine(), out _engineerID);
             }
             try { s_dalTask!.Update(new(0, _name, _alias, _milestone, _createdAt, _start, _ForecastDate, _DeadLine, _Complete, _Deliverables, _Remarks, _engineerID, _level)); }
             catch (Exception e) { Console.WriteLine(e.Message); }
         }
     }
+    /// <summary>
+    /// input id of task and delete
+    /// </summary>
     public static void deleteTask()
     {
         Console.WriteLine("Enter Id to delete");
-        int _idToDelete = Convert.ToInt32(Console.ReadLine());
+        int _idToDelete;
+        int.TryParse(Console.ReadLine(),out _idToDelete);
         try
         {
             s_dalTask!.Delete(_idToDelete);
         }
         catch (Exception e) { Console.WriteLine(e.Message); }
     }
+    /// <summary>
+    /// display the option of engineer menu and do the user choice
+    /// </summary>
+    /// <returns>the user choice</returns>
     public static int taskMenu()
     {
         int myChoice = writeInnerMenue();
@@ -243,33 +319,40 @@ internal class Program
         }
         return myChoice;
     }
+    /// <summary>
+    /// input id of dependency and delete
+    /// </summary>
     public static void deleteDependency()
     {
         Console.WriteLine("Enter Id to delete");
-        int _idToDelete = Convert.ToInt32(Console.ReadLine());
+        int _idToDelete;
+        int.TryParse(Console.ReadLine(),out _idToDelete);
         try
         {
             s_dalDependencys!.Delete(_idToDelete);
         }
         catch (Exception e) { Console.WriteLine(e.Message); }
     }
-    public static void createDependency()//input details of new dependency and create
+    /// <summary>
+    /// input details of new dependency and create
+    /// </summary>
+    public static void createDependency()
     {
         int _idOfFirstTask;
         Console.WriteLine("Create Dependency \ntype ID of first task");
-        _idOfFirstTask = Convert.ToInt32(Console.ReadLine());
+        int.TryParse(Console.ReadLine(),out _idOfFirstTask);
         while(s_dalTask!.Read(_idOfFirstTask) is null)
         {
             Console.WriteLine("Enter ID of first task");
-            _idOfFirstTask = Convert.ToInt32(Console.ReadLine());
+            int.TryParse(Console.ReadLine(), out _idOfFirstTask);
         }//
         int _idOfSecondTask;
         Console.WriteLine("Create Dependency \ntype ID of second task");
-        _idOfSecondTask = Convert.ToInt32(Console.ReadLine());
+        int.TryParse(Console.ReadLine(), out _idOfSecondTask);
         while (s_dalTask!.Read(_idOfSecondTask) is null)
         {
             Console.WriteLine("Enter ID of second task");
-            _idOfSecondTask = Convert.ToInt32(Console.ReadLine());
+            int.TryParse(Console.ReadLine(), out _idOfSecondTask);
         }
 
         try { int id = s_dalDependencys!.Create(new(0, _idOfFirstTask, _idOfSecondTask));
@@ -277,25 +360,36 @@ internal class Program
         }
         catch (Exception e) { Console.WriteLine(e.Message); }
     }
-    public static void displayDependency()//input id of Dependency and display his details
+    /// <summary>
+    /// input id of Dependency and display his details
+    /// </summary>
+    public static void displayDependency()
     {
         Console.WriteLine("Enter Id to search");
-        int _idToSearch = Convert.ToInt32(Console.ReadLine());
+        int _idToSearch;
+        int.TryParse(Console.ReadLine(),out _idToSearch);
         Dependency? findDependency = s_dalDependencys!.Read(_idToSearch);
         if (findDependency is not null)
             Console.WriteLine(findDependency);
         else Console.WriteLine("There is no id engineer");
     }
+    /// <summary>
+    /// diplay all dependencies
+    /// </summary>
     public static void displayAllDependencies()
     {
         List<Dependency> allDependencies = s_dalDependencys!.ReadAll();
         foreach (Dependency dependency in allDependencies)
             Console.WriteLine(dependency+"\n");
     }
-    public static void updateDependency()//input id of task//input id of engineer, his details and update, his details and update
-    {
+    /// <summary>
+    /// input id of Dependency, his details and update, his details and update
+    /// </summary>
+    public static void updateDependency()
+    { 
         Console.WriteLine("Enter Id to delete");
-        int _idToUpDate = Convert.ToInt32(Console.ReadLine());
+        int _idToUpDate;
+        int.TryParse(Console.ReadLine(),out _idToUpDate);
         Dependency? dependencyToUpdate = s_dalDependencys!.Read(_idToUpDate);
         if (dependencyToUpdate is null)
         {
@@ -306,24 +400,28 @@ internal class Program
             int _idOfFirstTask;
             Console.WriteLine(dependencyToUpdate);
             Console.WriteLine("Up Date Dependency \ntype ID of first task");
-            _idOfFirstTask = Convert.ToInt32(Console.ReadLine());
+            int.TryParse(Console.ReadLine(),out _idOfFirstTask);
             while (s_dalTask!.Read(_idOfFirstTask) is null)
             {
                 Console.WriteLine("type ID of first task");
-                _idOfFirstTask = Convert.ToInt32(Console.ReadLine());
+                int.TryParse(Console.ReadLine(), out _idOfFirstTask);
             }
             int _idOfSecondTask;
             Console.WriteLine("Create Dependency \ntype ID of second task");
-            _idOfSecondTask = Convert.ToInt32(Console.ReadLine());
+            int.TryParse(Console.ReadLine(), out _idOfSecondTask);
             while (s_dalTask!.Read(_idOfSecondTask) is null)
             {
                 Console.WriteLine("Enter ID of second task");
-                _idOfSecondTask = Convert.ToInt32(Console.ReadLine());
+                int.TryParse(Console.ReadLine(), out _idOfSecondTask);
             }
             try { s_dalDependencys!.Update(new(_idToUpDate,_idOfFirstTask,_idOfSecondTask)); }
             catch (Exception e) { Console.WriteLine(e.Message); }
         }
     }
+    /// <summary>
+    /// display the option of dependency menu and do the user choice
+    /// </summary>
+    /// <returns>the user choice</returns>
     public static int dependencyMenu()
     {
         int myChoice = writeInnerMenue();
@@ -349,6 +447,10 @@ internal class Program
         }
         return myChoice;
     }
+    /// <summary>
+    /// main method of the program
+    /// </summary>
+    /// <param name="args"></param>
     static void Main(string[] args)
     {
         Initialization.Do(s_dalEngineer,s_dalTask,s_dalDependencys);
@@ -371,7 +473,7 @@ internal class Program
             if (innerChoice==1)
                 break;
             writeMenu();
-            myChoice=Convert.ToInt32(Console.ReadLine());
+            int.TryParse(Console.ReadLine(), out myChoice);
         }
     }
 }
