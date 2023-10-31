@@ -29,7 +29,11 @@ public class TaskImplementation : ITask
         Task? TaskToDelete = Read(id);
         if (TaskToDelete is null)
             throw new Exception($"Task with ID = {id} does not exsist.");
-        else DataSource.Tasks.Remove(TaskToDelete);
+        else { 
+            DataSource.Tasks.Remove(TaskToDelete);
+            Task copy = TaskToDelete with { Complete=DateTime.Now };
+            DataSource.Tasks.Add(copy);
+        }
     }
     /// <summary>
     /// Reads entity task by its ID

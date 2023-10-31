@@ -14,6 +14,14 @@ public class DependencyImplementation : IDependency
     /// <returns>the id of the item</returns>
     public int Create(Dependency item)
     {
+        List<Dependency> list = ReadAll();
+        foreach (Dependency dependency in list)
+        {
+            if((dependency.DependentTask==item.DependentTask&&dependency.DependOnTask==item.DependOnTask)||(dependency.DependentTask==item.DependOnTask&&dependency.DependOnTask==item.DependentTask))
+                throw new Exception("can not create this dependency");
+            
+        }
+
         int newId = DataSource.Config.NextDependencyId;
         Dependency copy=item with { Id = newId };
         DataSource.Dependencies.Add(copy);
@@ -25,6 +33,7 @@ public class DependencyImplementation : IDependency
     /// <param name="id">id of object to delete</param>
     /// <exception cref="Exception">the param id is not exist in the DB</exception>
     public void Delete(int id)
+
     {
         Dependency? DependencyToDelete = Read(id);
         if (DependencyToDelete is null)
