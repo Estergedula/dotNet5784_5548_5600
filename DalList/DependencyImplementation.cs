@@ -10,7 +10,7 @@ public class DependencyImplementation : IDependency
     /// <summary>
     /// Creates new Dependency object in DAL
     /// </summary>
-    /// <param name="item">item to create in DB</param>
+    /// <param name="item">new item to create in DB</param>
     /// <returns>the id of the item</returns>
     public int Create(Dependency item)
     {
