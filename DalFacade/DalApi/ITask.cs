@@ -1,7 +1,7 @@
 ﻿namespace DalApi;
 using DO;
 
-public interface ITask
+public interface ITask : ICrud<Task>
 {
     /// <summary>
     /// Creates new Task object in DAL
@@ -31,5 +31,5 @@ public interface ITask
     /// </summary>
     /// <param name="id">id of object to delete</param>
     /// <exception cref="Exception">the input id of the task does not exist</exception>
-    void Delete(int id); 
+    void Delete(int id);
 }

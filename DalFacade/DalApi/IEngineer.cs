@@ -1,7 +1,7 @@
 ﻿namespace DalApi;
 using DO;
 
-public interface IEngineer
+public interface IEngineer:ICrud<Engineer>
 {
     /// <summary>
     /// Creates new Engineer object in DAL

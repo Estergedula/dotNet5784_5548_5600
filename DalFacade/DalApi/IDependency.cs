@@ -1,7 +1,7 @@
 ﻿namespace DalApi;
 using DO;
 
-public interface IDependency
+public interface IDependency : ICrud<Dependency>
 {
     /// <summary>
     /// Creates new Dependency object in DAL
