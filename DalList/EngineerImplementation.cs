@@ -6,7 +6,7 @@ using DalApi;
 using DO;
 using System.Collections.Generic;
 
-public class EngineerImplementation : IEngineer
+internal class EngineerImplementation : IEngineer
 {
     /// <summary>
     /// Creates new Engineer object in DAL

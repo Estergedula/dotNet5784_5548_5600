@@ -4,12 +4,9 @@ using DO;
 using System.Collections;
 using System.Runtime.CompilerServices;
 using static System.Net.Mime.MediaTypeNames;
-
 public static class Initialization
 {
-    private static IEngineer? s_dalEngineer;
-    private static IDependency? s_dalDependency;
-    private static ITask? s_dalTask;
+    private static IDal? s_dal;
     private static readonly Random s_rand = new();
     /// <summary>
     /// Create random Engineers objects
@@ -70,13 +67,13 @@ public static class Initialization
             int _id;
             do
                 _id = s_rand.Next(MIN_ID, MAX_ID);
-            while (s_dalEngineer!.Read(_id) is not null);
+            while (s_dal!.Engineer.Read(_id) is not null);
             EngineerExperience _level= (EngineerExperience)s_rand.Next(0, 2);
             double doubleCost = s_rand.Next(0, 100)/100;
             double _cost = s_rand.Next(MIN_INTEGER_COST, MAX_INTEGER_COST)+doubleCost;
             string _email = _name+(int)(_id/10000000)+"@gmail.com";
             Engineer newEng = new(_id, _name, _email, _level,_cost);
-            s_dalEngineer!.Create(newEng);
+            s_dal!.Engineer.Create(newEng);
         }
     }
     /// <summary>
@@ -84,7 +81,7 @@ public static class Initialization
     /// </summary>
     private static void createTask()
     {
-        List<Engineer> allEngineer = s_dalEngineer!.ReadAll();
+        List<Engineer> allEngineer = s_dal!.Engineer.ReadAll();
         int engineerCount= allEngineer.Count;
         string[] letters = {"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"};
         string[] nums = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
@@ -108,7 +105,7 @@ public static class Initialization
             int _engineerId = engineerDoTask.Id;
             EngineerExperience _complexilyLevel = engineerDoTask.Level;
             Task newTask = new(0, _description, _alias, _milestone, _createdAt, _start, _scheduledDate, _forecadtDate, _complete, " ", " ", _engineerId, _complexilyLevel);
-            s_dalTask!.Create(newTask);
+            s_dal.Task!.Create(newTask);
         }
     }
     /// <summary>
@@ -116,11 +113,11 @@ public static class Initialization
     /// </summary>
     private static void createDependency()
     {
-        List<Task> allTasks = s_dalTask!.ReadAll();
+        List<Task> allTasks = s_dal!.Task.ReadAll();
         for (int i = 0; i<250; i++)
         {
             Dependency dependency = new(0, allTasks[s_rand.Next(allTasks.Count-1)].Id, allTasks[s_rand.Next(allTasks.Count-1)].Id);
-            s_dalDependency!.Create(dependency);
+            s_dal!.Dependency.Create(dependency);
         }
     }
     /// <summary>
@@ -130,11 +127,12 @@ public static class Initialization
     /// <param name="dalTask">the interface of dal task</param>
     /// <param name="dalDependency">the interface of dal dependency</param>
     /// <exception cref="NullReferenceException"></exception>
-    public static void Do(IEngineer? dalEngineer,ITask? dalTask,IDependency? dalDependency)
+    public static void Do(IDal dal)
     {
-        s_dalEngineer = dalEngineer ?? throw new NullReferenceException("DAL can not be null!");
-        s_dalTask=dalTask?? throw new NullReferenceException("DAL can not be null!");
-        s_dalDependency=dalDependency??throw new NullReferenceException("DAL can not be null!");
+        //s_dalEngineer = dalEngineer ?? throw new NullReferenceException("DAL can not be null!");
+        //s_dalTask=dalTask?? throw new NullReferenceException("DAL can not be null!");
+        //s_dalDependency=dalDependency??throw new NullReferenceException("DAL can not be null!");
+        s_dal = dal ?? throw new NullReferenceException("DAL object can not be null!");
         createEngineer();
         createTask();
         createDependency();

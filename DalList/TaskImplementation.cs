@@ -5,7 +5,7 @@ using DalApi;
 using DO;
 using System.Collections.Generic;
 
-public class TaskImplementation : ITask
+internal class TaskImplementation : ITask
 {
     /// <summary>
     /// Creates new Task object in DAL

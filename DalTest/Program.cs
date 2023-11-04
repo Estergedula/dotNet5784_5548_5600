@@ -7,9 +7,7 @@ using System.Security.Cryptography;
 namespace DalTest;
 internal class Program
 {
-    private static IEngineer? s_dalEngineer = new EngineerImplementation();
-    private static ITask? s_dalTask = new TaskImplementation();
-    private static IDependency? s_dalDependencys = new DependencyImplementation();
+    static readonly IDal s_dal = new DalList();
     /// <summary>
     /// Explain for the user the options of the main menu and input his choice
     /// </summary>
@@ -51,7 +49,7 @@ internal class Program
         Console.WriteLine("enter hourly cost\n");
         double _cost;
         double.TryParse(Console.ReadLine(),out _cost);
-        try { int id =  s_dalEngineer!.Create(new(_id, _name, _email, _level, _cost));
+        try { int id =  s_dal!.Engineer.Create(new(_id, _name, _email, _level, _cost));
             Console.WriteLine(id + "\n");
         }
         catch (Exception e) { Console.WriteLine(e.Message); }
@@ -64,7 +62,7 @@ internal class Program
         Console.WriteLine("enter Id to search");
         int _idToSearch;
         int.TryParse(Console.ReadLine(),out _idToSearch);
-        Engineer? findEngineer = s_dalEngineer!.Read(_idToSearch);
+        Engineer? findEngineer = s_dal!.Engineer.Read(_idToSearch);
         if (findEngineer is not null)
             Console.WriteLine(findEngineer);
         else Console.WriteLine("There is no id engineer");
@@ -74,7 +72,7 @@ internal class Program
     /// </summary>
     public static void displayAllEngineers()
     {
-        List<Engineer> allEngineers = s_dalEngineer!.ReadAll();
+        List<Engineer> allEngineers = s_dal!.Engineer.ReadAll();
         foreach(Engineer engineer in allEngineers)
             Console.WriteLine(engineer+"\n");
     }
@@ -86,7 +84,7 @@ internal class Program
         Console.WriteLine("Enter Id to delete");
         int _idToUpDate;
         int.TryParse(Console.ReadLine(),out _idToUpDate);
-        Engineer? engineerToUpdate = s_dalEngineer!.Read(_idToUpDate);
+        Engineer? engineerToUpdate = s_dal!.Engineer.Read(_idToUpDate);
         if (engineerToUpdate is null)
         {
             Console.WriteLine("This id number does not exist");
@@ -102,7 +100,7 @@ internal class Program
             Console.WriteLine("Enter hourly cost\n");
             double _cost;
              double.TryParse(Console.ReadLine(),out _cost);
-            try { s_dalEngineer!.Update(new(_idToUpDate, _name, _email, _level, _cost)); }
+            try { s_dal!.Engineer.Update(new(_idToUpDate, _name, _email, _level, _cost)); }
             catch (Exception e) { Console.WriteLine(e.Message); }
         }
     }
@@ -116,7 +114,7 @@ internal class Program
         int.TryParse(Console.ReadLine(),out _idToDelete);
         try
         {
-            s_dalEngineer!.Delete(_idToDelete);
+            s_dal!.Engineer.Delete(_idToDelete);
         }catch (Exception e) { Console.WriteLine(e.Message); }
     }
     /// <summary>
@@ -183,13 +181,13 @@ internal class Program
         Console.WriteLine("Enter ID of engineer\n");
         int _engineerID;
         int.TryParse(Console.ReadLine(),out _engineerID);
-        while (s_dalEngineer!.Read(_engineerID) is null)
+        while (s_dal!.Engineer.Read(_engineerID) is null)
         {
             Console.WriteLine("Enter ID of first task");
             int.TryParse(Console.ReadLine(), out _engineerID);
         }
         try {
-            int id = s_dalTask!.Create(new(0, _name, _alias, _milestone,
+            int id = s_dal!.Task.Create(new(0, _name, _alias, _milestone,
             _createdAt, _start, _ForecastDate, _DeadLine, _Complete,
             _Deliverables, _Deliverables,_engineerID, _level));
             Console.WriteLine(id + "\n");
@@ -204,7 +202,7 @@ internal class Program
         Console.WriteLine("enter ID to search\n");
         int _idToSearch;
         int.TryParse(Console.ReadLine(),out _idToSearch);
-        DO.Task? findTask = s_dalTask!.Read(_idToSearch);
+        DO.Task? findTask = s_dal!.Task.Read(_idToSearch);
         if (findTask is not null)
             Console.WriteLine(findTask);
         else Console.WriteLine("There is no id task");
@@ -214,7 +212,7 @@ internal class Program
     /// </summary>
     public static void displayAllTasks()
     {
-        List<DO.Task> allTasks = s_dalTask!.ReadAll();
+        List<DO.Task> allTasks = s_dal!.Task.ReadAll();
         foreach ( DO.Task task in allTasks)
             Console.WriteLine(task);
     }
@@ -226,7 +224,7 @@ internal class Program
         Console.WriteLine("Enter Id to delete");
         int _idToUpDate;
         int.TryParse(Console.ReadLine(),out _idToUpDate);
-        DO.Task? taskToUpdate = s_dalTask!.Read(_idToUpDate);
+        DO.Task? taskToUpdate = s_dal!.Task.Read(_idToUpDate);
         if (taskToUpdate is null)
         {
             Console.WriteLine("The id number does not exist.");
@@ -267,12 +265,12 @@ internal class Program
             Console.WriteLine("Enter ID of engineer\n");
             int _engineerID;
             int.TryParse(Console.ReadLine(),out _engineerID);
-            while (s_dalEngineer!.Read(_engineerID) is null)
+            while (s_dal!.Engineer .Read(_engineerID) is null)
             {
                 Console.WriteLine("Enter ID of first task");
                 int.TryParse(Console.ReadLine(), out _engineerID);
             }
-            try { s_dalTask!.Update(new(0, _name, _alias, _milestone, _createdAt, _start, _ForecastDate, _DeadLine, _Complete, _Deliverables, _Remarks, _engineerID, _level)); }
+            try { s_dal!.Task.Update(new(0, _name, _alias, _milestone, _createdAt, _start, _ForecastDate, _DeadLine, _Complete, _Deliverables, _Remarks, _engineerID, _level)); }
             catch (Exception e) { Console.WriteLine(e.Message); }
         }
     }
@@ -286,7 +284,7 @@ internal class Program
         int.TryParse(Console.ReadLine(),out _idToDelete);
         try
         {
-            s_dalTask!.Delete(_idToDelete);
+            s_dal!.Task.Delete(_idToDelete);
         }
         catch (Exception e) { Console.WriteLine(e.Message); }
     }
@@ -329,7 +327,7 @@ internal class Program
         int.TryParse(Console.ReadLine(),out _idToDelete);
         try
         {
-            s_dalDependencys!.Delete(_idToDelete);
+            s_dal.Dependency!.Delete(_idToDelete);
         }
         catch (Exception e) { Console.WriteLine(e.Message); }
     }
@@ -341,7 +339,7 @@ internal class Program
         int _idOfFirstTask;
         Console.WriteLine("Create Dependency \ntype ID of first task");
         int.TryParse(Console.ReadLine(),out _idOfFirstTask);
-        while(s_dalTask!.Read(_idOfFirstTask) is null)
+        while(s_dal!.Dependency.Read(_idOfFirstTask) is null)
         {
             Console.WriteLine("Enter ID of first task");
             int.TryParse(Console.ReadLine(), out _idOfFirstTask);
@@ -349,13 +347,13 @@ internal class Program
         int _idOfSecondTask;
         Console.WriteLine("Create Dependency \ntype ID of second task");
         int.TryParse(Console.ReadLine(), out _idOfSecondTask);
-        while (s_dalTask!.Read(_idOfSecondTask) is null)
+        while (s_dal!.Task.Read(_idOfSecondTask) is null)
         {
             Console.WriteLine("Enter ID of second task");
             int.TryParse(Console.ReadLine(), out _idOfSecondTask);
         }
 
-        try { int id = s_dalDependencys!.Create(new(0, _idOfFirstTask, _idOfSecondTask));
+        try { int id = s_dal!.Dependency.Create(new(0, _idOfFirstTask, _idOfSecondTask));
             Console.WriteLine(id+"\n");
         }
         catch (Exception e) { Console.WriteLine(e.Message); }
@@ -368,7 +366,7 @@ internal class Program
         Console.WriteLine("Enter Id to search");
         int _idToSearch;
         int.TryParse(Console.ReadLine(),out _idToSearch);
-        Dependency? findDependency = s_dalDependencys!.Read(_idToSearch);
+        Dependency? findDependency = s_dal!.Dependency.Read(_idToSearch);
         if (findDependency is not null)
             Console.WriteLine(findDependency);
         else Console.WriteLine("There is no id engineer");
@@ -378,7 +376,7 @@ internal class Program
     /// </summary>
     public static void displayAllDependencies()
     {
-        List<Dependency> allDependencies = s_dalDependencys!.ReadAll();
+        List<Dependency> allDependencies = s_dal.Dependency!.ReadAll();
         foreach (Dependency dependency in allDependencies)
             Console.WriteLine(dependency+"\n");
     }
@@ -390,7 +388,7 @@ internal class Program
         Console.WriteLine("Enter Id to delete");
         int _idToUpDate;
         int.TryParse(Console.ReadLine(),out _idToUpDate);
-        Dependency? dependencyToUpdate = s_dalDependencys!.Read(_idToUpDate);
+        Dependency? dependencyToUpdate = s_dal!.Dependency.Read(_idToUpDate);
         if (dependencyToUpdate is null)
         {
             Console.WriteLine("the id not exist");
@@ -401,7 +399,7 @@ internal class Program
             Console.WriteLine(dependencyToUpdate);
             Console.WriteLine("Up Date Dependency \ntype ID of first task");
             int.TryParse(Console.ReadLine(),out _idOfFirstTask);
-            while (s_dalTask!.Read(_idOfFirstTask) is null)
+            while (s_dal!.Task.Read(_idOfFirstTask) is null)
             {
                 Console.WriteLine("type ID of first task");
                 int.TryParse(Console.ReadLine(), out _idOfFirstTask);
@@ -409,12 +407,12 @@ internal class Program
             int _idOfSecondTask;
             Console.WriteLine("Create Dependency \ntype ID of second task");
             int.TryParse(Console.ReadLine(), out _idOfSecondTask);
-            while (s_dalTask!.Read(_idOfSecondTask) is null)
+            while (s_dal!.Task.Read(_idOfSecondTask) is null)
             {
                 Console.WriteLine("Enter ID of second task");
                 int.TryParse(Console.ReadLine(), out _idOfSecondTask);
             }
-            try { s_dalDependencys!.Update(new(_idToUpDate,_idOfFirstTask,_idOfSecondTask)); }
+            try { s_dal!.Dependency.Update(new(_idToUpDate,_idOfFirstTask,_idOfSecondTask)); }
             catch (Exception e) { Console.WriteLine(e.Message); }
         }
     }
@@ -453,7 +451,7 @@ internal class Program
     /// <param name="args"></param>
     static void Main(string[] args)
     {
-        Initialization.Do(s_dalEngineer,s_dalTask,s_dalDependencys);
+        Initialization.Do(s_dal);
         int myChoice=  writeMenu();
         while(myChoice != 0)
         {
