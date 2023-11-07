@@ -19,7 +19,7 @@ public interface ITask : ICrud<Task>
     /// Reads all tasks objects
     /// </summary>
     /// <returns>the whole list of the tasks</returns>
-    List<Task> ReadAll();
+    IEnumerable<Task?> ReadAll(Func<Task, bool>? filter = null);
     /// <summary>
     /// Updates Task object
     /// </summary>
@@ -32,4 +32,6 @@ public interface ITask : ICrud<Task>
     /// <param name="id">id of object to delete</param>
     /// <exception cref="Exception">the input id of the task does not exist</exception>
     void Delete(int id);
+    Task? Read(Func<Task, bool> filter);
+
 }

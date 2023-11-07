@@ -17,7 +17,7 @@ internal class EngineerImplementation : IEngineer
     public int Create(Engineer item) 
     {
         if (Read(item.Id) is not null)
-            throw new Exception($"Engineer with ID={item.Id} already exists");
+            throw new DalAlreadyExistsException($"Engineer with ID={item.Id} already exists");
         DataSource.Engineers.Add(item);
         return item.Id;
     }
@@ -30,7 +30,7 @@ internal class EngineerImplementation : IEngineer
     {
         Engineer? engineerToDelete = Read(id);
         if (engineerToDelete is null)
-            throw new Exception($"Engineer with ID={id} does not exist.");
+            throw new DalDoesNotExistException($"Engineer with ID={id} does not exist.");
         else DataSource.Engineers.Remove(engineerToDelete);
     }
     /// <summary>
@@ -44,14 +44,23 @@ internal class EngineerImplementation : IEngineer
             return DataSource.Engineers.Find(engineer => engineer.Id == id);
         else return null;
     }
+
+    public Engineer? Read(Func<Engineer, bool> filter)
+    {
+        return DataSource.Engineers.FirstOrDefault(filter);
+    }
+
     /// <summary>
     /// Reads all engineers objects
     /// </summary>
     /// <returns>the whole list of the engineers</returns>
-    public List<Engineer> ReadAll()
+
+
+    public IEnumerable<Engineer?> ReadAll(Func<Engineer, bool>? filter = null)
     {
-        return new List<Engineer>(DataSource.Engineers);    
+        return new List<Engineer>(DataSource.Engineers);
     }
+
     /// <summary>
     /// Updates Engineer object
     /// </summary>
@@ -61,7 +70,7 @@ internal class EngineerImplementation : IEngineer
     {
         Engineer? engineerToUpdate = Read(item.Id);
         if (engineerToUpdate is null)
-            throw new Exception($"Engineer with ID={item.Id} does not exist.");
+            throw new DalDoesNotExistException($"Engineer with ID={item.Id} does not exist.");
         DataSource.Engineers.Remove(engineerToUpdate);
         Engineer engineer = new(item.Id, item.Name, item.Email, item.Level, item.Cost);
         DataSource.Engineers.Add(engineer);

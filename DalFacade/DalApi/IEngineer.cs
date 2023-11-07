@@ -20,7 +20,7 @@ public interface IEngineer:ICrud<Engineer>
     /// Reads all engineers objects
     /// </summary>
     /// <returns>the whole list of the engineers</returns>
-    List<Engineer> ReadAll();
+    IEnumerable<Engineer?> ReadAll(Func<Engineer, bool>? filter = null);
     /// <summary>
     /// Updates Engineer object
     /// </summary>
@@ -33,4 +33,10 @@ public interface IEngineer:ICrud<Engineer>
     /// <param name="id">id of object to delete</param>
     /// <exception cref="Exception">the input id of the engineer does not exist</exception>
     void Delete(int id);
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="filter"></param>
+    /// <returns></returns>
+    Engineer? Read(Func<Engineer, bool> filter);
 }

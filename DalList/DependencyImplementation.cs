@@ -28,8 +28,8 @@ internal class DependencyImplementation : IDependency
     {
         Dependency? DependencyToDelete = Read(id);
         if (DependencyToDelete is null)
-            throw new Exception($"Engineer with ID={id} does not exist.");
-        else DataSource.Dependencies.Remove(DependencyToDelete);
+            throw new DalDoesNotExistException($"Engineer with ID={id} does not exist.");
+        else DataSource.Dependencies.RemoveAll(Dependency=>Dependency.Id==DependencyToDelete.Id);
     }
     /// <summary>
     /// Reads Dependency object by its ID 
@@ -41,12 +41,26 @@ internal class DependencyImplementation : IDependency
         return DataSource.Dependencies.FirstOrDefault(dependency => dependency.Id == id);
     }
     /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="filter"></param>
+    /// <returns></returns>
+    public Dependency? Read(Func<Dependency, bool> filter)
+    {
+        return DataSource.Dependencies.FirstOrDefault(filter);
+    }
+
+    /// <summary>
     /// Reads all Dependencies objects
     /// </summary>
     /// <returns>the whole list of the dependencies</returns>
-    public List<Dependency> ReadAll()
+    public IEnumerable<Dependency?> ReadAll(Func<Dependency, bool>? filter = null)
     {
-        return new List<Dependency>(DataSource.Dependencies);
+        if (filter == null)
+            return DataSource.Dependencies.Select(depen => depen);
+        else
+            return DataSource.Dependencies.Where(filter);
+
     }
     /// <summary>
     /// Updates Dependency object
@@ -57,9 +71,9 @@ internal class DependencyImplementation : IDependency
     {
         Dependency? dependcyToUpdate=Read(item.Id);
         if (dependcyToUpdate is null)
-            throw new Exception($"Dependency with ID={item.Id} does not exist.");
-        DataSource. Dependencies.Remove(DataSource.Dependencies.First(dependency => dependency.Id == item.Id));
+            throw new DalDoesNotExistException($"Dependency with ID={item.Id} does not exist.");
+        DataSource. Dependencies.RemoveAll(dependency => dependency.Id == item.Id);
         Dependency dependency = new(item.Id,item.DependentTask,item.DependOnTask);
         DataSource.Dependencies.Add(dependency);
-    }
+    }   
 }

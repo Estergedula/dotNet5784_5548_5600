@@ -37,4 +37,10 @@ public interface ICrud<T> where T : class
     /// <param name="id">id of object to delete</param>
     /// <exception cref="Exception">the input id of the task does not exist</exception>
     void Delete(int id);
+    /// <summary>
+    /// Read a specific item by filter function
+    /// </summary>
+    /// <param name="filter">function to select an item by</param>
+    /// <returns></returns>
+    T? Read(Func<T, bool> filter);
 }

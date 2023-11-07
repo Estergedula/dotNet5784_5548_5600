@@ -28,7 +28,7 @@ internal class TaskImplementation : ITask
     {
         Task? TaskToDelete = Read(id);
         if (TaskToDelete is null)
-            throw new Exception($"Task with ID = {id} does not exsist.");
+            throw new DalDoesNotExistException($"Task with ID = {id} does not exsist.");
         else { 
             DataSource.Tasks.Remove(TaskToDelete);
             Task copy = TaskToDelete with { Complete=DateTime.Now };
@@ -48,10 +48,21 @@ internal class TaskImplementation : ITask
         else return null;
     }
     /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="filter"></param>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
+    public Task? Read(Func<Task, bool> filter)
+    {
+        return DataSource.Tasks.FirstOrDefault(filter);
+    }
+
+    /// <summary>
     /// Reads all tasks objects
     /// </summary>
     /// <returns>the whole list of the tasks</returns>
-    public List<Task> ReadAll() 
+    public IEnumerable<Task?> ReadAll(Func<Task, bool>? filter = null)
     {
         return new List<Task>(DataSource.Tasks);
     }
@@ -64,7 +75,7 @@ internal class TaskImplementation : ITask
     {
         Task? taskToUpdate= Read(item.Id);
         if (taskToUpdate is null)
-            throw new Exception($"Task with ID={item.Id} does not exist.");
+            throw new DalDoesNotExistException($"Task with ID={item.Id} does not exist.");
         DataSource.Tasks.Remove(taskToUpdate);
         Task task = new(item.Id, item.Description, item.Alias, item.Milestone, item.CreatedAt, item.Start, item.ForecastDate, item.DeadLine, item.Complete, item.Deliverables, item.Remarks, item.EngineerId, item.ComplexilyLevel);
         DataSource.Tasks.Add(task);

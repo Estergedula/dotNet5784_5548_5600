@@ -19,7 +19,7 @@ public interface IDependency : ICrud<Dependency>
     /// Reads all Dependencies objects
     /// </summary>
     /// <returns>the whole list of the dependencies</returns>
-    List<Dependency> ReadAll();
+    IEnumerable<Dependency?> ReadAll(Func<Dependency, bool>? filter = null);
     /// <summary>
     /// Updates Dependency object
     /// </summary>
@@ -32,4 +32,10 @@ public interface IDependency : ICrud<Dependency>
     /// <param name="id">id of object to delete</param>
     /// <exception cref="Exception">the param id is not exist in the DB</exception>
     void Delete(int id); //Deletes a Dependency by its Id
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="filter"></param>
+    /// <returns></returns>
+    Dependency? Read(Func<Dependency, bool> filter);
 }
