@@ -5,6 +5,7 @@ namespace Dal;
 using DalApi;
 using DO;
 using System.Collections.Generic;
+using System.Linq;
 
 internal class EngineerImplementation : IEngineer
 {
@@ -31,7 +32,7 @@ internal class EngineerImplementation : IEngineer
         Engineer? engineerToDelete = Read(id);
         if (engineerToDelete is null)
             throw new DalDoesNotExistException($"Engineer with ID={id} does not exist.");
-        else DataSource.Engineers.Remove(engineerToDelete);
+        else DataSource.Engineers.RemoveAll(engineer => engineer.Id==engineerToDelete.Id);
     }
     /// <summary>
     /// Reads entity Engineer by its ID
@@ -40,9 +41,7 @@ internal class EngineerImplementation : IEngineer
     /// <returns></returns>
     public Engineer? Read(int id) 
     {
-        if (DataSource.Engineers.Find(engineer => engineer.Id == id) is not null)
-            return DataSource.Engineers.Find(engineer => engineer.Id == id);
-        else return null;
+        return DataSource.Engineers.FirstOrDefault(engineer => engineer.Id == id);
     }
 
     public Engineer? Read(Func<Engineer, bool> filter)
@@ -58,7 +57,10 @@ internal class EngineerImplementation : IEngineer
 
     public IEnumerable<Engineer?> ReadAll(Func<Engineer, bool>? filter = null)
     {
-        return new List<Engineer>(DataSource.Engineers);
+        if (filter == null)
+            return DataSource.Engineers.Select(engineer => engineer);
+        else
+            return DataSource.Engineers.Where(filter);
     }
 
     /// <summary>
@@ -71,7 +73,7 @@ internal class EngineerImplementation : IEngineer
         Engineer? engineerToUpdate = Read(item.Id);
         if (engineerToUpdate is null)
             throw new DalDoesNotExistException($"Engineer with ID={item.Id} does not exist.");
-        DataSource.Engineers.Remove(engineerToUpdate);
+        DataSource.Engineers.RemoveAll(engineer => engineer.Id == item.Id);
         Engineer engineer = new(item.Id, item.Name, item.Email, item.Level, item.Cost);
         DataSource.Engineers.Add(engineer);
     }

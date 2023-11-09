@@ -216,7 +216,7 @@ internal class Program
     public static void displayAllTasks()
     {
         List<DO.Task?> allTasks = s_dal!.Task.ReadAll().ToList();
-        foreach (DO.Task task in allTasks)
+        foreach (DO.Task? task in allTasks)
             Console.WriteLine(task);
     }
     /// <summary>

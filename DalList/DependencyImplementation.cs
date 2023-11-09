@@ -26,10 +26,10 @@ internal class DependencyImplementation : IDependency
     /// <exception cref="Exception">the param id is not exist in the DB</exception>
     public void Delete(int id)
     {
-        Dependency? DependencyToDelete = Read(id);
-        if (DependencyToDelete is null)
+        Dependency? dependencyToDelete = Read(id);
+        if (dependencyToDelete is null)
             throw new DalDoesNotExistException($"Engineer with ID={id} does not exist.");
-        else DataSource.Dependencies.RemoveAll(Dependency=>Dependency.Id==DependencyToDelete.Id);
+        else DataSource.Dependencies.RemoveAll(dependency=>dependency.Id==dependencyToDelete.Id);
     }
     /// <summary>
     /// Reads Dependency object by its ID 
@@ -57,7 +57,7 @@ internal class DependencyImplementation : IDependency
     public IEnumerable<Dependency?> ReadAll(Func<Dependency, bool>? filter = null)
     {
         if (filter == null)
-            return DataSource.Dependencies.Select(depen => depen);
+            return DataSource.Dependencies.Select(dependency => dependency);
         else
             return DataSource.Dependencies.Where(filter);
 
