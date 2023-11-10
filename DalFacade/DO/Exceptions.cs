@@ -1,5 +1,4 @@
-﻿
-namespace DO;
+﻿namespace DO;
 
 [Serializable]
 public class DalDoesNotExistException : Exception
