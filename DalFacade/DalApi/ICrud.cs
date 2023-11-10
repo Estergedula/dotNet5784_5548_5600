@@ -26,7 +26,7 @@ public interface ICrud<T> where T : class
     /// <returns>the whole list of the tasks</returns>
     IEnumerable<T?> ReadAll(Func<T, bool>? filter = null);
     /// <summary>
-    /// Updates Task object
+    /// Updates a Task object
     /// </summary>
     /// <param name="item">object item of task to update</param>
     /// <exception cref="Exception">the input id of the task does not exist</exception>

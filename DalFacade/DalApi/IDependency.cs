@@ -7,13 +7,13 @@ public interface IDependency:ICrud<Dependency>
 //public interface IDependency : ICrud<Dependency>
 //{
 //    /// <summary>
-//    /// Creates new Dependency object in DAL
+//    /// Creates a new Dependency object in DAL
 //    /// </summary>
-//    /// <param name="item">item to create in DB</param>
-//    /// <returns>the id of the item</returns>
+//    /// <param name="item">An item to create in DB</param>
+//    /// <returns>The id of the item</returns>
 //    int Create(Dependency item);
 //    /// <summary>
-//    /// Reads Dependency object by its ID 
+//    /// Reads a Dependency object by its ID 
 //    /// </summary>
 //    /// <param name="id">id of object to read</param>
 //    /// <returns></returns>
