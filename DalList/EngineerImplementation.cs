@@ -1,7 +1,4 @@
-﻿
-
-
-namespace Dal;
+﻿namespace Dal;
 using DalApi;
 using DO;
 using System.Collections.Generic;
@@ -43,7 +40,11 @@ internal class EngineerImplementation : IEngineer
     {
         return DataSource.Engineers.FirstOrDefault(engineer => engineer.Id == id);
     }
-
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="filter"></param>
+    /// <returns></returns>
     public Engineer? Read(Func<Engineer, bool> filter)
     {
         return DataSource.Engineers.FirstOrDefault(filter);

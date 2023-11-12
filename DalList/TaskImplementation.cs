@@ -24,7 +24,7 @@ internal class TaskImplementation : ITask
     /// </summary>
     /// <param name="id">id of object to delete</param>
     /// <exception cref="Exception">the input id of the task does not exist</exception>
-    public void Delete(int id)//Deletes a Task by its Id
+    public void Delete(int id)//Deletes a Task by his Id
     {
         Task? TaskToDelete = Read(id);
         if (TaskToDelete is null)
@@ -73,9 +73,7 @@ internal class TaskImplementation : ITask
     /// <exception cref="Exception">the input id of the task does not exist</exception>
     public void Update(Task item) 
     {
-        Task? taskToUpdate= Read(item.Id);
-        if (taskToUpdate is null)
-            throw new DalDoesNotExistException($"Task with ID={item.Id} does not exist.");
+        Task? taskToUpdate= Read(item.Id)??throw new DalDoesNotExistException($"Task with ID={item.Id} does not exist.");
         DataSource.Tasks.Remove(taskToUpdate);
         Task task = new(item.Id, item.Description, item.Alias, item.Milestone, item.CreatedAt, item.Start, item.ForecastDate, item.DeadLine, item.Complete, item.Deliverables, item.Remarks, item.EngineerId, item.ComplexilyLevel);
         DataSource.Tasks.Add(task);

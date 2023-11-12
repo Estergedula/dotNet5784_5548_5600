@@ -12,8 +12,7 @@ internal class Program
     public static int writeMenu()
     {
         Console.WriteLine("Welcome To Our Program \nTo exit type 0 \nTo Engineers type 1 \nTo Tasks type 2 \nTo Dependencies type 3 ");
-        int myChoice;
-        int.TryParse(Console.ReadLine(), out myChoice);
+        int.TryParse(Console.ReadLine(), out int myChoice);
         return myChoice;
     }
     /// <summary>
@@ -23,8 +22,7 @@ internal class Program
     public static int writeInnerMenue()
     {
         Console.WriteLine("Please enter your choice \nType 1 to exit \nType 2 to create a new \nType 3 to display \nType 4 to display all \nType 5 to update \nType 6 to delate");
-        int myChoice;
-        int.TryParse(Console.ReadLine(), out myChoice);
+        int.TryParse(Console.ReadLine(), out int myChoice);
         return myChoice;
     }
     /// <summary>
@@ -33,19 +31,16 @@ internal class Program
     public static void createEngineer()
     {
         Console.WriteLine("Create Engineer \ntype ID");
-        int _id;
-        int.TryParse(Console.ReadLine(), out _id);
+        int.TryParse(Console.ReadLine(), out int _id);
         Console.WriteLine("enter name\n");
         string? _name = Console.ReadLine();
         Console.WriteLine("enter email\n");
         string? _email = Console.ReadLine();
-        Console.WriteLine("enter level: 0-Expert, 1-Junior, 2-Tyro\n");
-        int choiceExperience;
-        int.TryParse(Console.ReadLine(), out choiceExperience);
+        Console.WriteLine("enter level: 1-Expert, 2-Junior, 3-Tyro\n");
+        int.TryParse(Console.ReadLine(), out int choiceExperience);
         EngineerExperience _level = (EngineerExperience)choiceExperience;
         Console.WriteLine("enter hourly cost\n");
-        double _cost;
-        double.TryParse(Console.ReadLine(), out _cost);
+        double.TryParse(Console.ReadLine(), out double _cost);
         try
         {
             int id = s_dal!.Engineer.Create(new(_id, _name, _email, _level, _cost));
@@ -59,8 +54,7 @@ internal class Program
     public static void displayEngineer()
     {
         Console.WriteLine("enter Id to search");
-        int _idToSearch;
-        int.TryParse(Console.ReadLine(), out _idToSearch);
+        int.TryParse(Console.ReadLine(), out int _idToSearch);
         Engineer? findEngineer = s_dal!.Engineer.Read(_idToSearch);
         if (findEngineer is not null)
             Console.WriteLine(findEngineer);
@@ -81,8 +75,7 @@ internal class Program
     public static void updateEngineer()
     {
         Console.WriteLine("Enter Id to delete");
-        int _idToUpDate;
-        int.TryParse(Console.ReadLine(), out _idToUpDate);
+        int.TryParse(Console.ReadLine(), out int _idToUpDate);
         Engineer? engineerToUpdate = s_dal!.Engineer.Read(_idToUpDate);
         if (engineerToUpdate is null)
         {
@@ -95,12 +88,20 @@ internal class Program
             string? _name = Console.ReadLine();
             Console.WriteLine("Enter email\n");
             string? _email = Console.ReadLine();
-            Console.WriteLine("Enter level: 0-Expert, 1-Junior, 2-Tyro\n");
-            EngineerExperience _level = (EngineerExperience)Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter level: 1-Expert, 2-Junior, 3-Tyro\n");
+            int.TryParse(Console.ReadLine(), out int experienceChoice);
+            if (experienceChoice==0)
+                experienceChoice=(int)engineerToUpdate.Level;
+            EngineerExperience _level = (EngineerExperience)experienceChoice;
             Console.WriteLine("Enter hourly cost\n");
-            double _cost;
-            double.TryParse(Console.ReadLine(), out _cost);
-            try { s_dal!.Engineer.Update(new(_idToUpDate, _name, _email, _level, _cost)); }
+            double.TryParse(Console.ReadLine(), out double _cost);
+            if (_cost==0)
+            {
+                if(engineerToUpdate.Cost is not null)
+                    _cost = (double)engineerToUpdate.Cost;
+            }
+
+            try { s_dal!.Engineer.Update(new(_idToUpDate, _name??engineerToUpdate.Name, _email??engineerToUpdate.Email, _level, _cost)); }
             catch (DalDoesNotExistException e) { Console.WriteLine(e.Message + "\n"); }
         }
     }
@@ -110,8 +111,7 @@ internal class Program
     public static void deleteEngineer()
     {
         Console.WriteLine("Enter Id to delete");
-        int _idToDelete;
-        int.TryParse(Console.ReadLine(), out _idToDelete);
+        int.TryParse(Console.ReadLine(), out int _idToDelete);
         try
         {
             s_dal!.Engineer.Delete(_idToDelete);
@@ -158,14 +158,11 @@ internal class Program
         Console.WriteLine("Enter alias:\n");
         string? _alias = Console.ReadLine();
         Console.WriteLine("Enter milestone:\n");
-        bool _milestone;
-        bool.TryParse(Console.ReadLine(), out _milestone);
+        bool.TryParse(Console.ReadLine(), out bool _milestone);
         Console.WriteLine("Enter date created\n");
-        DateTime _createdAt;
-        DateTime.TryParse(Console.ReadLine(), out _createdAt);
+        DateTime.TryParse(Console.ReadLine(), out DateTime _createdAt);
         Console.WriteLine("Enter date started\n");
-        DateTime _start;
-        DateTime.TryParse(Console.ReadLine(), out _start);
+        DateTime.TryParse(Console.ReadLine(), out DateTime _start);
         Console.WriteLine("Enter date of forecast\n");
         DateTime _ForecastDate;
         DateTime.TryParse(Console.ReadLine(), out _ForecastDate);
@@ -179,13 +176,12 @@ internal class Program
         string? _Deliverables = Console.ReadLine();
         Console.WriteLine("Enter remarks\n");
         string? _Remarks = Console.ReadLine();
-        Console.WriteLine("Enter level: 0-Expert, 1-Junior, 2-Tyro\n");
+        Console.WriteLine("Enter level: 1-Expert, 2-Junior, 3-Tyro\n");
         int experienceChoice;
         int.TryParse(Console.ReadLine(), out experienceChoice);
         EngineerExperience _level = (EngineerExperience)experienceChoice;
         Console.WriteLine("Enter ID of engineer\n");
-        int _engineerID;
-        int.TryParse(Console.ReadLine(), out _engineerID);
+        int.TryParse(Console.ReadLine(), out int _engineerID);
         while (s_dal!.Engineer.Read(_engineerID) is null)
         {
             Console.WriteLine("Enter ID of first task");
@@ -203,8 +199,7 @@ internal class Program
     public static void displayTask()
     {
         Console.WriteLine("enter ID to search\n");
-        int _idToSearch;
-        int.TryParse(Console.ReadLine(), out _idToSearch);
+        int.TryParse(Console.ReadLine(), out int _idToSearch);
         DO.Task? findTask = s_dal!.Task.Read(_idToSearch);
         if (findTask is not null)
             Console.WriteLine(findTask);
@@ -224,9 +219,8 @@ internal class Program
     /// </summary>
     public static void updateTask()
     {
-        Console.WriteLine("Enter Id to delete");
-        int _idToUpDate;
-        int.TryParse(Console.ReadLine(), out _idToUpDate);
+        Console.WriteLine("Enter Id to update");
+        int.TryParse(Console.ReadLine(), out int _idToUpDate);
         DO.Task? taskToUpdate = s_dal!.Task.Read(_idToUpDate);
         if (taskToUpdate is null)
         {
@@ -236,44 +230,51 @@ internal class Program
         {
             Console.WriteLine("Update a task \n ");
             Console.WriteLine("Enter description:\n");
-            string? _name = Console.ReadLine();
+            string? _description = Console.ReadLine();
             Console.WriteLine("Enter alias:\n");
             string? _alias = Console.ReadLine();
             Console.WriteLine("Enter milestone:\n");
-            bool _milestone;
-            bool.TryParse(Console.ReadLine(), out _milestone);
+            bool.TryParse(Console.ReadLine(), out bool _milestone);//???????????/
             Console.WriteLine("Enter date created\n");
-            DateTime _createdAt;
-            DateTime.TryParse(Console.ReadLine(), out _createdAt);
+            DateTime.TryParse(Console.ReadLine(), out DateTime _createdAt);
+            if (_createdAt==DateTime.MinValue)
+                _createdAt=taskToUpdate.CreatedAt;
             Console.WriteLine("Enter date started\n");
-            DateTime _start;
-            DateTime.TryParse(Console.ReadLine(), out _start);
+            DateTime.TryParse(Console.ReadLine(), out DateTime _start);
+            if (_start==DateTime.MinValue)
+                _start=taskToUpdate.Start;
             Console.WriteLine("Enter date of forecast\n");
-            DateTime _ForecastDate;
-            DateTime.TryParse(Console.ReadLine(), out _ForecastDate);
+            DateTime.TryParse(Console.ReadLine(), out DateTime _ForecastDate);
+            if (_ForecastDate==DateTime.MinValue)
+                _ForecastDate=taskToUpdate.ForecastDate;
             Console.WriteLine("Enter date of deadline\n");
-            DateTime _DeadLine;
-            DateTime.TryParse(Console.ReadLine(), out _DeadLine);
+            DateTime.TryParse(Console.ReadLine(), out DateTime _DeadLine);
+            if (_DeadLine==DateTime.MinValue)
+                _DeadLine=taskToUpdate.DeadLine;
             Console.WriteLine("Enter date of complete\n");
-            DateTime _Complete;
-            DateTime.TryParse(Console.ReadLine(), out _Complete);
+            DateTime.TryParse(Console.ReadLine(), out DateTime _Complete);
+            if (_Complete==DateTime.MinValue)
+                _Complete=taskToUpdate.Complete;
             Console.WriteLine("Enter deliverables\n");
             string? _Deliverables = Console.ReadLine();
             Console.WriteLine("Enter remarks\n");
             string? _Remarks = Console.ReadLine();
-            Console.WriteLine("Enter level: 0-Expert, 1-Junior, 2-Tyro\n");
-            int experienceChoice;
-            int.TryParse(Console.ReadLine(), out experienceChoice);
+            Console.WriteLine("Enter level: 1-Expert, 2-Junior, 3-Tyro\n");
+            int.TryParse(Console.ReadLine(), out int experienceChoice);
+            if (experienceChoice==0)
+                experienceChoice=(int)taskToUpdate.ComplexilyLevel;
             EngineerExperience _level = (EngineerExperience)experienceChoice;
             Console.WriteLine("Enter ID of engineer\n");
-            int _engineerID;
-            int.TryParse(Console.ReadLine(), out _engineerID);
-            while (s_dal!.Engineer.Read(_engineerID) is null)
-            {
-                Console.WriteLine("Enter ID of first task");
-                int.TryParse(Console.ReadLine(), out _engineerID);
-            }
-            try { s_dal!.Task.Update(new(0, _name, _alias, _milestone, _createdAt, _start, _ForecastDate, _DeadLine, _Complete, _Deliverables, _Remarks, _engineerID, _level)); }
+            int.TryParse(Console.ReadLine(), out int _engineerID);
+            if(_engineerID==0)
+                _engineerID=taskToUpdate.EngineerId;
+            else
+                while (s_dal!.Engineer.Read(_engineerID) is null)
+                {
+                    Console.WriteLine("Enter ID of first task");
+                    int.TryParse(Console.ReadLine(), out _engineerID);
+                }
+            try { s_dal!.Task.Update(new(0, _description??taskToUpdate.Description, _alias??taskToUpdate.Alias, _milestone, _createdAt, _start, _ForecastDate, _DeadLine, _Complete, _Deliverables??taskToUpdate.Deliverables, _Remarks??taskToUpdate.Remarks, _engineerID, _level)); }
             catch (DalDoesNotExistException e) { Console.WriteLine(e.Message + "\n"); }
 
         }
@@ -284,8 +285,7 @@ internal class Program
     public static void deleteTask()
     {
         Console.WriteLine("Enter Id to delete");
-        int _idToDelete;
-        int.TryParse(Console.ReadLine(), out _idToDelete);
+        int.TryParse(Console.ReadLine(), out int _idToDelete);
         try
         {
             s_dal!.Task.Delete(_idToDelete);
@@ -328,8 +328,7 @@ internal class Program
     public static void deleteDependency()
     {
         Console.WriteLine("Enter Id to delete");
-        int _idToDelete;
-        int.TryParse(Console.ReadLine(), out _idToDelete);
+        int.TryParse(Console.ReadLine(), out int _idToDelete);
         try
         {
             s_dal.Dependency!.Delete(_idToDelete);
@@ -368,8 +367,7 @@ internal class Program
     public static void displayDependency()
     {
         Console.WriteLine("Enter Id to search");
-        int _idToSearch;
-        int.TryParse(Console.ReadLine(), out _idToSearch);
+        int.TryParse(Console.ReadLine(), out int _idToSearch);
         Dependency? findDependency = s_dal!.Dependency.Read(_idToSearch);
         if (findDependency is not null)
             Console.WriteLine(findDependency);
@@ -390,8 +388,7 @@ internal class Program
     public static void updateDependency()
     {
         Console.WriteLine("Enter Id to delete");
-        int _idToUpDate;
-        int.TryParse(Console.ReadLine(), out _idToUpDate);
+        int.TryParse(Console.ReadLine(), out int _idToUpDate);
         Dependency? dependencyToUpdate = s_dal!.Dependency.Read(_idToUpDate);
         if (dependencyToUpdate is null)
         {
@@ -399,23 +396,27 @@ internal class Program
         }
         else
         {
-            int _idOfFirstTask;
             Console.WriteLine(dependencyToUpdate);
             Console.WriteLine("Up Date Dependency \ntype ID of first task");
-            int.TryParse(Console.ReadLine(), out _idOfFirstTask);
-            while (s_dal!.Task.Read(_idOfFirstTask) is null)
-            {
-                Console.WriteLine("type ID of first task");
-                int.TryParse(Console.ReadLine(), out _idOfFirstTask);
-            }
-            int _idOfSecondTask;
+            int.TryParse(Console.ReadLine(), out int _idOfFirstTask);
+            if (_idOfFirstTask==0)
+                _idOfFirstTask=dependencyToUpdate.DependentTask;
+            else
+                while (s_dal!.Task.Read(_idOfFirstTask) is null)
+                {
+                    Console.WriteLine("type ID of first task");
+                    int.TryParse(Console.ReadLine(), out _idOfFirstTask);
+                }
             Console.WriteLine("Create Dependency \ntype ID of second task");
-            int.TryParse(Console.ReadLine(), out _idOfSecondTask);
-            while (s_dal!.Task.Read(_idOfSecondTask) is null)
-            {
-                Console.WriteLine("Enter ID of second task");
-                int.TryParse(Console.ReadLine(), out _idOfSecondTask);
-            }
+            int.TryParse(Console.ReadLine(), out int _idOfSecondTask);
+            if(_idOfSecondTask==0)
+                _idOfSecondTask=dependencyToUpdate.DependOnTask;
+            else
+                while (s_dal!.Task.Read(_idOfSecondTask) is null)
+                {
+                     Console.WriteLine("Enter ID of second task");
+                    int.TryParse(Console.ReadLine(), out _idOfSecondTask);
+                }
             try { s_dal!.Dependency.Update(new(_idToUpDate, _idOfFirstTask, _idOfSecondTask)); }
             catch (DalDoesNotExistException e) { Console.WriteLine(e.Message + "\n"); }
         }

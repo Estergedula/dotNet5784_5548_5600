@@ -2,7 +2,7 @@
 namespace DO;
 public enum EngineerExperience
 {
-    Expert,
+    Expert=1,
     Junior,
     Tyro
 }
