@@ -68,7 +68,7 @@ public static class Initialization
             do
                 _id = s_rand.Next(MIN_ID, MAX_ID);
             while (s_dal!.Engineer.Read(_id) is not null);
-            EngineerExperience _level= (EngineerExperience)s_rand.Next(0, 2);
+            EngineerExperience _level= (EngineerExperience)s_rand.Next(1, 3);
             double doubleCost = s_rand.Next(0, 100)/100;
             double _cost = s_rand.Next(MIN_INTEGER_COST, MAX_INTEGER_COST)+doubleCost;
             string _email = _name+(int)(_id/10000000)+"@gmail.com";
@@ -136,9 +136,6 @@ public static class Initialization
     /// <exception cref="NullReferenceException"></exception>
     public static void Do(IDal dal)
     {
-        //s_dalEngineer = dalEngineer ?? throw new NullReferenceException("DAL can not be null!");
-        //s_dalTask=dalTask?? throw new NullReferenceException("DAL can not be null!");
-        //s_dalDependency=dalDependency??throw new NullReferenceException("DAL can not be null!");
         s_dal = dal ?? throw new NullReferenceException("DAL object can not be null!");
         createEngineer();
         createTask();

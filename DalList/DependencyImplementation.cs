@@ -32,7 +32,7 @@ internal class DependencyImplementation : IDependency
         else DataSource.Dependencies.RemoveAll(dependency=>dependency.Id==dependencyToDelete.Id);
     }
     /// <summary>
-    /// Reads Dependency object by its ID 
+    /// Reads Dependency object by his ID 
     /// </summary>
     /// <param name="id">id of object to read</param>
     /// <returns></returns>
@@ -41,7 +41,7 @@ internal class DependencyImplementation : IDependency
         return DataSource.Dependencies.FirstOrDefault(dependency => dependency.Id == id);
     }
     /// <summary>
-    /// 
+    /// Reads Dependency object by a bool function 
     /// </summary>
     /// <param name="filter"></param>
     /// <returns></returns>

@@ -100,7 +100,6 @@ internal class Program
                 if(engineerToUpdate.Cost is not null)
                     _cost = (double)engineerToUpdate.Cost;
             }
-
             try { s_dal!.Engineer.Update(new(_idToUpDate, _name??engineerToUpdate.Name, _email??engineerToUpdate.Email, _level, _cost)); }
             catch (DalDoesNotExistException e) { Console.WriteLine(e.Message + "\n"); }
         }
@@ -234,7 +233,7 @@ internal class Program
             Console.WriteLine("Enter alias:\n");
             string? _alias = Console.ReadLine();
             Console.WriteLine("Enter milestone:\n");
-            bool.TryParse(Console.ReadLine(), out bool _milestone);//???????????/
+            bool.TryParse(Console.ReadLine(), out bool _milestone);
             Console.WriteLine("Enter date created\n");
             DateTime.TryParse(Console.ReadLine(), out DateTime _createdAt);
             if (_createdAt==DateTime.MinValue)

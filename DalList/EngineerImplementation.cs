@@ -32,7 +32,7 @@ internal class EngineerImplementation : IEngineer
         else DataSource.Engineers.RemoveAll(engineer => engineer.Id==engineerToDelete.Id);
     }
     /// <summary>
-    /// Reads entity Engineer by its ID
+    /// Reads entity Engineer by his ID
     /// </summary>
     /// <param name="id">id of the engineer to read</param>
     /// <returns></returns>
@@ -41,7 +41,7 @@ internal class EngineerImplementation : IEngineer
         return DataSource.Engineers.FirstOrDefault(engineer => engineer.Id == id);
     }
     /// <summary>
-    /// 
+    /// Reads entity Engineer by a bool function
     /// </summary>
     /// <param name="filter"></param>
     /// <returns></returns>

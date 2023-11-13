@@ -36,7 +36,7 @@ internal class TaskImplementation : ITask
         }
     }
     /// <summary>
-    /// Reads entity task by its ID
+    /// Reads entity task by his ID
     /// </summary>
     /// <param name="id">id of the task to read</param>
     /// <returns></returns>
@@ -48,7 +48,7 @@ internal class TaskImplementation : ITask
         else return null;
     }
     /// <summary>
-    /// 
+    /// Reads entity task by ia bool function
     /// </summary>
     /// <param name="filter"></param>
     /// <returns></returns>
