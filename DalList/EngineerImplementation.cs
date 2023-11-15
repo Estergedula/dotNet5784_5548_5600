@@ -51,7 +51,7 @@ internal class EngineerImplementation : IEngineer
     }
 
     /// <summary>
-    /// Reads all engineers objects
+    /// Reads all engineer objects
     /// </summary>
     /// <returns>the whole list of the engineers</returns>
 
@@ -65,7 +65,7 @@ internal class EngineerImplementation : IEngineer
     }
 
     /// <summary>
-    /// Updates Engineer object
+    /// Updates an Engineer object
     /// </summary>
     /// <param name="item">object item of engineer to update</param>
     /// <exception cref="Exception">the input id of the engineer does not exist</exception>
