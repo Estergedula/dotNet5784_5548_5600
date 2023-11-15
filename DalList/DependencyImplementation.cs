@@ -8,7 +8,7 @@ using System.Collections.Generic;
 internal class DependencyImplementation : IDependency
 {
     /// <summary>
-    /// Creates new Dependency object in DAL
+    /// Creates a new Dependency object in DAL
     /// </summary>
     /// <param name="item">new item to create in DB</param>
     /// <returns>the id of the item</returns>
@@ -29,7 +29,7 @@ internal class DependencyImplementation : IDependency
         Dependency? dependencyToDelete = Read(id);
         if (dependencyToDelete is null)
             throw new DalDoesNotExistException($"Engineer with ID={id} does not exist.");
-        else DataSource.Dependencies.RemoveAll(dependency=>dependency.Id==dependencyToDelete.Id);
+        else DataSource.Dependencies.Remove(dependencyToDelete);
     }
     /// <summary>
     /// Reads Dependency object by his ID 
@@ -41,7 +41,7 @@ internal class DependencyImplementation : IDependency
         return DataSource.Dependencies.FirstOrDefault(dependency => dependency.Id == id);
     }
     /// <summary>
-    /// Reads Dependency object by a bool function 
+    /// Reads a Dependency object by a bool function 
     /// </summary>
     /// <param name="filter">bool func to run each object</param>
     /// <returns>the first elment that return true to filter function</returns>
@@ -70,7 +70,7 @@ internal class DependencyImplementation : IDependency
         Dependency? dependcyToUpdate=Read(item.Id);
         if (dependcyToUpdate is null)
             throw new DalDoesNotExistException($"Dependency with ID={item.Id} does not exist.");
-        DataSource. Dependencies.RemoveAll(dependency => dependency.Id == item.Id);
+        DataSource.Dependencies.Remove(item);
         Dependency dependency = new(item.Id,item.DependentTask,item.DependOnTask);
         DataSource.Dependencies.Add(dependency);
     }   
