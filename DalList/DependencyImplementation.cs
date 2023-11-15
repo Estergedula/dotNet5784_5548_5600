@@ -72,7 +72,7 @@ internal class DependencyImplementation : IDependency
         Dependency? dependcyToUpdate=Read(item.Id);
         if (dependcyToUpdate is null)
             throw new DalDoesNotExistException($"Dependency with ID={item.Id} does not exist.");
-        DataSource. Dependencies.RemoveAll(dependency => dependency.Id == item.Id);
+        DataSource.Dependencies.RemoveAll(dependency => dependency.Id == item.Id);
         Dependency dependency = new(item.Id,item.DependentTask,item.DependOnTask);
         DataSource.Dependencies.Add(dependency);
     }   
