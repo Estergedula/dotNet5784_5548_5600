@@ -8,7 +8,7 @@ using System.Collections.Generic;
 internal class DependencyImplementation : IDependency
 {
     /// <summary>
-    /// Creates new Dependency object in DAL
+    /// Creates a new Dependency object in DAL
     /// </summary>
     /// <param name="item">new item to create in DB</param>
     /// <returns>the id of the item</returns>
