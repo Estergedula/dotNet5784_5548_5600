@@ -16,11 +16,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DalList", "DalList\DalList.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DalTest", "DalTest\DalTest.csproj", "{E8ECDA38-37C7-4B1E-8D48-DC63FACF4B44}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DallXml", "DallXml\DallXml.csproj", "{E5F4A214-3605-46E2-9C49-86048114744E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DallXml", "DallXml\DallXml.csproj", "{E5F4A214-3605-46E2-9C49-86048114744E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "xml", "xml", "{68D7FBE9-76DE-474B-B673-4ED029AAF1A3}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "data-config.xml", "data-config.xml", "{BF48D7F9-39D7-4E5A-9028-ADEB9A6585EC}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "data-config.xml", "data-config.xml", "{156429CD-3406-40EC-BD07-D040AF8905E4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,7 +53,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{BF48D7F9-39D7-4E5A-9028-ADEB9A6585EC} = {68D7FBE9-76DE-474B-B673-4ED029AAF1A3}
+		{156429CD-3406-40EC-BD07-D040AF8905E4} = {68D7FBE9-76DE-474B-B673-4ED029AAF1A3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {223C9F49-7E37-4E8F-8327-F9CB3CB276D6}
