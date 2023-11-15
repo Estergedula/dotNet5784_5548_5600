@@ -35,7 +35,7 @@ internal class DependencyImplementation : IDependency
     /// Reads Dependency object by his ID 
     /// </summary>
     /// <param name="id">id of object to read</param>
-    /// <returns></returns>
+    /// <returns>the object in engineers DB with this id</returns>
     public Dependency? Read(int id)
     {
         return DataSource.Dependencies.FirstOrDefault(dependency => dependency.Id == id);
@@ -43,13 +43,12 @@ internal class DependencyImplementation : IDependency
     /// <summary>
     /// Reads Dependency object by a bool function 
     /// </summary>
-    /// <param name="filter"></param>
-    /// <returns></returns>
+    /// <param name="filter">bool func to run each object</param>
+    /// <returns>the first elment that return true to filter function</returns>
     public Dependency? Read(Func<Dependency, bool> filter)
     {
         return DataSource.Dependencies.FirstOrDefault(filter);
     }
-
     /// <summary>
     /// Reads all Dependencies objects
     /// </summary>
@@ -60,7 +59,6 @@ internal class DependencyImplementation : IDependency
             return DataSource.Dependencies.Select(dependency => dependency);
         else
             return DataSource.Dependencies.Where(filter);
-
     }
     /// <summary>
     /// Updates Dependency object

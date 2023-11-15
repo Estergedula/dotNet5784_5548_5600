@@ -11,7 +11,7 @@ namespace DO;
 /// <param name="Milestone">Boolean milestone of the task</param>
 /// <param name="CreatedAt">Creation date of the task.</param>
 /// <param name="Start">Start date of the task</param>
-/// <param name="ForecadtDate">Estimated date for completion of the task</param>
+/// <param name="ForecastDate">Estimated date for completion of the task</param>
 /// <param name="DeadLine">Last date for completing the task</param>
 /// <param name="Complete">Actual assignment completion date</param>
 /// <param name="Deliverables">A string describing the product</param>

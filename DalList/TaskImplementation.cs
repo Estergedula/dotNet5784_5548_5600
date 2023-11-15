@@ -1,6 +1,4 @@
-﻿
-
-namespace Dal;
+﻿namespace Dal;
 using DalApi;
 using DO;
 using System.Collections.Generic;
@@ -11,7 +9,7 @@ internal class TaskImplementation : ITask
     /// Creates new Task object in DAL
     /// </summary>
     /// <param name="item">item of task to create</param>
-    /// <returns></returns>
+    /// <returns>the id of new object</returns>
     public int Create(Task item)
     {
         int newID = DataSource.Config.NextTaskId;
@@ -24,19 +22,18 @@ internal class TaskImplementation : ITask
     /// </summary>
     /// <param name="id">id of object to delete</param>
     /// <exception cref="Exception">the input id of the task does not exist</exception>
-    public void Delete(int id)//Deletes a Task by his Id
+    public void Delete(int id)
     {
-        Task? TaskToDelete = Read(id);
-        if (TaskToDelete is null)
+        Task? taskToDelete = Read(id);
+        if (taskToDelete is null)
             throw new DalDoesNotExistException($"Task with ID = {id} does not exsist.");
-        else DataSource.Tasks.RemoveAll(task =>task.Id == id);
+        else DataSource.Tasks.Remove(taskToDelete);
     }
     /// <summary>
     /// Reads entity task by his ID
     /// </summary>
     /// <param name="id">id of the task to read</param>
-    /// <returns></returns>
-
+    /// <returns>the item with this id</returns>
     public Task? Read(int id) 
     {
         return DataSource.Tasks.FirstOrDefault(task => task.Id == id);
@@ -44,9 +41,8 @@ internal class TaskImplementation : ITask
     /// <summary>
     /// Reads entity task by a bool function
     /// </summary>
-    /// <param name="filter"></param>
-    /// <returns></returns>
-    /// <exception cref="NotImplementedException"></exception>
+    /// <param name="filter">bool func to run each object</param>
+    /// <returns>the first elment that return true to filter function</returns>
     public Task? Read(Func<Task, bool> filter)
     {
         return DataSource.Tasks.FirstOrDefault(filter);
@@ -69,10 +65,10 @@ internal class TaskImplementation : ITask
     /// <exception cref="Exception">the input id of the task does not exist</exception>
     public void Update(Task item) 
     {
-        Task? taskToUpdate= Read(item.Id)
+        Task? taskToUpdate = Read(item.Id);
             if(taskToUpdate is null)
                 throw new DalDoesNotExistException($"Task with ID={item.Id} does not exist.");
-        DataSource.Tasks.RemoveAll(task => task.Id == item.Id);
+        DataSource.Tasks.Remove(taskToUpdate);
         Task task = new(item.Id, item.Description, item.Alias, item.Milestone, item.CreatedAt, item.Start, item.ForecastDate, item.DeadLine, item.Complete, item.Deliverables, item.Remarks, item.EngineerId, item.ComplexilyLevel);
         DataSource.Tasks.Add(task);
     }

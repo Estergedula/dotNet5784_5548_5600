@@ -35,7 +35,7 @@ internal class EngineerImplementation : IEngineer
     /// Reads entity Engineer by his ID
     /// </summary>
     /// <param name="id">id of the engineer to read</param>
-    /// <returns></returns>
+    /// <returns>the object in engineers DB with this id</returns>
     public Engineer? Read(int id) 
     {
         return DataSource.Engineers.FirstOrDefault(engineer => engineer.Id == id);
@@ -43,19 +43,16 @@ internal class EngineerImplementation : IEngineer
     /// <summary>
     /// Reads entity Engineer by a bool function
     /// </summary>
-    /// <param name="filter"></param>
-    /// <returns></returns>
+    /// <param name="filter">bool func to run each object</param>
+    /// <returns>the first elment that return true to filter function</returns>
     public Engineer? Read(Func<Engineer, bool> filter)
     {
         return DataSource.Engineers.FirstOrDefault(filter);
     }
-
     /// <summary>
     /// Reads all engineers objects
     /// </summary>
     /// <returns>the whole list of the engineers</returns>
-
-
     public IEnumerable<Engineer?> ReadAll(Func<Engineer, bool>? filter = null)
     {
         if (filter == null)
@@ -63,7 +60,6 @@ internal class EngineerImplementation : IEngineer
         else
             return DataSource.Engineers.Where(filter);
     }
-
     /// <summary>
     /// Updates Engineer object
     /// </summary>
