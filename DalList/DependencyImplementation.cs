@@ -41,7 +41,7 @@ internal class DependencyImplementation : IDependency
         return DataSource.Dependencies.FirstOrDefault(dependency => dependency.Id == id);
     }
     /// <summary>
-    /// Reads Dependency object by a bool function 
+    /// Reads a Dependency object by a bool function 
     /// </summary>
     /// <param name="filter"></param>
     /// <returns></returns>
