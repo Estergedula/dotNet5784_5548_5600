@@ -29,11 +29,7 @@ internal class TaskImplementation : ITask
         Task? TaskToDelete = Read(id);
         if (TaskToDelete is null)
             throw new DalDoesNotExistException($"Task with ID = {id} does not exsist.");
-        else { 
-            DataSource.Tasks.Remove(TaskToDelete);
-            Task copy = TaskToDelete with { Complete=DateTime.Now };
-            DataSource.Tasks.Add(copy);
-        }
+        else DataSource.Tasks.RemoveAll(task =>task.Id == id);
     }
     /// <summary>
     /// Reads entity task by his ID
@@ -43,12 +39,10 @@ internal class TaskImplementation : ITask
 
     public Task? Read(int id) 
     {
-        if (DataSource.Tasks.Find(task => task.Id == id) is not null)
-            return DataSource.Tasks.Find(task => task.Id == id);
-        else return null;
+        return DataSource.Tasks.FirstOrDefault(task => task.Id == id);
     }
     /// <summary>
-    /// Reads entity task by ia bool function
+    /// Reads entity task by a bool function
     /// </summary>
     /// <param name="filter"></param>
     /// <returns></returns>
@@ -59,22 +53,26 @@ internal class TaskImplementation : ITask
     }
 
     /// <summary>
-    /// Reads all tasks objects
+    /// Reads all task objects
     /// </summary>
     /// <returns>the whole list of the tasks</returns>
     public IEnumerable<Task?> ReadAll(Func<Task, bool>? filter = null)
     {
-        return new List<Task>(DataSource.Tasks);
+        if (filter == null)
+            return DataSource.Tasks.Select(task => task);
+        else return DataSource.Tasks.Where(filter);
     }
     /// <summary>
-    /// Updates Task object
+    /// Updates a Task object
     /// </summary>
     /// <param name="item">object item of task to update</param>
     /// <exception cref="Exception">the input id of the task does not exist</exception>
     public void Update(Task item) 
     {
-        Task? taskToUpdate= Read(item.Id)??throw new DalDoesNotExistException($"Task with ID={item.Id} does not exist.");
-        DataSource.Tasks.Remove(taskToUpdate);
+        Task? taskToUpdate= Read(item.Id)
+            if(taskToUpdate is null)
+                throw new DalDoesNotExistException($"Task with ID={item.Id} does not exist.");
+        DataSource.Tasks.RemoveAll(task => task.Id == item.Id);
         Task task = new(item.Id, item.Description, item.Alias, item.Milestone, item.CreatedAt, item.Start, item.ForecastDate, item.DeadLine, item.Complete, item.Deliverables, item.Remarks, item.EngineerId, item.ComplexilyLevel);
         DataSource.Tasks.Add(task);
     }
