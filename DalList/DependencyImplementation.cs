@@ -29,7 +29,7 @@ internal class DependencyImplementation : IDependency
         Dependency? dependencyToDelete = Read(id);
         if (dependencyToDelete is null)
             throw new DalDoesNotExistException($"Engineer with ID={id} does not exist.");
-        else DataSource.Dependencies.RemoveAll(dependency=>dependency.Id==dependencyToDelete.Id);
+        else DataSource.Dependencies.Remove(dependencyToDelete);
     }
     /// <summary>
     /// Reads Dependency object by his ID 
@@ -72,7 +72,7 @@ internal class DependencyImplementation : IDependency
         Dependency? dependcyToUpdate=Read(item.Id);
         if (dependcyToUpdate is null)
             throw new DalDoesNotExistException($"Dependency with ID={item.Id} does not exist.");
-        DataSource.Dependencies.RemoveAll(dependency => dependency.Id == item.Id);
+        DataSource.Dependencies.Remove(item);
         Dependency dependency = new(item.Id,item.DependentTask,item.DependOnTask);
         DataSource.Dependencies.Add(dependency);
     }   

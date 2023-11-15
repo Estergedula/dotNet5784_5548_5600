@@ -29,7 +29,7 @@ internal class EngineerImplementation : IEngineer
         Engineer? engineerToDelete = Read(id);
         if (engineerToDelete is null)
             throw new DalDoesNotExistException($"Engineer with ID={id} does not exist.");
-        else DataSource.Engineers.RemoveAll(engineer => engineer.Id==engineerToDelete.Id);
+        else DataSource.Engineers.Remove(engineerToDelete);
     }
     /// <summary>
     /// Reads entity Engineer by his ID
@@ -74,7 +74,7 @@ internal class EngineerImplementation : IEngineer
         Engineer? engineerToUpdate = Read(item.Id);
         if (engineerToUpdate is null)
             throw new DalDoesNotExistException($"Engineer with ID={item.Id} does not exist.");
-        DataSource.Engineers.RemoveAll(engineer => engineer.Id == item.Id);
+        DataSource.Engineers.Remove(item);
         Engineer engineer = new(item.Id, item.Name, item.Email, item.Level, item.Cost);
         DataSource.Engineers.Add(engineer);
     }
