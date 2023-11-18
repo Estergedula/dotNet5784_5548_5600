@@ -1,5 +1,4 @@
-﻿
-namespace DO;
+﻿namespace DO;
 /// <summary>
 ///  Dependency Entity represents an engineer with all its props
 /// </summary>
@@ -11,5 +10,6 @@ public record Dependency
     int Id,
     int DependentTask,
     int DependOnTask
- );
-{public Dependency() : this(0); { } //empty ctor for stage 3}
+ )
+{ public Dependency() : this(0) { } } //empty ctor
+                        

@@ -34,4 +34,5 @@ public record Task
     string ?Remarks=null,
     int EngineerId=0,
     EngineerExperience ComplexilyLevel=EngineerExperience.Junior
-);
+)
+{ public Task(): this(0) { } }

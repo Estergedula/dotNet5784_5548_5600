@@ -15,4 +15,5 @@ public record Engineer
        string? Email = null,
        EngineerExperience Level = EngineerExperience.Junior,
        double? Cost = 0
-);
+)
+{public Engineer() : this(0) { }}
