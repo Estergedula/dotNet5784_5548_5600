@@ -12,3 +12,4 @@ public record Dependency
     int DependentTask,
     int DependOnTask
  );
+{public Dependency() : this(0); { } //empty ctor for stage 3}
