@@ -30,9 +30,10 @@ public record Task
     DateTime ForecastDate,
     DateTime DeadLine,
     DateTime Complete,
-    string ?Deliverables=null,
-    string ?Remarks=null,
-    int EngineerId=0,
-    EngineerExperience ComplexilyLevel=EngineerExperience.Junior
+    string? Deliverables = null,
+    string? Remarks = null,
+    int EngineerId = 0,
+    EngineerExperience ComplexilyLevel = EngineerExperience.Junior
 )
-{ public Task(): this(0) { } }
+{ }
+

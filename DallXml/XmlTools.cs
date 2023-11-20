@@ -78,7 +78,7 @@ static class XMLTools
         }
     }
 
-    public static List<T?> LoadListFromXMLSerializer<T>(string entity) where T : struct
+    public static List<T?> LoadListFromXMLSerializer<T>(string entity) where T : class
     {
         string filePath = $"{s_dir + entity}.xml";
         try
