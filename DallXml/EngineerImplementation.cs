@@ -17,12 +17,10 @@ internal class EngineerImplementation : IEngineer
     /// <exception cref="Exception">the input id of the engineer does not exist</exception>
     public int Create(Engineer item)
     {
-        const string FILEADRESS= "..\\..\\..\\tasks";
-        XElement listOfEngineers = XMLTools.LoadListFromXMLElement(FILEADRESS);
-        if (Read(item.Id) is not null)
-            throw new DalAlreadyExistsException($"Engineer with ID={item.Id} already exists");
-        listOfEngineers.Add(item);
-        XMLTools.SaveListToXMLElement(listOfEngineers, FILEADRESS);
+        const string XMLENGINEER = @"..\..\..\..\..\..\xml\tasks.xml";
+        List<Engineer> list = XMLTools.LoadListFromXMLSerializer<Engineer>(XMLENGINEER);
+        list.Add(item);
+        XMLTools.SaveListToXMLSerializer<Engineer>(list, XMLENGINEER);
         return item.Id;
     }
     /// <summary>
@@ -32,7 +30,16 @@ internal class EngineerImplementation : IEngineer
     /// <exception cref="Exception">the input id of the engineer does not exist</exception>
     public void Delete(int id)
     {
-        throw new NotImplementedException();
+        const string XMLENGINEER = @"..\..\..\..\..\..\xml\engineers.xml";
+        List<Engineer> list = XMLTools.LoadListFromXMLSerializer<Engineer>(XMLENGINEER);
+        Engineer? taskToDelete = Read(id);
+        if (taskToDelete is null)
+            throw new DalDoesNotExistException($"Engineer with ID = {id} does not exsist.");
+        else
+        {
+            list.Remove(taskToDelete);
+            XMLTools.SaveListToXMLSerializer<Engineer>(list, XMLENGINEER);
+        }
     }
     /// <summary>
     /// Reads entity Engineer by his ID
@@ -42,11 +49,9 @@ internal class EngineerImplementation : IEngineer
 
     public Engineer? Read(int id)
     {
-        XElement listOfEngineers = XMLTools.LoadListFromXMLElement("..\\..\\..\\tasks");
-        var engineerToReturn = from engineer in listOfEngineers.Elements("Address")
-                where (int)engineer.Attribute("Id") == id
-                select engineer;
-        return (Engineer)engineerToReturn;
+        const string XMLENGINEER = @"..\..\..\..\..\..\xml\engineers.xml";
+        List<Engineer> list = XMLTools.LoadListFromXMLSerializer<Engineer>(XMLENGINEER);
+        return list.Find(engineerToReturn => engineerToReturn!.Id == id);
     }
     /// <summary>
     /// Reads entity Engineer by a bool function
@@ -55,13 +60,9 @@ internal class EngineerImplementation : IEngineer
     /// <returns>the first elment that return true to filter function</returns>
     public Engineer? Read(Func<Engineer, bool> filter)
     {
-        XElement listOfEngineers = XMLTools.LoadListFromXMLElement("..\\..\\..\\tasks");
-        var allEngineer = from engineerToAdd in listOfEngineers.Elements("Address")
-                         // where filter((string)engineerToAdd.to(!.Attribute("Type") == "Billing"
-                          select engineerToAdd;
-        allEngineer=allEngineer.ToList();
-        var engineerToReturn = allEngineer.Where(filter).ToList();
-        return (Engineer)engineerToReturn;
+        const string XMLENGINEER = @"..\..\..\..\..\..\xml\engineers.xml";
+        List<Engineer> list = XMLTools.LoadListFromXMLSerializer<Engineer>(XMLENGINEER);
+        return list!.FirstOrDefault(filter);
     }
     /// <summary>
     /// Reads all engineer objects
@@ -69,9 +70,11 @@ internal class EngineerImplementation : IEngineer
     /// <returns>the whole list of the engineers</returns>
     public IEnumerable<Engineer?> ReadAll(Func<Engineer, bool>? filter = null)
     {
-        //XElement listOfEngineers = XMLTools.LoadListFromXMLElement("..\\..\\..\\tasks");
-        //return DataSource.Engineers.FirstOrDefault(filter);
-        return null;
+        const string XMLENGINEER = @"..\..\..\..\..\..\xml\engineers.xml";
+        List<Engineer> list = XMLTools.LoadListFromXMLSerializer<Engineer>(XMLENGINEER);
+        if (filter == null)
+            return list.Select(task => task);
+        else return list!.Where<Engineer>(filter);
     }
     /// <summary>
     /// Updates an Engineer object
@@ -80,14 +83,14 @@ internal class EngineerImplementation : IEngineer
     /// <exception cref="Exception">the input id of the engineer does not exist</exception>
     public void Update(Engineer item)
     {
-        const string FILEADRESS = "..\\..\\..\\tasks";
-        XElement listOfEngineers = XMLTools.LoadListFromXMLElement(FILEADRESS);
+        const string XMLENGINEER = @"..\..\..\..\..\..\xml\engineers.xml";
+        List<Engineer> list = XMLTools.LoadListFromXMLSerializer<Engineer>(XMLENGINEER);
         Engineer? engineerToUpdate = Read(item.Id);
         if (engineerToUpdate is null)
             throw new DalDoesNotExistException($"Engineer with ID={item.Id} does not exist.");
-      //  listOfEngineers.Elements.Remove(item);
+        list.Remove(engineerToUpdate);
         Engineer engineer = new(item.Id, item.Name, item.Email, item.Level, item.Cost);
-        listOfEngineers.Add(engineer);
-        XMLTools.SaveListToXMLElement(listOfEngineers, FILEADRESS);
+        list.Add(engineer);
+        XMLTools.SaveListToXMLSerializer<Engineer>(list, XMLENGINEER);
     }
 }
