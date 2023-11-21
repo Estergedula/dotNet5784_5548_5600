@@ -36,42 +36,42 @@ internal class DependencyImplementation : IDependency
     public Dependency? Read(int id)
     {
         const string XMLDEPENDENCY = @"..\..\..\..\..\..\xml\dependencies.xml";
-        XElement listOfEngineers = XMLTools.LoadListFromXMLElement(XMLDEPENDENCY);
-        var dependencyToReturn = listOfEngineers.Elements("Engineer")?.
+        XElement listOfDependencies = XMLTools.LoadListFromXMLElement(XMLDEPENDENCY);
+        var dependencyToReturn = listOfDependencies.Elements("Dependency")?.
           Where(p => p.Element("Id")?.Value == Convert.ToString(id)).FirstOrDefault();
-        var bla = XMLTools.ToEnumNullable<Engineer>(dependencyToReturn, XMLDEPENDENCY)
+        var bla = XMLTools.ToEnumNullable!<Dependency>(dependencyToReturn, XMLDEPENDENCY);
         return (Dependency)dependencyToReturn;
     }
 
     public Dependency? Read(Func<Dependency, bool> filter)
     {
-        const string XMLENGINEER = @"..\..\..\..\..\..\xml\engineers.xml";
-        XElement listOfEngineers = XMLTools.LoadListFromXMLElement(XMLENGINEER);
-        var allEngineer = from engineerToAdd in listOfEngineers.Elements("Address")
+        const string XMLDEPENDENCY = @"..\..\..\..\..\..\xml\dependencies.xml";
+        XElement listOfDependencies = XMLTools.LoadListFromXMLElement(XMLDEPENDENCY);
+        var allDependencies = from engineerToAdd in listOfDependencies.Elements("Address")
                               // where filter((string)engineerToAdd.to(!.Attribute("Type") == "Billing"
                           select engineerToAdd;
-        allEngineer = allEngineer.ToList();
-        var engineerToReturn = allEngineer.Where(filter).ToList();
-        return (Engineer)engineerToReturn;
+        allDependencies = allDependencies.ToList();
+        var engineerToReturn = allDependencies.Where(filter).ToList();
+        return (Dependency)engineerToReturn;
     }
 
     public IEnumerable<Dependency?> ReadAll(Func<Dependency, bool>? filter = null)
     {
-        const string XMLENGINEER = @"..\..\..\..\..\..\xml\engineers.xml";
-        XElement listOfEngineers = XMLTools.LoadListFromXMLElement(XMLENGINEER);
+        const string XMLDEPENDENCY = @"..\..\..\..\..\..\xml\dependencies.xml";
+        XElement listOfDependencies = XMLTools.LoadListFromXMLElement(XMLDEPENDENCY);
         return null;
     }
 
     public void Update(Dependency item)
     {
-        const string XMLENGINEER = @"..\..\..\..\..\..\xml\engineers.xml";
-        XElement listOfEngineers = XMLTools.LoadListFromXMLElement(XMLENGINEER);
-        Engineer? engineerToUpdate = Read(item.Id);
-        if (engineerToUpdate is null)
+        const string XMLDEPENDENCY = @"..\..\..\..\..\..\xml\dependencies.xml";
+        XElement listOfDependencies = XMLTools.LoadListFromXMLElement(XMLDEPENDENCY);
+        Dependency? dependencyToUpdate = Read(item.Id);
+        if (dependencyToUpdate is null)
             throw new DalDoesNotExistException($"Engineer with ID={item.Id} does not exist.");
         //  listOfEngineers.Elements.Remove(item);
-        Engineer engineer = new(item.Id, item.Name, item.Email, item.Level, item.Cost);
-        listOfEngineers.Add(engineer);
-        XMLTools.SaveListToXMLElement(listOfEngineers, XMLENGINEER);
+        Dependency dependency = new(item.Id, item.DependentTask, item.DependOnTask);
+        listOfDependencies.Add(dependency);
+        XMLTools.SaveListToXMLElement(listOfDependencies, XMLDEPENDENCY);
     }
 }
