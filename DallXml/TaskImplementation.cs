@@ -13,7 +13,13 @@ internal class TaskImplementation : ITask
     public int Create(Task item)
     {
         const string XMLTask = @"..\..\..\..\..\..\xml\tasks.xml";
+        const string XMLCONFIG = @"..\..\..\..\..\..\xml\data-config.xml";
         List<Task> list = XMLTools.LoadListFromXMLSerializer<Task>(XMLTask);
+        List<string> listConfig = XMLTools.LoadListFromXMLSerializer<string>(XMLCONFIG);
+        //add 1 to the next task id
+        XMLTools.SaveListToXMLSerializer<Task>(list, XMLTask);
+        listConfig[1]=Convert.ToString(Convert.ToInt16( listConfig[0]+1));
+        XMLTools.SaveListToXMLSerializer<string>(listConfig, XMLCONFIG);
         int newID = Config.NextTaskId;
         Task copy = item with { Id=newID };
         list.Add(copy);
@@ -35,7 +41,7 @@ internal class TaskImplementation : ITask
         else
         {
             list.Remove(taskToDelete);
-            XMLTools.SaveListToXMLSerializer<Task>(list, XMLTask);
+            XMLTools.SaveListToXMLSerializer<Task>(list,XMLTask);
         }
     }
     /// <summary>

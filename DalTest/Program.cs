@@ -1,10 +1,11 @@
-﻿using DalApi;
+﻿using Dal;
+using DalApi;
 using DO;
 
 namespace DalTest;
 internal class Program
 {
-    static readonly IDal s_dal = new DalList();
+    static readonly IDal s_dal = new DalXml();
     /// <summary>
     /// Explain for the user the options of the main menu and input his choice
     /// </summary>
