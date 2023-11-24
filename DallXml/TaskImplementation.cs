@@ -18,8 +18,9 @@ internal class TaskImplementation : ITask
         List<string> listConfig = XMLTools.LoadListFromXMLSerializer<string>(XMLCONFIG);
         //add 1 to the next task id
         XMLTools.SaveListToXMLSerializer<Task>(list, XMLTask);
-        listConfig[1]=Convert.ToString(Convert.ToInt16( listConfig[0]+1));
+        listConfig[0]=Convert.ToString(Convert.ToInt16( listConfig[0]+1));
         XMLTools.SaveListToXMLSerializer<string>(listConfig, XMLCONFIG);
+        //
         int newID = Config.NextTaskId;
         Task copy = item with { Id=newID };
         list.Add(copy);
@@ -87,9 +88,7 @@ internal class TaskImplementation : ITask
     {
         const string XMLTask = @"..\..\..\..\..\..\xml\tasks.xml";
         List<Task> list = XMLTools.LoadListFromXMLSerializer<Task>(XMLTask);
-        Task? taskToUpdate = Read(item.Id);
-        if (taskToUpdate is null)
-            throw new DalDoesNotExistException($"Task with ID={item.Id} does not exist.");
+        Task? taskToUpdate = Read(item.Id)??throw new DalDoesNotExistException($"Task with ID={item.Id} does not exist.");
         list.Remove(taskToUpdate);
         Task task = new(item.Id, item.Description, item.Alias, item.Milestone, item.CreatedAt, item.Start, item.ForecastDate, item.DeadLine, item.Complete, item.Deliverables, item.Remarks, item.EngineerId, item.ComplexilyLevel);
         list.Add(task);

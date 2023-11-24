@@ -5,6 +5,7 @@ using DO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Xml.Linq;
 using System.Xml.Resolvers;
 
@@ -12,10 +13,10 @@ internal class DependencyImplementation : IDependency
 {
     public int Create(Dependency item)
     {
-        const string XMLDEPENDENCY = @"..\..\..\..\..\..\xml\dependencies.xml";
-        XElement listOfDependencies = XMLTools.LoadListFromXMLElement(XMLDEPENDENCY);
         if (Read(item.Id) is not null)
             throw new DalAlreadyExistsException($"dependency with ID={item.Id} already exists");
+        const string XMLDEPENDENCY = @"..\..\..\..\..\..\xml\dependencies.xml";
+        XElement listOfDependencies = XMLTools.LoadListFromXMLElement(XMLDEPENDENCY);
         listOfDependencies.Add(item);
         XMLTools.SaveListToXMLElement(listOfDependencies, XMLDEPENDENCY);
         return item.Id;
@@ -37,22 +38,24 @@ internal class DependencyImplementation : IDependency
     {
         const string XMLDEPENDENCY = @"..\..\..\..\..\..\xml\dependencies.xml";
         XElement listOfDependencies = XMLTools.LoadListFromXMLElement(XMLDEPENDENCY);
-        var dependencyToReturn = listOfDependencies.Elements("Dependency")?.
+        var elementToReturn = listOfDependencies.Elements("Dependency")?.
           Where(p => p.Element("Id")?.Value == Convert.ToString(id)).FirstOrDefault();
-        var bla = XMLTools.ToEnumNullable!<Dependency>(dependencyToReturn, XMLDEPENDENCY);
-        return (Dependency)dependencyToReturn;
+        int _id = Convert.ToInt16(elementToReturn!.Element("Id")!.Value);
+        int _dependentTask = Convert.ToInt16(elementToReturn!.Element("DependentTask")!.Value);
+        int _dependOnTask = Convert.ToInt16(elementToReturn!.Element("DependOnTask")!.Value);
+        Dependency dependencyToReturn = new(_id, _dependentTask,_dependOnTask );
+        return dependencyToReturn;
     }
 
     public Dependency? Read(Func<Dependency, bool> filter)
     {
-        const string XMLDEPENDENCY = @"..\..\..\..\..\..\xml\dependencies.xml";
-        XElement listOfDependencies = XMLTools.LoadListFromXMLElement(XMLDEPENDENCY);
-        var allDependencies = from engineerToAdd in listOfDependencies.Elements("Address")
-                              // where filter((string)engineerToAdd.to(!.Attribute("Type") == "Billing"
-                          select engineerToAdd;
-        allDependencies = allDependencies.ToList();
-        var engineerToReturn = allDependencies.Where(filter).ToList();
-        return (Dependency)engineerToReturn;
+        //const string XMLDEPENDENCY = @"..\..\..\..\..\..\xml\dependencies.xml";
+        //XElement listOfDependencies = XMLTools.LoadListFromXMLElement(XMLDEPENDENCY);
+        //var allDependencies = listOfDependencies.Elements("Dependency")?.
+        //  Where(p => p.Element("Id")?.Value == Convert.ToString(id)).FirstOrDefault();
+        //var engineerToReturn = allDependencies.Where(filter).ToList();
+        //return (Dependency)engineerToReturn;
+        return null;
     }
 
     public IEnumerable<Dependency?> ReadAll(Func<Dependency, bool>? filter = null)
