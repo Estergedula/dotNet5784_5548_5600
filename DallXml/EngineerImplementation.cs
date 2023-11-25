@@ -17,7 +17,9 @@ internal class EngineerImplementation : IEngineer
     /// <exception cref="Exception">the input id of the engineer does not exist</exception>
     public int Create(Engineer item)
     {
-        const string XMLENGINEER = @"..\..\..\..\..\..\xml\tasks.xml";
+        if(Read(item.Id) is not null)
+            throw new DalAlreadyExistsException($"Engineer with ID={item.Id} already exists");
+        const string XMLENGINEER = "engineers";
         List<Engineer> list = XMLTools.LoadListFromXMLSerializer<Engineer>(XMLENGINEER);
         list.Add(item);
         XMLTools.SaveListToXMLSerializer<Engineer>(list, XMLENGINEER);
@@ -30,7 +32,7 @@ internal class EngineerImplementation : IEngineer
     /// <exception cref="Exception">the input id of the engineer does not exist</exception>
     public void Delete(int id)
     {
-        const string XMLENGINEER = @"..\..\..\..\..\..\xml\engineers.xml";
+        const string XMLENGINEER = @"engineers";
         List<Engineer> list = XMLTools.LoadListFromXMLSerializer<Engineer>(XMLENGINEER);
         Engineer? taskToDelete = Read(id);
         if (taskToDelete is null)
@@ -49,7 +51,7 @@ internal class EngineerImplementation : IEngineer
 
     public Engineer? Read(int id)
     {
-        const string XMLENGINEER = @"..\..\..\..\..\..\xml\engineers.xml";
+        const string XMLENGINEER = "engineers";
         List<Engineer> list = XMLTools.LoadListFromXMLSerializer<Engineer>(XMLENGINEER);
         return list.Find(engineerToReturn => engineerToReturn!.Id == id);
     }
@@ -60,7 +62,7 @@ internal class EngineerImplementation : IEngineer
     /// <returns>the first elment that return true to filter function</returns>
     public Engineer? Read(Func<Engineer, bool> filter)
     {
-        const string XMLENGINEER = @"..\..\..\..\..\..\xml\engineers.xml";
+        const string XMLENGINEER = "engineers";
         List<Engineer> list = XMLTools.LoadListFromXMLSerializer<Engineer>(XMLENGINEER);
         return list!.FirstOrDefault(filter);
     }
@@ -70,7 +72,7 @@ internal class EngineerImplementation : IEngineer
     /// <returns>the whole list of the engineers</returns>
     public IEnumerable<Engineer?> ReadAll(Func<Engineer, bool>? filter = null)
     {
-        const string XMLENGINEER = @"..\..\..\..\..\..\xml\engineers.xml";
+        const string XMLENGINEER = "engineers";
         List<Engineer> list = XMLTools.LoadListFromXMLSerializer<Engineer>(XMLENGINEER);
         if (filter == null)
             return list.Select(task => task);
@@ -83,7 +85,7 @@ internal class EngineerImplementation : IEngineer
     /// <exception cref="Exception">the input id of the engineer does not exist</exception>
     public void Update(Engineer item)
     {
-        const string XMLENGINEER = @"..\..\..\..\..\..\xml\engineers.xml";
+        const string XMLENGINEER = "engineers";
         List<Engineer> list = XMLTools.LoadListFromXMLSerializer<Engineer>(XMLENGINEER);
         Engineer? engineerToUpdate = Read(item.Id);
         if (engineerToUpdate is null)

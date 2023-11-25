@@ -8,8 +8,13 @@
 public record Dependency
 (
     int Id,
-    int DependentTask,
-    int DependOnTask
+    int DependentTask=0,
+    int DependOnTask = 0
  )
-{ }
+{
+    public Dependency():this(0)
+    {
+
+    }
+}
                         

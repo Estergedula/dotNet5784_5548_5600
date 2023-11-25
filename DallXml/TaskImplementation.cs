@@ -12,17 +12,11 @@ internal class TaskImplementation : ITask
     /// <returns>the id of new object</returns>
     public int Create(Task item)
     {
-        const string XMLTask = @"..\..\..\..\..\..\xml\tasks.xml";
-        const string XMLCONFIG = @"..\..\..\..\..\..\xml\data-config.xml";
+        const string XMLTask = @"tasks";
         List<Task> list = XMLTools.LoadListFromXMLSerializer<Task>(XMLTask);
-        List<string> listConfig = XMLTools.LoadListFromXMLSerializer<string>(XMLCONFIG);
-        //add 1 to the next task id
-        XMLTools.SaveListToXMLSerializer<Task>(list, XMLTask);
-        listConfig[0]=Convert.ToString(Convert.ToInt16( listConfig[0]+1));
-        XMLTools.SaveListToXMLSerializer<string>(listConfig, XMLCONFIG);
-        //
-        int newID = Config.NextTaskId;
-        Task copy = item with { Id=newID };
+        //  int _id=Config.NextTaskId;
+        int _id = 1;
+        Task copy = item with { Id=_id };
         list.Add(copy);
         XMLTools.SaveListToXMLSerializer<Task>(list, XMLTask);
         return copy.Id;
@@ -34,7 +28,7 @@ internal class TaskImplementation : ITask
     /// <exception cref="Exception">the input id of the task does not exist</exception>
     public void Delete(int id)
     {
-        const string XMLTask = @"..\..\..\..\..\..\xml\tasks.xml";
+        const string XMLTask = @"tasks";
         List<Task> list = XMLTools.LoadListFromXMLSerializer<Task>(XMLTask);
         Task? taskToDelete = Read(id);
         if (taskToDelete is null)
@@ -52,7 +46,7 @@ internal class TaskImplementation : ITask
     /// <returns>the item with this id</returns>
     public Task? Read(int id)
     {
-        const string XMLTask = @"..\..\..\..\..\..\xml\tasks.xml";
+        const string XMLTask = @"tasks";
         List<Task> list = XMLTools.LoadListFromXMLSerializer<Task>(XMLTask);
         return list.Find(taskToReturn=> taskToReturn!.Id==id);
     }
@@ -63,7 +57,7 @@ internal class TaskImplementation : ITask
     /// <returns>the first elment that return true to filter function</returns>
     public Task? Read(Func<Task, bool> filter)
     {
-        const string XMLTask = @"..\..\..\..\..\..\xml\tasks.xml";
+        const string XMLTask = @"tasks";
         List<Task> list = XMLTools.LoadListFromXMLSerializer<Task>(XMLTask);
         return list!.FirstOrDefault(filter);
     }
@@ -73,7 +67,7 @@ internal class TaskImplementation : ITask
     /// <returns>the whole list of the tasks</returns>
     public IEnumerable<Task?> ReadAll(Func<Task, bool>? filter = null)
     {
-        const string XMLTask = @"..\..\..\..\..\..\xml\tasks.xml";
+        const string XMLTask = @"tasks";
         List<Task> list = XMLTools.LoadListFromXMLSerializer<Task>(XMLTask);
         if (filter == null)
             return list.Select(task => task);
@@ -86,7 +80,7 @@ internal class TaskImplementation : ITask
     /// <exception cref="Exception">the input id of the task does not exist</exception>
     public void Update(Task item)
     {
-        const string XMLTask = @"..\..\..\..\..\..\xml\tasks.xml";
+        const string XMLTask = @"tasks";
         List<Task> list = XMLTools.LoadListFromXMLSerializer<Task>(XMLTask);
         Task? taskToUpdate = Read(item.Id)??throw new DalDoesNotExistException($"Task with ID={item.Id} does not exist.");
         list.Remove(taskToUpdate);

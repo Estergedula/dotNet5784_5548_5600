@@ -35,5 +35,10 @@ public record Task
     int EngineerId = 0,
     EngineerExperience ComplexilyLevel = EngineerExperience.Junior
 )
-{ }
+{
+    public Task() : this(0, null, null, false, DateTime.MinValue, DateTime.MinValue, DateTime.MinValue, DateTime.MinValue, DateTime.MinValue)
+    {
+
+    }
+}
 
