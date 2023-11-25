@@ -14,8 +14,7 @@ internal class TaskImplementation : ITask
     {
         const string XMLTask = @"tasks";
         List<Task> list = XMLTools.LoadListFromXMLSerializer<Task>(XMLTask);
-        //  int _id=Config.NextTaskId;
-        int _id = 1;
+        int _id = Config.NextTaskId;
         Task copy = item with { Id=_id };
         list.Add(copy);
         XMLTools.SaveListToXMLSerializer<Task>(list, XMLTask);
@@ -36,6 +35,8 @@ internal class TaskImplementation : ITask
         else
         {
             list.Remove(taskToDelete);
+            Task _newTask= taskToDelete with { Complete=DateTime.Now };
+            list.Add(_newTask);
             XMLTools.SaveListToXMLSerializer<Task>(list,XMLTask);
         }
     }
