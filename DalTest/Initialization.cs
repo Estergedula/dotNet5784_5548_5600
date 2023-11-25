@@ -92,7 +92,7 @@ public static class Initialization
         int engineerCount= allEngineer.Count;
         string[] letters = {"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"};
         string[] nums = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
-        for (int i=0; i<100; i++)
+        for (int i=0; i<10; i++)
         {
             string _description = letters[s_rand.Next(letters.Length)]+nums[s_rand.Next(nums.Length)]+letters[s_rand.Next(letters.Length)];
             string _alias = _description.Substring(0, 2);
@@ -121,7 +121,7 @@ public static class Initialization
     private static void createDependency()
     {
         List<Task?> allTasks = s_dal!.Task.ReadAll().ToList();
-        for (int i = 0; i<250; i++)
+        for (int i = 0; i<20; i++)
         {
             Dependency dependency = new(0, allTasks[s_rand.Next(allTasks.Count-1)]!.Id, allTasks[s_rand.Next(allTasks.Count-1)]!.Id);
             s_dal!.Dependency.Create(dependency);

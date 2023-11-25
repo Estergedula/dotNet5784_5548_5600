@@ -81,9 +81,9 @@ internal class TaskImplementation : ITask
     /// <exception cref="Exception">the input id of the task does not exist</exception>
     public void Update(Task item)
     {
+        Task? taskToUpdate = Read(item.Id)??throw new DalDoesNotExistException($"Task with ID={item.Id} does not exist.");
         const string XMLTask = @"tasks";
         List<Task> list = XMLTools.LoadListFromXMLSerializer<Task>(XMLTask);
-        Task? taskToUpdate = Read(item.Id)??throw new DalDoesNotExistException($"Task with ID={item.Id} does not exist.");
         list.Remove(taskToUpdate);
         Task task = new(item.Id, item.Description, item.Alias, item.Milestone, item.CreatedAt, item.Start, item.ForecastDate, item.DeadLine, item.Complete, item.Deliverables, item.Remarks, item.EngineerId, item.ComplexilyLevel);
         list.Add(task);
