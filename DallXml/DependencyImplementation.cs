@@ -72,9 +72,9 @@ internal class DependencyImplementation : IDependency
 
     private static Dependency? XElementToDependency(XElement element)
     {
-        if (element == null)
+        if (element is null)
             return null;
-        Dependency dependency = new Dependency((int)(element.Element("IdNum")!), (int)(element.Element("PrevTaskNum")!), (int)(element.Element("DependedTaskNum")!));
+        Dependency dependency = new Dependency((int)(element.Element("Id")!), (int)(element.Element("DependentTask")!), (int)(element.Element("DependOnTask")!));
         return dependency;
     }
     public IEnumerable<Dependency?> ReadAll(Func<Dependency, bool>? filter = null)
