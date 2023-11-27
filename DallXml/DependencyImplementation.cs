@@ -70,12 +70,28 @@ internal class DependencyImplementation : IDependency
         return null;
     }
 
+    private static Dependency? XElementToDependency(XElement element)
+    {
+        if (element == null)
+            return null;
+        Dependency dependency = new Dependency((int)(element.Element("IdNum")!), (int)(element.Element("PrevTaskNum")!), (int)(element.Element("DependedTaskNum")!));
+        return dependency;
+    }
     public IEnumerable<Dependency?> ReadAll(Func<Dependency, bool>? filter = null)
     {
-        const string XMLDEPENDENCY = @"dependencies";
-        XElement listOfDependencies = XMLTools.LoadListFromXMLElement(XMLDEPENDENCY);
-        //var elementToUpdate = listOfDependencies.Elements("Dependency")?.Select(;
-        return null;
+
+        XElement dependencies = XMLTools.LoadListFromXMLElement("dependencies");
+        if (filter is null)
+        {
+            return dependencies.Elements("Dependency")
+                .Select(dep => XElementToDependency(dep));
+        }
+        else
+        {
+            return dependencies.Elements("Dependency")
+               .Select(dep => XElementToDependency(dep))
+               .Where(filter);
+        }
     }
 
     public void Update(Dependency item)
