@@ -1,7 +1,9 @@
 ﻿using Dal;
 using DalApi;
 namespace DalTest;
-
+/// <summary>
+/// General configuration data
+/// </summary>
 sealed public class DalList : IDal
 {
     public ITask Task => new TaskImplementation();
