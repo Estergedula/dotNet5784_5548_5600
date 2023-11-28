@@ -2,6 +2,7 @@
 using DalApi;
 using DallXml;
 using DO;
+using System.Linq;
 
 internal class TaskImplementation : ITask
 {
@@ -35,7 +36,7 @@ internal class TaskImplementation : ITask
         else
         {
             list.Remove(taskToDelete);
-            Task _newTask= taskToDelete with { Complete=DateTime.Now };
+            Task _newTask= taskToDelete with { Complete=DateTime.Now, isActive=false };
             list.Add(_newTask);
             XMLTools.SaveListToXMLSerializer<Task>(list,XMLTask);
         }
@@ -49,7 +50,7 @@ internal class TaskImplementation : ITask
     {
         const string XMLTask = @"tasks";
         List<Task> list = XMLTools.LoadListFromXMLSerializer<Task>(XMLTask);
-        return list.Find(taskToReturn=> taskToReturn!.Id==id);
+        return list.Find(taskToReturn=> taskToReturn!.Id==id && taskToReturn.isActive);
     }
     /// <summary>
     /// Reads entity task by a bool function
@@ -60,7 +61,7 @@ internal class TaskImplementation : ITask
     {
         const string XMLTask = @"tasks";
         List<Task> list = XMLTools.LoadListFromXMLSerializer<Task>(XMLTask);
-        return list!.FirstOrDefault(filter);
+        return list!.Where<Task>(filter).Where<Task>(task => task.isActive).First();
     }
     /// <summary>
     /// Reads all task objects
@@ -71,8 +72,8 @@ internal class TaskImplementation : ITask
         const string XMLTask = @"tasks";
         List<Task> list = XMLTools.LoadListFromXMLSerializer<Task>(XMLTask);
         if (filter == null)
-            return list.Select(task => task);
-        else return list!.Where<Task>(filter);
+            return list.Where(task => task.isActive);
+        else return list!.Where<Task>(filter).Where<Task>(task => task.isActive);
     }
     /// <summary>
     /// Updates a Task object
