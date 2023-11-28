@@ -6,6 +6,9 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 
+/// <summary>
+/// A helper class with helper methods for writing and reading from XML files
+/// </summary>
 static class XMLTools
 {
     const string s_xml_dir = @"..\xml\";
@@ -76,7 +79,7 @@ static class XMLTools
     #endregion
 
     #region SaveLoadWithXMLSerializer
-    //public static void SaveListToXMLSerializer<T>(List<T?> list, string entity) where T : struct
+    
     public static void SaveListToXMLSerializer<T>(List<T> list, string entity) where T : class
     {
         string filePath = $"{s_xml_dir + entity}.xml";
@@ -84,8 +87,6 @@ static class XMLTools
         {
             using FileStream file = new(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
             new XmlSerializer(typeof(List<T>)).Serialize(file, list);
-            //new XmlSerializer(typeof(List<T?>)).Serialize(file, list);
-
         }
         catch (Exception ex)
         {
@@ -93,7 +94,7 @@ static class XMLTools
         }
     }
 
-    //public static List<T?> LoadListFromXMLSerializer<T>(string entity) where T : struct
+    
     public static List<T> LoadListFromXMLSerializer<T>(string entity) where T : class
     {
         string filePath = $"{s_xml_dir + entity}.xml";
