@@ -126,4 +126,39 @@
     <Level>Junior</Level>
     <Cost>181</Cost>
   </Engineer>
+  <Engineer>
+    <Id>272660377</Id>
+    <Name>Dani Levi</Name>
+    <Email>Dani Levi27@gmail.com</Email>
+    <Level>Junior</Level>
+    <Cost>175</Cost>
+  </Engineer>
+  <Engineer>
+    <Id>312306068</Id>
+    <Name>Eli Amar</Name>
+    <Email>Eli Amar31@gmail.com</Email>
+    <Level>Junior</Level>
+    <Cost>139</Cost>
+  </Engineer>
+  <Engineer>
+    <Id>337193706</Id>
+    <Name>Yair Cohen</Name>
+    <Email>Yair Cohen33@gmail.com</Email>
+    <Level>Junior</Level>
+    <Cost>991</Cost>
+  </Engineer>
+  <Engineer>
+    <Id>371329404</Id>
+    <Name>Ariela Levin</Name>
+    <Email>Ariela Levin37@gmail.com</Email>
+    <Level>Junior</Level>
+    <Cost>122</Cost>
+  </Engineer>
+  <Engineer>
+    <Id>376441551</Id>
+    <Name>Dina Klein</Name>
+    <Email>Dina Klein37@gmail.com</Email>
+    <Level>Expert</Level>
+    <Cost>86</Cost>
+  </Engineer>
 </ArrayOfEngineer>

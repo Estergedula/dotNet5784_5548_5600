@@ -57,7 +57,7 @@ internal class TaskImplementation : ITask
     /// </summary>
     /// <param name="filter">bool func to run each object</param>
     /// <returns>the first elment that return true to filter function</returns>
-    public Task? Read(Func<Task, bool> filter)
+    public Task? Read(Func<Task?, bool> filter)
     {
         const string XMLTask = @"tasks";
         List<Task> list = XMLTools.LoadListFromXMLSerializer<Task>(XMLTask);
@@ -67,7 +67,7 @@ internal class TaskImplementation : ITask
     /// Reads all task objects
     /// </summary>
     /// <returns>the whole list of the tasks</returns>
-    public IEnumerable<Task?> ReadAll(Func<Task, bool>? filter = null)
+    public IEnumerable<Task?> ReadAll(Func<Task?, bool>? filter = null)
     {
         const string XMLTask = @"tasks";
         List<Task> list = XMLTools.LoadListFromXMLSerializer<Task>(XMLTask);

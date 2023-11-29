@@ -79,15 +79,10 @@ internal class DependencyImplementation : IDependency
     /// </summary>
     /// <param name="filter">bool func to run each object</param>
     /// <returns>the first elment that return true to filter function</returns>
-    public Dependency? Read(Func<Dependency, bool> filter)
+    public Dependency? Read(Func<Dependency?, bool> filter)
     {
-        //const string XMLDEPENDENCY = @"..\..\..\..\..\..\xml\dependencies.xml";
-        //XElement listOfDependencies = XMLTools.LoadListFromXMLElement(XMLDEPENDENCY);
-        //var allDependencies = listOfDependencies.Elements("Dependency")?.
-        //  Where(p => p.Element("Id")?.Value == Convert.ToString(id)).FirstOrDefault();
-        //var engineerToReturn = allDependencies.Where(filter).ToList();
-        //return (Dependency)engineerToReturn;
-        return null;
+        XElement dependencies = XMLTools.LoadListFromXMLElement("dependencies");
+        return dependencies.Elements("Dependncy").Select(dep => XElementToDependency(dep)).FirstOrDefault(filter);
     }
 
     /// <summary>
@@ -107,7 +102,7 @@ internal class DependencyImplementation : IDependency
     /// Reads all Dependencies objects
     /// </summary>
     /// <returns>the whole list of the dependencies</returns>
-    public IEnumerable<Dependency?> ReadAll(Func<Dependency, bool>? filter = null)
+    public IEnumerable<Dependency?> ReadAll(Func<Dependency?, bool>? filter = null)
     {
 
         XElement dependencies = XMLTools.LoadListFromXMLElement("dependencies");
