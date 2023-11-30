@@ -24,43 +24,43 @@ public static class Initialization
         "Eli Amar",
         "Yair Cohen",
         "Ariela Levin",
-        "Dina Klein"/*,*/
-        //"Shira Israelof",
-        //"Toiby Braish",
-        //"Maly Kibelevitz",
-        //"Ruti Salomon",
-        //"Dvory Mimran",
-        //"Sari Brodi",
-        //"Roizy Lefkovit",
-        //"Chani Rozinberg",
-        //"Ayala Shraber",
-        //"Chaya Klain",
-        //"Esty Ploit",
-        //"Pnini Cohen",
-        //"Giti Leder",
-        //"Feigy Haker",
-        //"Kaila Avramovitz",
-        //"Rachely Vainberg",
-        //"Gili Reker",
-        //"Zehava Simcha",
-        //"Nahama Levi",
-        //"Hindi Nachumi",
-        //"Leaha Segal",
-        //"Chaya Toyal",
-        //"Debbi Pety",
-        //"Anna Coheni",
-        //"Efrat Kati",
-        //"Devora Tal",
-        //"Tova Eliimelech",
-        //"Yeudit Avramov",
-        //"Sury Shvartz",
-        //"Malki Gotfrid",
-        //"Sari Brodi",
-        //"Roizy Safrin",
-        //"Eti Deblinger",
-        //"Racheli Bekerman",
-        //"Miri Kanner",
-        //"Shuly Eler"
+        "Dina Klein",
+        "Shira Israelof",
+        "Toiby Braish",
+        "Maly Kibelevitz",
+        "Ruti Salomon",
+        "Dvory Mimran",
+        "Sari Brodi",
+        "Roizy Lefkovit",
+        "Chani Rozinberg",
+        "Ayala Shraber",
+        "Chaya Klain",
+        "Esty Ploit",
+        "Pnini Cohen",
+        "Giti Leder",
+        "Feigy Haker",
+        "Kaila Avramovitz",
+        "Rachely Vainberg",
+        "Gili Reker",
+        "Zehava Simcha",
+        "Nahama Levi",
+        "Hindi Nachumi",
+        "Leaha Segal",
+        "Chaya Toyal",
+        "Debbi Pety",
+        "Anna Coheni",
+        "Efrat Kati",
+        "Devora Tal",
+        "Tova Eliimelech",
+        "Yeudit Avramov",
+        "Sury Shvartz",
+        "Malki Gotfrid",
+        "Sari Brodi",
+        "Roizy Safrin",
+        "Eti Deblinger",
+        "Racheli Bekerman",
+        "Miri Kanner",
+        "Shuly Eler"
         };
         foreach (var _name in engineerNames)
         {
@@ -92,7 +92,7 @@ public static class Initialization
         int engineerCount= allEngineer.Count;
         string[] letters = {"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"};
         string[] nums = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 100; i++)
         {
             string _description = letters[s_rand.Next(letters.Length)] + nums[s_rand.Next(nums.Length)] + letters[s_rand.Next(letters.Length)];
             string _alias = _description.Substring(0, 2);
@@ -121,7 +121,7 @@ public static class Initialization
     private static void createDependency()
     {
         List<Task?> allTasks = s_dal!.Task.ReadAll().ToList();
-        for (int i = 0; i < 20; i++)
+        for (int i = 0; i < 250; i++)
         {
             Dependency dependency = new(0, allTasks[s_rand.Next(allTasks.Count - 1)]!.Id, allTasks[s_rand.Next(allTasks.Count - 1)]!.Id);
             s_dal!.Dependency.Create(dependency);
