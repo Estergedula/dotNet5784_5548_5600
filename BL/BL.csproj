@@ -9,13 +9,13 @@
 	  <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 	  <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
 	  <UseCommonOutputDirectory>true</UseCommonOutputDirectory>
-	  <RootNamespace />ון
+	  <RootNamespace />
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\DalFacade\DalFacade.csproj" />
     <ProjectReference Include="..\DalList\DalList.csproj" />
-    <ProjectReference Include="..\DallXml\DallXml.csproj" />
+    <ProjectReference Include="..\DallXml\DalXml.csproj" />
   </ItemGroup>
 
 </Project>
