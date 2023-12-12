@@ -1,11 +1,4 @@
-﻿using DO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BO;
+﻿namespace BO;
 public class Task
 {
     public int Id { get; init; }
@@ -21,7 +14,7 @@ public class Task
     public DateTime? Complete { get; set; }
     public string? Deliverables { get; set; }
     public string? Remarks { get; set; }
-    public int? EngineerId { get; set; }
+    public EngineerInTask? Engineer { get; set; }
     public EngineerExperience ComplexilyLevel { get; set; }
     public DateTime RegistrationDate { get; init; }
 

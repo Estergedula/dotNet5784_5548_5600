@@ -14,6 +14,6 @@ public class Engineer
     public string? Email { get; set; }
     public EngineerExperience Level { get; set; }
     public double? Cost { get; set; }
-    public int? CurrentTaskId { get; set; }
+    public TaskInEngineer? CurrentTask { get; set; }
    // public string? CurrentTaskDescription { get; set; }
 }
