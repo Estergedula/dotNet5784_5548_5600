@@ -11,7 +11,6 @@ public class Milestone
     public int MileStoneId { get; init; }
     public string? Descriotion { get; init; }
     public string? Alias { get; init; }
-    public IEnumerable<int>? Courses { get; init; } = null;
     public Status Status { get; set; }
     public DateTime? CreatedAt { get; set; }
     public DateTime? BaselineStartDate { get; set; }
@@ -20,7 +19,8 @@ public class Milestone
     public DateTime? DeadLine { get; set; }
     public DateTime? Complete { get; set; }
     public double? CompletionPercentage { get; set; }
-   public string? Remarks { get; set; }
+    public string? Remarks { get; set; }
+    public List<BO.TaskInList> ?Dependecies{get; set;}
    // public override string ToString() => this.ToStringProperty();
 }
 //○	מזהה
