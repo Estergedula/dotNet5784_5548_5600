@@ -2,6 +2,7 @@
 using DalApi;
 using DallXml;
 using DO;
+using System.Linq;
 
 internal class TaskImplementation : ITask
 {
@@ -14,8 +15,7 @@ internal class TaskImplementation : ITask
     {
         const string XMLTask = @"tasks";
         List<Task> list = XMLTools.LoadListFromXMLSerializer<Task>(XMLTask);
-        //  int _id=Config.NextTaskId;
-        int _id = 1;
+        int _id = Config.NextTaskId;
         Task copy = item with { Id=_id };
         list.Add(copy);
         XMLTools.SaveListToXMLSerializer<Task>(list, XMLTask);
@@ -36,6 +36,8 @@ internal class TaskImplementation : ITask
         else
         {
             list.Remove(taskToDelete);
+            Task _newTask= taskToDelete with { Complete=DateTime.Now, isActive=false };
+            list.Add(_newTask);
             XMLTools.SaveListToXMLSerializer<Task>(list,XMLTask);
         }
     }
@@ -48,30 +50,30 @@ internal class TaskImplementation : ITask
     {
         const string XMLTask = @"tasks";
         List<Task> list = XMLTools.LoadListFromXMLSerializer<Task>(XMLTask);
-        return list.Find(taskToReturn=> taskToReturn!.Id==id);
+        return list.Find(taskToReturn=> taskToReturn!.Id==id && taskToReturn.isActive);
     }
     /// <summary>
     /// Reads entity task by a bool function
     /// </summary>
     /// <param name="filter">bool func to run each object</param>
     /// <returns>the first elment that return true to filter function</returns>
-    public Task? Read(Func<Task, bool> filter)
+    public Task? Read(Func<Task?, bool> filter)
     {
         const string XMLTask = @"tasks";
         List<Task> list = XMLTools.LoadListFromXMLSerializer<Task>(XMLTask);
-        return list!.FirstOrDefault(filter);
+        return list!.Where<Task>(filter).Where<Task>(task => task.isActive).First();
     }
     /// <summary>
     /// Reads all task objects
     /// </summary>
     /// <returns>the whole list of the tasks</returns>
-    public IEnumerable<Task?> ReadAll(Func<Task, bool>? filter = null)
+    public IEnumerable<Task?> ReadAll(Func<Task?, bool>? filter = null)
     {
         const string XMLTask = @"tasks";
         List<Task> list = XMLTools.LoadListFromXMLSerializer<Task>(XMLTask);
         if (filter == null)
-            return list.Select(task => task);
-        else return list!.Where<Task>(filter);
+            return list.Where(task => task.isActive);
+        else return list!.Where<Task>(filter).Where<Task>(task => task.isActive);
     }
     /// <summary>
     /// Updates a Task object
@@ -80,9 +82,9 @@ internal class TaskImplementation : ITask
     /// <exception cref="Exception">the input id of the task does not exist</exception>
     public void Update(Task item)
     {
+        Task? taskToUpdate = Read(item.Id)??throw new DalDoesNotExistException($"Task with ID={item.Id} does not exist.");
         const string XMLTask = @"tasks";
         List<Task> list = XMLTools.LoadListFromXMLSerializer<Task>(XMLTask);
-        Task? taskToUpdate = Read(item.Id)??throw new DalDoesNotExistException($"Task with ID={item.Id} does not exist.");
         list.Remove(taskToUpdate);
         Task task = new(item.Id, item.Description, item.Alias, item.Milestone, item.CreatedAt, item.Start, item.ForecastDate, item.DeadLine, item.Complete, item.Deliverables, item.Remarks, item.EngineerId, item.ComplexilyLevel);
         list.Add(task);

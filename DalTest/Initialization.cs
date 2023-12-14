@@ -92,23 +92,23 @@ public static class Initialization
         int engineerCount= allEngineer.Count;
         string[] letters = {"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"};
         string[] nums = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
-        for (int i=0; i<100; i++)
+        for (int i = 0; i < 100; i++)
         {
-            string _description = letters[s_rand.Next(letters.Length)]+nums[s_rand.Next(nums.Length)]+letters[s_rand.Next(letters.Length)];
+            string _description = letters[s_rand.Next(letters.Length)] + nums[s_rand.Next(nums.Length)] + letters[s_rand.Next(letters.Length)];
             string _alias = _description.Substring(0, 2);
-            bool _milestone = s_rand.Next(0, 1)==0 ? true : false;
+            bool _milestone = s_rand.Next(0, 1) == 0 ? true : false;
             DateTime start = new DateTime(1995, 1, 1);
             int range = (DateTime.Today - start).Days;
             DateTime _createdAt = start.AddDays(s_rand.Next(range));
-            range = (new DateTime(2040, 12,1 ) - _createdAt).Days;
+            range = (new DateTime(2040, 12, 1) - _createdAt).Days;
             DateTime _start = _createdAt.AddDays(s_rand.Next(range));
-            range = (new DateTime(2060, 12,1 ) - _start).Days;
+            range = (new DateTime(2060, 12, 1) - _start).Days;
             DateTime _scheduledDate = _start.AddDays(s_rand.Next(range));
-            range= (new DateTime(2080, 12, 1)-_scheduledDate).Days;
+            range = (new DateTime(2080, 12, 1) - _scheduledDate).Days;
             DateTime _forecadtDate = _scheduledDate.AddDays(s_rand.Next(range));
-            range=(_forecadtDate-_scheduledDate).Days;
+            range = (_forecadtDate - _scheduledDate).Days;
             DateTime _complete = _scheduledDate.AddDays(s_rand.Next(range));
-            Engineer ?engineerDoTask = allEngineer[s_rand.Next(0, engineerCount-1)];
+            Engineer? engineerDoTask = allEngineer[s_rand.Next(0, engineerCount - 1)];
             int _engineerId = engineerDoTask!.Id;
             EngineerExperience _complexilyLevel = engineerDoTask.Level;
             Task newTask = new(0, _description, _alias, _milestone, _createdAt, _start, _scheduledDate, _forecadtDate, _complete, " ", " ", _engineerId, _complexilyLevel);
@@ -121,9 +121,9 @@ public static class Initialization
     private static void createDependency()
     {
         List<Task?> allTasks = s_dal!.Task.ReadAll().ToList();
-        for (int i = 0; i<250; i++)
+        for (int i = 0; i < 250; i++)
         {
-            Dependency dependency = new(0, allTasks[s_rand.Next(allTasks.Count-1)]!.Id, allTasks[s_rand.Next(allTasks.Count-1)]!.Id);
+            Dependency dependency = new(0, allTasks[s_rand.Next(allTasks.Count - 1)]!.Id, allTasks[s_rand.Next(allTasks.Count - 1)]!.Id);
             s_dal!.Dependency.Create(dependency);
         }
     }

@@ -24,7 +24,7 @@ public interface ICrud<T> where T : class
     /// Reads all tasks objects
     /// </summary>
     /// <returns>the whole list of the tasks</returns>
-    IEnumerable<T?> ReadAll(Func<T, bool>? filter = null);
+    IEnumerable<T?> ReadAll(Func<T?, bool>? filter = null);
     /// <summary>
     /// Updates a Task object
     /// </summary>
@@ -42,5 +42,5 @@ public interface ICrud<T> where T : class
     /// </summary>
     /// <param name="filter">function to select an item by</param>
     /// <returns></returns>
-    T? Read(Func<T, bool> filter);
+    T? Read(Func<T?, bool> filter);
 }

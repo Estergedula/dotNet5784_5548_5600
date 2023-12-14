@@ -60,7 +60,7 @@ internal class EngineerImplementation : IEngineer
     /// </summary>
     /// <param name="filter">bool func to run each object</param>
     /// <returns>the first elment that return true to filter function</returns>
-    public Engineer? Read(Func<Engineer, bool> filter)
+    public Engineer? Read(Func<Engineer?, bool> filter)
     {
         const string XMLENGINEER = "engineers";
         List<Engineer> list = XMLTools.LoadListFromXMLSerializer<Engineer>(XMLENGINEER);
@@ -70,7 +70,7 @@ internal class EngineerImplementation : IEngineer
     /// Reads all engineer objects
     /// </summary>
     /// <returns>the whole list of the engineers</returns>
-    public IEnumerable<Engineer?> ReadAll(Func<Engineer, bool>? filter = null)
+    public IEnumerable<Engineer?> ReadAll(Func<Engineer?, bool>? filter = null)
     {
         const string XMLENGINEER = "engineers";
         List<Engineer> list = XMLTools.LoadListFromXMLSerializer<Engineer>(XMLENGINEER);

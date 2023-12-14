@@ -33,7 +33,8 @@ public record Task
     string? Deliverables = null,
     string? Remarks = null,
     int EngineerId = 0,
-    EngineerExperience ComplexilyLevel = EngineerExperience.Junior
+    EngineerExperience ComplexilyLevel = EngineerExperience.Junior,
+    bool isActive = true
 )
 {
     public Task() : this(0, null, null, false, DateTime.MinValue, DateTime.MinValue, DateTime.MinValue, DateTime.MinValue, DateTime.MinValue)

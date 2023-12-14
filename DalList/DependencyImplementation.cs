@@ -45,7 +45,7 @@ internal class DependencyImplementation : IDependency
     /// </summary>
     /// <param name="filter">bool func to run each object</param>
     /// <returns>the first elment that return true to filter function</returns>
-    public Dependency? Read(Func<Dependency, bool> filter)
+    public Dependency? Read(Func<Dependency?, bool> filter)
     {
         return DataSource.Dependencies.FirstOrDefault(filter);
     }
@@ -53,7 +53,7 @@ internal class DependencyImplementation : IDependency
     /// Reads all Dependencies objects
     /// </summary>
     /// <returns>the whole list of the dependencies</returns>
-    public IEnumerable<Dependency?> ReadAll(Func<Dependency, bool>? filter = null)
+    public IEnumerable<Dependency?> ReadAll(Func<Dependency?, bool>? filter = null)
     {
         if (filter == null)
             return DataSource.Dependencies.Select(dependency => dependency);
