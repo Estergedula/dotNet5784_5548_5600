@@ -5,7 +5,8 @@ using DO;
 namespace DalTest;
 internal class Program
 {
-    static readonly IDal s_dal = new DalXml();
+    //static readonly IDal s_dal = new DalXml();
+    static readonly IDal s_dal = Factory.Get;
     /// <summary>
     /// Explain for the user the options of the main menu and input his choice
     /// </summary>

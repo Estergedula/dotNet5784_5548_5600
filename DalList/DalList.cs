@@ -1,11 +1,13 @@
-﻿using Dal;
+﻿//using Dal;
 using DalApi;
-namespace DalTest;
+namespace Dal;
 /// <summary>
 /// General configuration data
 /// </summary>
-sealed public class DalList : IDal
+sealed internal  class DalList : IDal
 {
+    public static IDal Instance { get; } = new DalList();
+    private DalList() { }
     public ITask Task => new TaskImplementation();
 
     public IDependency Dependency => new DependencyImplementation();
