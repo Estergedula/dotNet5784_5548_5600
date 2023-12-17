@@ -73,13 +73,17 @@ internal class EngineerImplementation:IEngineer
         //  throw new BO.BlDoesNotExistException($"Student with ID={id} does Not exist");
         return new BO.Engineer { Id = id,Name=doEngineer.Name,Email=doEngineer.Email,Level=(BO.EngineerExperience)doEngineer.Level,Cost=doEngineer.Cost,CurrentTask=GetCurrentTaskOfEngineer(id)};
     }
-    private TaskInEngineer ?GetCurrentTaskOfEngineer(int idOfEngineer)
+    private TaskInEngineer GetCurrentTaskOfEngineer(int idOfEngineer)
+    {
+        return null;
+    }
+    private IEnumerable<TaskInEngineer>   GetTasksOfEngineer(int idOfEngineer)
     {
         var allTasks=_dal.Task.ReadAll();
-        TaskInEngineer ? taskInEngineer =
+        IEnumerable<TaskInEngineer> ? taskInEngineer =
             (from t in allTasks
-            where t.EngineerId==idOfEngineer
-            select new  TaskInEngineer{Id = t.Id, Name=t.Description }).FirstOrDefault();
+            where (t.EngineerId==idOfEngineer)
+            select new  TaskInEngineer{Id = t.Id, Name=t.Description });
         return taskInEngineer;
     }
     public IEnumerable<Engineer> ReadAll(Func<BO.Engineer?, bool> filter)
