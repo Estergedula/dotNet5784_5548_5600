@@ -1,5 +1,4 @@
 ﻿
-
 using BlApi;
 using BO;
 
@@ -10,6 +9,7 @@ internal class TaskImplementation : ITask
     private DalApi.IDal _dal = DalApi.Factory.Get;
     public int Create(BO.Task boTask)
     {
+
         //if (item.Id<=0||item.Alias=="")
         //    throw new Exception();
         //DO.Task doTask = new DO.Task
@@ -41,6 +41,10 @@ internal class TaskImplementation : ITask
     {
         throw new NotImplementedException();
     }
+    public BO.Task? Read(Func<BO.Task?, bool> filter)
+    {
+        throw new NotImplementedException();
+    }
 
     public IEnumerable<BO.Task> ReadAll(Func<BO.Task?, bool> filter)
     {
@@ -51,4 +55,5 @@ internal class TaskImplementation : ITask
     {
         throw new NotImplementedException();
     }
+
 }
