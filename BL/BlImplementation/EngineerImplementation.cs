@@ -56,7 +56,7 @@ internal class EngineerImplementation:IEngineer
 
     public void Delete(int id)
     {
-        if(GetCurrentTaskOfEngineer(id)==null) throw new Exception();
+        if(GetTasksOfEngineer(id)==null) throw new Exception();
         try
         {
             _dal.Engineer.Delete(id);
@@ -86,21 +86,7 @@ internal class EngineerImplementation:IEngineer
             select new  TaskInEngineer{Id = t.Id, Name=t.Description });
         return taskInEngineer;
     }
-    public IEnumerable<Engineer> ReadAll(Func<BO.Engineer?, bool> filter)
-    {
-        IEnumerable<DO.Engineer?> allTasks = _dal.Engineer.ReadAll((Func<DO.Engineer?, bool> )filter);
-        IEnumerable<BO.Engineer> allTaskinBo= from  doEngineer in allTasks
-                                             select new BO.Engineer
-                                             {
-                                                 Id = doEngineer.Id,
-                                                 Name = doEngineer.Name,
-                                                 Email = doEngineer.Email,
-                                                 Level=(BO.EngineerExperience)doEngineer.Level,
-                                                 Cost=doEngineer.Cost,
-                                                 CurrentTask=GetCurrentTaskOfEngineer(doEngineer.Id)
-                                             };
-        return allTaskinBo;
-    }
+
     public void Update(Engineer boEngineer)
     {
         if (boEngineer.Id<=0||boEngineer.Name==""||boEngineer.Cost<=0||IsValidEmail(boEngineer.Email))
@@ -117,5 +103,22 @@ internal class EngineerImplementation:IEngineer
             //throw new BO.BlAlreadyExistsException($"Student with ID={boStudent.Id} already exists", ex);
         }
         throw new NotImplementedException();
+    }
+
+
+    public IEnumerable<Engineer> ReadAll(Func<BO.Engineer?, bool>? filter = null)
+    {
+        IEnumerable<DO.Engineer?> allTasks = _dal.Engineer.ReadAll((Func<DO.Engineer?, bool>?)filter);
+        IEnumerable<BO.Engineer> allTaskinBo = from doEngineer in allTasks
+                                               select new BO.Engineer
+                                               {
+                                                   Id = doEngineer.Id,
+                                                   Name = doEngineer.Name,
+                                                   Email = doEngineer.Email,
+                                                   Level=(BO.EngineerExperience)doEngineer.Level,
+                                                   Cost=doEngineer.Cost,
+                                                   CurrentTask=GetCurrentTaskOfEngineer(doEngineer.Id)
+                                               };
+        return allTaskinBo;
     }
 }
