@@ -26,6 +26,7 @@ internal class TaskImplementation : BlApi.ITask
         if (boTask.Id <= 0 || boTask.Alias == "")
             throw new Exception();
         //var bh=new DO.Task(1,"gfgbg","gfhh",)
+        Status status = new Status();
         boTask?.DependenciesList?.Select(task => new DO.Dependency(boTask.Id, task.Id));
         DO.Task doTask = new DO.Task(
             boTask!.Id,/* boTask.Description*/"hbyh", boTask.Alias, (boTask.Milestone) is not null ? true : false, boTask.CreatedAt,
