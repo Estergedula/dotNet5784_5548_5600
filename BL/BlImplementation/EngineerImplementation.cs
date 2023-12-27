@@ -71,13 +71,19 @@ internal class EngineerImplementation:IEngineer
             throw new Exception();
         
         //  throw new BO.BlDoesNotExistException($"Student with ID={id} does Not exist");
-        return new BO.Engineer { Id = id,Name=doEngineer.Name,Email=doEngineer.Email,Level=(BO.EngineerExperience)doEngineer.Level,Cost=doEngineer.Cost,CurrentTask=GetCurrentTaskOfEngineer(id)};
+        return new BO.Engineer { Id = id,Name=doEngineer.Name,Email=doEngineer.Email,
+            Level=(BO.EngineerExperience)doEngineer.Level,Cost=doEngineer.Cost,CurrentTask=GetCurrentTaskOfEngineer(id)};
     }
-    private TaskInEngineer GetCurrentTaskOfEngineer(int idOfEngineer)
+    private TaskInEngineer? GetCurrentTaskOfEngineer(int idOfEngineer)
     {
-        return null;
+        var allTasks = _dal.Task.ReadAll();
+       TaskInEngineer? currentTaskInEngineer =
+            (from t in allTasks
+             where ((t.EngineerId == idOfEngineer) && (t.Start > DateTime.Now )&&(t.Complete !=DateTime.MinValue) )
+             select new TaskInEngineer { Id = t.Id, Name = t.Description }).FirstOrDefault();
+        return currentTaskInEngineer;
     }
-    private IEnumerable<TaskInEngineer>   GetTasksOfEngineer(int idOfEngineer)
+    private IEnumerable<TaskInEngineer>  GetTasksOfEngineer(int idOfEngineer)
     {
         var allTasks=_dal.Task.ReadAll();
         IEnumerable<TaskInEngineer> ? taskInEngineer =
