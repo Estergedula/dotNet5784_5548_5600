@@ -2,9 +2,9 @@
 public class Task
 {
     public int Id { get; init; }
-    public string? Description { get; set; }
+    public required string  Description { get; set; }
     public string? Alias { get; set; }
-    public MilestomeInList? Milestone { get; set; }
+    public MillestoneInTask? Milestone { get; set; }
     public Status Status { get; set; }
     public IEnumerable<TaskInList>? DependenciesList { get; set; }
     public DateTime CreatedAt { get; set; }//תאריך יצירה

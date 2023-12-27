@@ -2,7 +2,7 @@
 
 namespace BO;
 
-public class MilestomeInList
+public class MilestoneInList
 {
     public int Id { get; init; }
     public required string Description { get; set; }

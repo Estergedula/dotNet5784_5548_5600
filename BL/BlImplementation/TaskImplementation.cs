@@ -1,6 +1,7 @@
 ﻿using BlApi;
 using BO;
 using DalApi;
+using DO;
 
 namespace BlImplementation;
 
@@ -25,11 +26,9 @@ internal class TaskImplementation : BlApi.ITask
     {
         if (boTask.Id <= 0 || boTask.Alias == "")
             throw new Exception();
-        //var bh=new DO.Task(1,"gfgbg","gfhh",)
-        Status status = new Status();
         boTask?.DependenciesList?.Select(task => new DO.Dependency(boTask.Id, task.Id));
         DO.Task doTask = new DO.Task(
-            boTask!.Id,/* boTask.Description*/"hbyh", boTask.Alias, (boTask.Milestone) is not null ? true : false, boTask.CreatedAt,
+            boTask!.Id, boTask.Description, boTask.Alias, (boTask.Milestone) is not null ? true : false, boTask.CreatedAt,
              boTask.Start, boTask.ForecastDate,
              boTask.DeadLine, boTask.Complete, boTask.Deliverables, boTask.Remarks,
              boTask.Engineer!.Id, (DO.EngineerExperience)boTask.ComplexilyLevel, true);
@@ -59,20 +58,16 @@ internal class TaskImplementation : BlApi.ITask
     public BO.Task? Read(int id)
     {
         DO.Task? doTask = _dal.Task.Read(id);
-        var milestomeInList = _dal.Task.ReadAll().Select(t => new MilestomeInList
+        MillestoneInTask ?milestomeInList = _dal.Task.ReadAll().Select(t => new MillestoneInTask
         {
             Id = t!.Id,
-            Alias = t.Alias,
-            Description = t.Description,
-            CreatedAt = t.CreatedAt,
-            CompletionPercentage = 33/* t.Complete[] double*/ ,
-            Status = getStatuesOfTask(t)/**/
+            Alias = t.Alias
         }
         ).Where(t => (_dal.Task.Read(t.Id)!.Milestone &&(_dal.Dependency.ReadAll((d)=>d!.DependentTask==doTask!.Id&& d.DependOnTask == t.Id))is not null)).FirstOrDefault();
        return new BO.Task
         {
             Id = doTask!.Id,
-            Description = doTask!.Description,
+            Description = doTask!.Description!,
             Alias = doTask!.Alias,
             Milestone = milestomeInList,
             Status = getStatuesOfTask(doTask),
@@ -83,12 +78,46 @@ internal class TaskImplementation : BlApi.ITask
     }
     public IEnumerable<BO.Task> ReadAll(Func<BO.Task?, bool> filter)
     {
-        throw new NotImplementedException();
+        IEnumerable<DO.Task?> allTasks = _dal.Task.ReadAll((Func<DO.Task?, bool>?)filter);
+        IEnumerable<BO.Task> allTaskinBo = allTasks.Select(t => new BO.Task
+        {
+            Id = t!.Id,
+            Description = t!.Description!,
+            Alias = t!.Alias,
+            Milestone =  _dal.Task.ReadAll().Select(t => new MillestoneInTask
+            {
+                Id = t!.Id,
+                Alias = t.Alias
+            }
+        ).Where(t => (_dal.Task.Read(t.Id)!.Milestone &&(_dal.Dependency.ReadAll((d) => d!.DependentTask==t!.Id&& d.DependOnTask == t.Id)) is not null)).FirstOrDefault(),
+            Status = getStatuesOfTask(t),
+            DependenciesList = _dal.Dependency.ReadAll((d) => d!.DependentTask == t.Id).Select(d => new TaskInList
+            {
+                Id=d!.Id,
+                Alias= _dal.Task.Read(d.Id)!.Alias,
+                Status= getStatuesOfTask(_dal.Task.Read(d.Id)!),
+                Description= _dal.Task.Read(d.Id)!.Description
+            })
+        }) ;
+        return allTaskinBo;
     }
 
-    public void Update(BO.Task item)
+    public void Update(BO.Task boTask)
     {
-        throw new NotImplementedException();
+        if (boTask.Id <= 0 || boTask.Alias == "")
+            throw new Exception();
+        DO.Task doTask = new DO.Task
+        (boTask.Id,boTask.Description,boTask.Alias,false/**/,boTask.CreatedAt,boTask.Start,
+        boTask.ForecastDate,boTask.DeadLine,boTask.Complete,boTask.Deliverables,boTask.Remarks,boTask.Engineer!.Id,(DO.EngineerExperience)boTask.ComplexilyLevel);
+        try
+        {
+            _dal.Task.Update(doTask);
+        }
+        catch (DO.DalAlreadyExistsException ex)
+        {
+            throw new Exception(ex.Message);
+            //throw new BO.BlAlreadyExistsException($"Student with ID={boStudent.Id} already exists", ex);
+        }
     }
-
 }
+

@@ -108,15 +108,14 @@ internal class EngineerImplementation:IEngineer
             throw new Exception(ex.Message);
             //throw new BO.BlAlreadyExistsException($"Student with ID={boStudent.Id} already exists", ex);
         }
-        throw new NotImplementedException();
     }
 
 
     public IEnumerable<Engineer> ReadAll(Func<BO.Engineer?, bool>? filter = null)
     {
-        IEnumerable<DO.Engineer?> allTasks = _dal.Engineer.ReadAll((Func<DO.Engineer?, bool>?)filter);
-        IEnumerable<BO.Engineer> allTaskinBo = from doEngineer in allTasks
-                                               select new BO.Engineer
+        IEnumerable<DO.Engineer?> allEngineers = _dal.Engineer.ReadAll((Func<DO.Engineer?, bool>?)filter);
+        IEnumerable<BO.Engineer> allEngineersinBo = from doEngineer in allEngineers
+                                                    select new BO.Engineer
                                                {
                                                    Id = doEngineer.Id,
                                                    Name = doEngineer.Name,
@@ -125,6 +124,6 @@ internal class EngineerImplementation:IEngineer
                                                    Cost=doEngineer.Cost,
                                                    CurrentTask=GetCurrentTaskOfEngineer(doEngineer.Id)
                                                };
-        return allTaskinBo;
+        return allEngineersinBo;
     }
 }
