@@ -46,7 +46,12 @@ internal class TaskImplementation : BlApi.ITask
 
     public void Delete(int id)
     {
-        throw new NotImplementedException();
+        if ((id) == null) throw new Exception();
+        try
+        {
+            _dal.Task.Delete(id);
+        }
+        catch (Exception ex) { Console.WriteLine(ex.Message); }
     }
 
 
@@ -58,21 +63,25 @@ internal class TaskImplementation : BlApi.ITask
     public BO.Task? Read(int id)
     {
         DO.Task? doTask = _dal.Task.Read(id);
-        MillestoneInTask ?milestomeInList = _dal.Task.ReadAll().Select(t => new MillestoneInTask
+        MillestoneInTask? milestomeInList = _dal.Task.ReadAll().Select(t => new MillestoneInTask
         {
             Id = t!.Id,
             Alias = t.Alias
         }
-        ).Where(t => (_dal.Task.Read(t.Id)!.Milestone &&(_dal.Dependency.ReadAll((d)=>d!.DependentTask==doTask!.Id&& d.DependOnTask == t.Id))is not null)).FirstOrDefault();
-       return new BO.Task
+        ).Where(t => (_dal.Task.Read(t.Id)!.Milestone && (_dal.Dependency.ReadAll((d) => d!.DependentTask == doTask!.Id && d.DependOnTask == t.Id)) is not null)).FirstOrDefault();
+        return new BO.Task
         {
             Id = doTask!.Id,
             Description = doTask!.Description!,
             Alias = doTask!.Alias,
             Milestone = milestomeInList,
             Status = getStatuesOfTask(doTask),
-            DependenciesList = _dal.Dependency.ReadAll((d) => d!.DependentTask == id).Select(d => new TaskInList 
-            {Id=d!.Id,Alias= _dal.Task.Read(d.Id)!.Alias,Status= getStatuesOfTask(_dal.Task.Read(d.Id)!),Description= _dal.Task.Read(d.Id)!.Description
+            DependenciesList = _dal.Dependency.ReadAll((d) => d!.DependentTask == id).Select(d => new TaskInList
+            {
+                Id = d!.Id,
+                Alias = _dal.Task.Read(d.Id)!.Alias,
+                Status = getStatuesOfTask(_dal.Task.Read(d.Id)!),
+                Description = _dal.Task.Read(d.Id)!.Description
             })
         };
     }
@@ -84,21 +93,21 @@ internal class TaskImplementation : BlApi.ITask
             Id = t!.Id,
             Description = t!.Description!,
             Alias = t!.Alias,
-            Milestone =  _dal.Task.ReadAll().Select(t => new MillestoneInTask
+            Milestone = _dal.Task.ReadAll().Select(t => new MillestoneInTask
             {
                 Id = t!.Id,
                 Alias = t.Alias
             }
-        ).Where(t => (_dal.Task.Read(t.Id)!.Milestone &&(_dal.Dependency.ReadAll((d) => d!.DependentTask==t!.Id&& d.DependOnTask == t.Id)) is not null)).FirstOrDefault(),
+        ).Where(t => (_dal.Task.Read(t.Id)!.Milestone && (_dal.Dependency.ReadAll((d) => d!.DependentTask == t!.Id && d.DependOnTask == t.Id)) is not null)).FirstOrDefault(),
             Status = getStatuesOfTask(t),
             DependenciesList = _dal.Dependency.ReadAll((d) => d!.DependentTask == t.Id).Select(d => new TaskInList
             {
-                Id=d!.Id,
-                Alias= _dal.Task.Read(d.Id)!.Alias,
-                Status= getStatuesOfTask(_dal.Task.Read(d.Id)!),
-                Description= _dal.Task.Read(d.Id)!.Description
+                Id = d!.Id,
+                Alias = _dal.Task.Read(d.Id)!.Alias,
+                Status = getStatuesOfTask(_dal.Task.Read(d.Id)!),
+                Description = _dal.Task.Read(d.Id)!.Description
             })
-        }) ;
+        });
         return allTaskinBo;
     }
 
@@ -107,8 +116,8 @@ internal class TaskImplementation : BlApi.ITask
         if (boTask.Id <= 0 || boTask.Alias == "")
             throw new Exception();
         DO.Task doTask = new DO.Task
-        (boTask.Id,boTask.Description,boTask.Alias,false/**/,boTask.CreatedAt,boTask.Start,
-        boTask.ForecastDate,boTask.DeadLine,boTask.Complete,boTask.Deliverables,boTask.Remarks,boTask.Engineer!.Id,(DO.EngineerExperience)boTask.ComplexilyLevel);
+        (boTask.Id, boTask.Description, boTask.Alias, false/**/, boTask.CreatedAt, boTask.Start,
+        boTask.ForecastDate, boTask.DeadLine, boTask.Complete, boTask.Deliverables, boTask.Remarks, boTask.Engineer!.Id, (DO.EngineerExperience)boTask.ComplexilyLevel);
         try
         {
             _dal.Task.Update(doTask);

@@ -26,32 +26,32 @@ internal class MilestoneImplementation : IMilestone
     public List<BO.TaskInList>? dependecies { get; set; }
     public Milestone? Read(int id)
     {
-        DO.Task? doTask= _dal.Task.Read(id);
-        var n = from d in (_dal.Dependency.ReadAll((d) => d!.DependentTask==id)) 
+        DO.Task? doTask = _dal.Task.Read(id);
+        var n = from d in (_dal.Dependency.ReadAll((d) => d!.DependentTask == id))
                 select _dal.Task.Read(d.DependOnTask);
-        IEnumerable<TaskInList> tasksOfMilistone=from t in (from d in (_dal.Dependency.ReadAll((d) => d!.DependentTask==id))
-                                                            select _dal.Task.Read(d.DependOnTask))
-                                                 select new BO.TaskInList { Id= t.Id ,Description=t.Description,Alias=t.Alias,Status=Status.Scheduled};
+        IEnumerable<TaskInList> tasksOfMilistone = from t in (from d in (_dal.Dependency.ReadAll((d) => d!.DependentTask == id))
+                                                              select _dal.Task.Read(d.DependOnTask))
+                                                   select new BO.TaskInList { Id = t.Id, Description = t.Description, Alias = t.Alias, Status = Status.Scheduled };
         return new Milestone
         {
-            MileStoneId=doTask!.Id,
-            Descriotion=doTask.Description,
-            Alias=doTask.Alias,
-            Status=Status.OnTrack/*ffffffffffff*/,
-            CreatedAt =doTask.CreatedAt,
-            BaselineStartDate =doTask.DeadLine/*hjbvhf*/,
-            Start =doTask.Start,
-            ForecastDate =doTask.ForecastDate,
-            DeadLine=doTask.DeadLine,
-            Complete=doTask.Complete,
-            CompletionPercentage=3.2/*fgfg*/,
-            Remarks=doTask.Remarks,
-            Dependecies=tasksOfMilistone.ToList()
+            MileStoneId = doTask!.Id,
+            Descriotion = doTask.Description,
+            Alias = doTask.Alias,
+            Status = Status.OnTrack/*ffffffffffff*/,
+            CreatedAt = doTask.CreatedAt,
+            BaselineStartDate = doTask.DeadLine/*hjbvhf*/,
+            Start = doTask.Start,
+            ForecastDate = doTask.ForecastDate,
+            DeadLine = doTask.DeadLine,
+            Complete = doTask.Complete,
+            CompletionPercentage = 3.2/*fgfg*/,
+            Remarks = doTask.Remarks,
+            Dependecies = tasksOfMilistone.ToList()
         };
     }
 
     public void Update(int id)
     {
-        
+
     }
 }
