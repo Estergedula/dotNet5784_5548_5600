@@ -44,6 +44,25 @@ internal class TaskImplementation : BlApi.ITask
         }
     }
 
+    //     ---- task רשימת השדות של ----
+    // 1. public int Id 
+    // 2. public required string Description 
+    // 3. public string? Alias 
+    // 4. public MillestoneInTask? Milestone 
+    // 5. public Status Status 
+    // 6. public IEnumerable<TaskInList>? DependenciesList 
+    // 7. public DateTime CreatedAt //תאריך יצירה
+    // 8. public DateTime BaselineStartDate //תאריך התחלה משוער
+    // 9. public DateTime Start //תאריך התחלה בפועל
+    // 10. public DateTime ForecastDate //תאריך משוער לסיום
+    // 11. public DateTime DeadLine //תאריך אחרון לסיום
+    // 12. public DateTime Complete //תאריך סיום בפועל
+    // 13. public string? Deliverables 
+    // 14. public string? Remarks 
+    // 15. public EngineerInTask? Engineer 
+    // 16. public EngineerExperience ComplexilyLevel
+    // 17. public DateTime RegistrationDate
+
     public void Delete(int id)
     {
         if ((id) == null) throw new Exception();
@@ -82,7 +101,10 @@ internal class TaskImplementation : BlApi.ITask
                 Alias = _dal.Task.Read(d.Id)!.Alias,
                 Status = getStatuesOfTask(_dal.Task.Read(d.Id)!),
                 Description = _dal.Task.Read(d.Id)!.Description
-            })
+            }),
+            CreatedAt = doTask!.CreatedAt,
+            BaselineStartDate = doTask!.BaselineStartDate,
+
         };
     }
     public IEnumerable<BO.Task> ReadAll(Func<BO.Task?, bool> filter)

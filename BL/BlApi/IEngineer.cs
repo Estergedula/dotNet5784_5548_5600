@@ -14,11 +14,11 @@ public interface IEngineer
     //public IEnumerable<Engineer> (string nameOfProp, string value);
     public int Create(BO.Engineer boEngineer);
     public BO.Engineer? Read(int id);
-    public IEnumerable<BO.Engineer> ReadAll(Func<BO.Engineer?, bool>? filter=null);
+    public IEnumerable<BO.Engineer> ReadAll(Func<BO.Engineer?, bool>? filter = null);
     public void Update(BO.Engineer item);
     public void Delete(int id);
     //public BO.TaskInEngineer ?GetCurrentTaskOfEngineer(int idOfEmgineer);
 
-    
+
     //public BO.EngineerInTask GetDetailedCourseForStudent(int StudentId, int CourseId);
 }
