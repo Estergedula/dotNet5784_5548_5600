@@ -1,14 +1,14 @@
 ﻿namespace BO;
 public class Task
 {
-    public int Id { get; init; }
+    public required int Id { get; init; }
     public required string  Description { get; set; }
-    public string? Alias { get; set; }
+    public required string? Alias { get; set; }
     public MillestoneInTask? Milestone { get; set; }
     public Status Status { get; set; }
     public IEnumerable<TaskInList>? DependenciesList { get; set; }
-    public DateTime CreatedAt { get; set; }//תאריך יצירה
-    public DateTime BaselineStartDate { get;  set; }//תאריך התחלה משוער
+    public required DateTime CreatedAt { get; set; }//תאריך יצירה
+    public DateTime ScheduleDate { get;  set; }//תאריך התחלה משוער
     public DateTime Start { get; set; }//תאריך התחלה בפועל
     public DateTime ForecastDate { get; set; }//תאריך משוער לסיום
     public DateTime DeadLine { get; set; }//תאריך אחרון לסיום
@@ -17,7 +17,7 @@ public class Task
     public string? Remarks { get; set; }
     public EngineerInTask? Engineer { get; set; }
     public EngineerExperience ComplexilyLevel { get; set; }
-    public DateTime RegistrationDate { get; init; }
+   // public DateTime RegistrationDate { get; init; }
 
 }
 //    int Id,

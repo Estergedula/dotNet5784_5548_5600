@@ -13,7 +13,6 @@ public class Milestone
     public string? Alias { get; init; }
     public Status Status { get; set; }
     public DateTime? CreatedAt { get; set; }
-    public DateTime? BaselineStartDate { get; set; }
     public DateTime? Start { get; set; }
     public DateTime? ForecastDate { get; set; }
     public DateTime? DeadLine { get; set; }

@@ -1,9 +1,4 @@
-﻿using BlApi;
-using BO;
-using DalApi;
-using DO;
-
-namespace BlImplementation;
+﻿namespace BlImplementation;
 
 internal class TaskImplementation : BlApi.ITask
 {
@@ -15,7 +10,6 @@ internal class TaskImplementation : BlApi.ITask
     //DateTime Start,
     //DateTime ForecastDate,
     //DateTime DeadLine,
-    //DateTime Complete,
     //string? Deliverables = null,
     //string? Remarks = null,
     //int EngineerId = 0,
@@ -28,7 +22,7 @@ internal class TaskImplementation : BlApi.ITask
             throw new Exception();
         boTask?.DependenciesList?.Select(task => new DO.Dependency(boTask.Id, task.Id));
         DO.Task doTask = new DO.Task(
-            boTask!.Id, boTask.Description, boTask.Alias, (boTask.Milestone) is not null ? true : false, boTask.CreatedAt,
+            boTask!.Id, boTask.Description, boTask.Alias, false, boTask.CreatedAt,
              boTask.Start, boTask.ForecastDate,
              boTask.DeadLine, boTask.Complete, boTask.Deliverables, boTask.Remarks,
              boTask.Engineer!.Id, (DO.EngineerExperience)boTask.ComplexilyLevel, true);
@@ -62,10 +56,30 @@ internal class TaskImplementation : BlApi.ITask
     // 15. public EngineerInTask? Engineer 
     // 16. public EngineerExperience ComplexilyLevel
     // 17. public DateTime RegistrationDate
+    //================================
+//    public int Id { get; init; }
+//    public required string Description { get; set; }
+//    public string? Alias { get; set; }
+//    public MillestoneInTask? Milestone { get; set; }
+//    public Status Status { get; set; }
+//    public IEnumerable<TaskInList>? DependenciesList { get; set; }
+//    public DateTime CreatedAt { get; set; }//תאריך יצירה
+//    public DateTime BaselineStartDate { get; set; }//תאריך התחלה משוער
+//    public DateTime Start { get; set; }//תאריך התחלה בפועל
+//    public DateTime ForecastDate { get; set; }//תאריך משוער לסיום
+//    public DateTime DeadLine { get; set; }//תאריך אחרון לסיום
+//    public DateTime Complete { get; set; }//תאריך סיום בפועל
+//    public string? Deliverables { get; set; }
+//    public string? Remarks { get; set; }
+//    public EngineerInTask? Engineer { get; set; }
+//    public EngineerExperience ComplexilyLevel { get; set; }
+//    public DateTime RegistrationDate { get; init; }
 
-    public void Delete(int id)
+//}
+
+public void Delete(int id)
     {
-        if ((id) == null) throw new Exception();
+        if (Read(id) is null) throw new Exception();
         try
         {
             _dal.Task.Delete(id);
@@ -74,15 +88,19 @@ internal class TaskImplementation : BlApi.ITask
     }
 
 
-    private Status getStatuesOfTask(DO.Task task)
+    private BO.Status getStatuesOfTask(DO.Task task)
     {
+       // BO.Status status = BO.Status.Scheduled;
+        if (task.Id==1)
+            return BO.Status.Scheduled;
+        //else return BO.Status.Scheduled;
         /**/
-        return Status.OnTrack;
+        return BO.Status.OnTrack;
     }
     public BO.Task? Read(int id)
     {
         DO.Task? doTask = _dal.Task.Read(id);
-        MillestoneInTask? milestomeInList = _dal.Task.ReadAll().Select(t => new MillestoneInTask
+        BO.MillestoneInTask? milestomeInList = _dal.Task.ReadAll().Select(t => new BO.MillestoneInTask
         {
             Id = t!.Id,
             Alias = t.Alias
@@ -93,9 +111,14 @@ internal class TaskImplementation : BlApi.ITask
             Id = doTask!.Id,
             Description = doTask!.Description!,
             Alias = doTask!.Alias,
-            Milestone = milestomeInList,
-            Status = getStatuesOfTask(doTask),
-            DependenciesList = _dal.Dependency.ReadAll((d) => d!.DependentTask == id).Select(d => new TaskInList
+            Milestone = _dal.Task.ReadAll().Select(t => new BO.MillestoneInTask
+            {
+                Id = t!.Id,
+                Alias = t.Alias
+            }
+        ).Where(doTask => (_dal.Task.Read(doTask.Id)!.Milestone && (_dal.Dependency.ReadAll((d) => d!.DependentTask == doTask!.Id && d.DependOnTask == doTask.Id)) is not null)).FirstOrDefault(),
+            Status = getStatuesOfTask(doTask!),
+            DependenciesList = _dal.Dependency.ReadAll((d) => d!.DependentTask == doTask.Id).Select(d => new BO.TaskInList
             {
                 Id = d!.Id,
                 Alias = _dal.Task.Read(d.Id)!.Alias,
@@ -103,32 +126,47 @@ internal class TaskImplementation : BlApi.ITask
                 Description = _dal.Task.Read(d.Id)!.Description
             }),
             CreatedAt = doTask!.CreatedAt,
-            BaselineStartDate = doTask!.BaselineStartDate,
-
+            ScheduleDate=doTask.ScheduleDate,
+            Start=doTask.Start,
+            ForecastDate =DateTime.Now/*doTask.ForecastDate,*/,
+            DeadLine =doTask.DeadLine,
+            Complete =doTask.Complete,
+            Deliverables =doTask.Deliverables,
+            Remarks =doTask.Remarks,
+            ComplexilyLevel=(BO.EngineerExperience)doTask.ComplexilyLevel
         };
     }
     public IEnumerable<BO.Task> ReadAll(Func<BO.Task?, bool> filter)
     {
         IEnumerable<DO.Task?> allTasks = _dal.Task.ReadAll((Func<DO.Task?, bool>?)filter);
-        IEnumerable<BO.Task> allTaskinBo = allTasks.Select(t => new BO.Task
+        IEnumerable<BO.Task> allTaskinBo = allTasks.Select(task => new BO.Task
         {
-            Id = t!.Id,
-            Description = t!.Description!,
-            Alias = t!.Alias,
-            Milestone = _dal.Task.ReadAll().Select(t => new MillestoneInTask
+            Id = task!.Id,
+            Description = task!.Description!,
+            Alias = task!.Alias,
+            Milestone = _dal.Task.ReadAll().Select(t => new BO.MillestoneInTask
             {
                 Id = t!.Id,
                 Alias = t.Alias
             }
         ).Where(t => (_dal.Task.Read(t.Id)!.Milestone && (_dal.Dependency.ReadAll((d) => d!.DependentTask == t!.Id && d.DependOnTask == t.Id)) is not null)).FirstOrDefault(),
-            Status = getStatuesOfTask(t),
-            DependenciesList = _dal.Dependency.ReadAll((d) => d!.DependentTask == t.Id).Select(d => new TaskInList
+            Status = getStatuesOfTask(task),
+            DependenciesList = _dal.Dependency.ReadAll((d) => d!.DependentTask ==task.Id).Select(d => new BO.TaskInList
             {
                 Id = d!.Id,
                 Alias = _dal.Task.Read(d.Id)!.Alias,
                 Status = getStatuesOfTask(_dal.Task.Read(d.Id)!),
                 Description = _dal.Task.Read(d.Id)!.Description
-            })
+            }),
+            CreatedAt = task!.CreatedAt,
+            ScheduleDate=task.ScheduleDate,
+            Start=task.Start,
+            ForecastDate =DateTime.Now/*doTask.ForecastDate,*/,
+            DeadLine =task.DeadLine,
+            Complete =task.Complete,
+            Deliverables =task.Deliverables,
+            Remarks =task.Remarks,
+            ComplexilyLevel=(BO.EngineerExperience)task.ComplexilyLevel,
         });
         return allTaskinBo;
     }

@@ -1,5 +1,8 @@
 ﻿using BlApi;
 using BO;
+using System.Diagnostics.Metrics;
+using System.Security.Cryptography;
+using System.Text.RegularExpressions;
 
 namespace BlImplementation;
 
@@ -26,12 +29,13 @@ internal class MilestoneImplementation : IMilestone
     public List<BO.TaskInList>? dependecies { get; set; }
     public Milestone? Read(int id)
     {
+        //is we need to chake bool milistone
         DO.Task? doTask = _dal.Task.Read(id);
         var n = from d in (_dal.Dependency.ReadAll((d) => d!.DependentTask == id))
                 select _dal.Task.Read(d.DependOnTask);
-        IEnumerable<TaskInList> tasksOfMilistone = from t in (from d in (_dal.Dependency.ReadAll((d) => d!.DependentTask == id))
-                                                              select _dal.Task.Read(d.DependOnTask))
-                                                   select new BO.TaskInList { Id = t.Id, Description = t.Description, Alias = t.Alias, Status = Status.Scheduled };
+        IEnumerable<TaskInList> tasksOfMilistone = from d in (_dal.Dependency.ReadAll((d) => d!.DependentTask == id))
+              let task =_dal.Task.Read(d.Id)
+              select new BO.TaskInList { Id = task.Id, Description = task.Description, Alias = task.Alias, Status = BO.Status.Scheduled/*====*/ };
         return new Milestone
         {
             MileStoneId = doTask!.Id,
@@ -39,17 +43,21 @@ internal class MilestoneImplementation : IMilestone
             Alias = doTask.Alias,
             Status = Status.OnTrack/*ffffffffffff*/,
             CreatedAt = doTask.CreatedAt,
-            BaselineStartDate = doTask.DeadLine/*hjbvhf*/,
             Start = doTask.Start,
-            ForecastDate = doTask.ForecastDate,
+            ForecastDate =DateTime.Now /*doTask.ForecastDate,*/,
             DeadLine = doTask.DeadLine,
             Complete = doTask.Complete,
-            CompletionPercentage = 3.2/*fgfg*/,
+            CompletionPercentage = getCompletionPercentage(tasksOfMilistone),
             Remarks = doTask.Remarks,
             Dependecies = tasksOfMilistone.ToList()
         };
     }
-
+    private double getCompletionPercentage(IEnumerable<TaskInList> tasksOfMilistone)
+    {
+        int numOfStartTasks = tasksOfMilistone.Sum((taskOdMilstone) => taskOdMilstone.Status==BO.Status.Unscheduled/*===*/? 1:0);
+        int numOfAllDependiesTasks = tasksOfMilistone.Count();
+        return (numOfStartTasks/numOfAllDependiesTasks)*100;
+    }
     public void Update(int id)
     {
 
