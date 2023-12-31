@@ -1,5 +1,4 @@
 ﻿using BlApi;
-using BO;
 using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Security.Cryptography;
@@ -39,10 +38,13 @@ internal class MilestoneImplementation : IMilestone
     
     public BO.Milestone? Read(int id)
     {
-        //is we need to chake bool milestone
+        //Do we need to check bool milestone
         DO.Task? doTask = _dal.Task.Read(id);
-        var n = from d in (_dal.Dependency.ReadAll((d) => d!.DependentTask == id))
+        if (doTask == null) throw new BO.BlDoesNotExistException($"A milestone with ID number = {id} does not exist.");
+        //.יש לבדוק האם מתודות הקריאה בשכבת הנתונים מחזירות שגיאות
+        IEnumerable<DO.Task>tasksWhichDepentOnMe = from d in (_dal.Dependency.ReadAll((d) => d!.DependentTask == id))
                 select _dal.Task.Read(d.DependOnTask);
+
         IEnumerable<BO.TaskInList> tasksOfMilestone = from d in (_dal.Dependency.ReadAll((d) => d!.DependentTask == id))
               let task =_dal.Task.Read(d.Id)
               select new BO.TaskInList { Id = task.Id, Description = task.Description, Alias = task.Alias, Status = BO.Status.Scheduled/*====*/ };
@@ -82,10 +84,10 @@ internal class MilestoneImplementation : IMilestone
     public BO.Milestone Update(BO.Task task)
     {
         if (task.Alias == "" || task.Description == "")
-            throw new Exception();
+            throw new BO.BlInvalidDataException($"The data you entered is incorrect.");
         try
         {
-            //לבדוק אם זה אבן דרך? אפה מקבלים את הערכים?
+            //?לבדוק האם זה אבן דרך? איפה מקבלים את הערכים
             DO.Task taskMilestone = _dal.Task.Read(task.Id)!;
             DO.Task updateMilestone = taskMilestone with { Alias = task.Alias, Description = task.Description, Remarks = task.Remarks };
             _dal.Task.Update(updateMilestone);
@@ -94,28 +96,19 @@ internal class MilestoneImplementation : IMilestone
                                                        select new BO.TaskInList { Id = taskOfMilestone.Id, Description = taskOfMilestone.Description, Alias = taskOfMilestone.Alias, Status = getStatuesOfTask(taskOfMilestone)/*====*/ };
             return new BO.Milestone
             {
-                MileStoneId = updateMilestone.Id,
                 Description = updateMilestone.Description,
                 Alias = updateMilestone.Alias,
-                CreatedAt = updateMilestone.CreatedAt,
-                Status = getStatuesOfTask(updateMilestone),
-                DeadLine = updateMilestone.DeadLine,
-                Complete = updateMilestone.Complete,
-                Remarks = updateMilestone.Remarks,
-                CompletionPercentage = getCompletionPercentage(tasksOfMilestone),
-                Dependecies = tasksOfMilestone.ToList(),
-                ForecastDate = null
+                Remarks = updateMilestone.Remarks
             };
         }
-        catch (DO.DalDoesNotExistException)
+        catch (DO.DalDoesNotExistException ex)
         {
-            // throw new BO.BlDoesNotExistException($"Milestone with ID={task.Id} is not exists");
-            throw new Exception();
+            throw new BO.BlDoesNotExistException($"Milestone with ID={task.Id} is not exists", ex);
         };
 
     }
 
-    public Milestone CreateLUZ()
+    public BO.Milestone CreateLUZ()
     {
         throw new NotImplementedException();
     }
