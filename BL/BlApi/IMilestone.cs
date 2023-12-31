@@ -6,6 +6,6 @@ public interface IMilestone
     public BO.Milestone CreateLUZ(int id);
     public BO.Milestone? Read(int id);
     //public IEnumerable<BO.Engineer> ReadAll(Func<BO.Engineer?, bool> filter);
-    public void Update(int id);
+    public BO.Milestone Update(BO.Task task);
    // public void Delete(int id);
 }
