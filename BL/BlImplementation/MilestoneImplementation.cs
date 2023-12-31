@@ -1,4 +1,5 @@
 ﻿using BlApi;
+using BO;
 using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Security.Cryptography;
@@ -112,5 +113,10 @@ internal class MilestoneImplementation : IMilestone
             throw new Exception();
         };
 
+    }
+
+    public Milestone CreateLUZ()
+    {
+        throw new NotImplementedException();
     }
 }

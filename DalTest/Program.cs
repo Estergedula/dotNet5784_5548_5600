@@ -241,8 +241,8 @@ internal class Program
                 _start=taskToUpdate.Start;
             Console.WriteLine("Enter date of forecast\n");
             DateTime.TryParse(Console.ReadLine(), out DateTime _ForecastDate);
-            if (_ForecastDate==DateTime.MinValue)
-                _ForecastDate=taskToUpdate.ForecastDate;
+            //if (_ForecastDate==DateTime.MinValue)
+            //    _ForecastDate=taskToUpdate.ForecastDate;
             Console.WriteLine("Enter date of deadline\n");
             DateTime.TryParse(Console.ReadLine(), out DateTime _DeadLine);
             if (_DeadLine==DateTime.MinValue)
