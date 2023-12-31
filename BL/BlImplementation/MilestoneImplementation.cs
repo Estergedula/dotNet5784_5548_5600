@@ -36,7 +36,7 @@ internal class MilestoneImplementation : IMilestone
     //public string? Remarks { get; set; }
     public List<BO.TaskInList>? dependecies { get; set; }
     
-    public Milestone? Read(int id)
+    public BO.Milestone? Read(int id)
     {
         //is we need to chake bool milistone
         DO.Task? doTask = _dal.Task.Read(id);
