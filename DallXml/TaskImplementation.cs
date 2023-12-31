@@ -86,7 +86,7 @@ internal class TaskImplementation : ITask
         const string XMLTask = @"tasks";
         List<Task> list = XMLTools.LoadListFromXMLSerializer<Task>(XMLTask);
         list.Remove(taskToUpdate);
-        Task task = new(item.Id, item.Description, item.Alias, item.Milestone, item.CreatedAt, item.Start, item.ForecastDate, item.DeadLine, item.Complete, item.Deliverables, item.Remarks, item.EngineerId, item.ComplexilyLevel);
+        Task task = new(item.Id, item.Description, item.Alias, item.Milestone, item.CreatedAt, item.Start, item.ScheduleDate, item.DeadLine, item.Complete, item.Deliverables, item.Remarks, item.EngineerId, item.ComplexilyLevel);
         list.Add(task);
         XMLTools.SaveListToXMLSerializer<Task>(list, XMLTask);
     }

@@ -12,7 +12,7 @@ internal class MilestoneImplementation : IMilestone
 
     public BO.Milestone CreateLUZ(int id)
     {
-        IEnumerable<Dependency?> dependencies = _dal.Dependency.ReadAll();
+        IEnumerable<DO.Dependency?> dependencies = _dal.Dependency.ReadAll();
         var groupByDependencies = dependencies.GroupBy(dependency => dependency!.DependOnTask,
             (dependencyOnTask, dependencies) =>new { Key = dependencyOnTask, Dependencies = dependencies.Select(dependency=>dependency!.DependentTask) }).Order();
         var groupByDependenciesNotDistinct = groupByDependencies.Distinct();
@@ -87,7 +87,7 @@ internal class MilestoneImplementation : IMilestone
             DO.Task taskMilestone = _dal.Task.Read(task.Id)!;
             DO.Task updateMilistone = taskMilestone with { Alias = task.Alias, Description = task.Description, Remarks = task.Remarks };
             _dal.Task.Update(updateMilistone);
-            IEnumerable<TaskInList> tasksOfMilistone = from d in (_dal.Dependency.ReadAll((d) => d!.DependentTask == task.Id))
+            IEnumerable<BO.TaskInList> tasksOfMilistone = from d in (_dal.Dependency.ReadAll((d) => d!.DependentTask == task.Id))
                                                        let taskOfMilistone = _dal.Task.Read(d.Id)
                                                        select new BO.TaskInList { Id = taskOfMilistone.Id, Description = taskOfMilistone.Description, Alias = taskOfMilistone.Alias, Status = getStatuesOfTask(taskOfMilistone)/*====*/ };
             return new BO.Milestone
