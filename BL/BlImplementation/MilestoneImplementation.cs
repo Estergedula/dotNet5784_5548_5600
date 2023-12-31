@@ -52,14 +52,52 @@ internal class MilestoneImplementation : IMilestone
             Dependecies = tasksOfMilistone.ToList()
         };
     }
+    private BO.Status getStatuesOfTask(DO.Task task)
+    {
+
+        if (task.ScheduleDate == DateTime.MinValue)
+            return BO.Status.Unscheduled;
+        else if (task.Start == DateTime.MinValue)
+            return BO.Status.Scheduled;
+        else if (task.DeadLine < DateTime.Now && task.Complete == DateTime.MinValue)
+            return BO.Status.InJeopardy;
+        else return BO.Status.OnTrack;
+    }
     private double getCompletionPercentage(IEnumerable<TaskInList> tasksOfMilistone)
     {
         int numOfStartTasks = tasksOfMilistone.Sum((taskOdMilstone) => taskOdMilstone.Status==BO.Status.Unscheduled/*===*/? 1:0);
         int numOfAllDependiesTasks = tasksOfMilistone.Count();
         return (numOfStartTasks/numOfAllDependiesTasks)*100;
     }
-    public void Update(int id)
+    public void Update(BO.Task task)
     {
+        if (task.Alias == "" || task.Description == "")
+            throw new Exception();
+        try
+        {
+            //לבדוק אם זה אבן דרך? אפה מקבלים את הערכים?
+            DO.Task taskMilestone = _dal.Task.Read(task.Id)!;
+            DO.Task updateMilistone = taskMilestone with { Alias = task.Alias, Description = task.Description, Remarks = task.Remarks };
+            _dal.Task.Update(updateMilistone);
+            return new BO.Milestone
+            {
+                MileStoneId = updateMilistone.Id,
+                Description = updateMilistone.Description,
+                Alias = updateMilistone.Alias,
+                CreatedAt = updateMilistone.CreatedAt,
+                Status = getStatuesOfTask(updateMilistone),
+                DeadLine = updateMilistone.DeadLine,
+                Complete = updateMilistone.Complete,
+                Remarks = updateMilistone.Remarks,
+                CompletionPercentage = getCompletionPercentage(getDependeciesOfMilistone(updateMilistone.Id)),
+                Dependencies = getDependeciesOfMilistone(updateMilistone.Id).ToList(),
+                ForecastDate = null
+            };
+        }
+        catch (DO.DalDoesNotExistException)
+        {
+            throw new BO.BlDoesNotExistException($"Milistone with ID={task.Id} is not exists");
+        };
 
     }
 }

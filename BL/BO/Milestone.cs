@@ -9,7 +9,7 @@ namespace BO;
 public class Milestone
 {
     public int MileStoneId { get; init; }
-    public string? Descriotion { get; init; }
+    public string? Description { get; init; }
     public string? Alias { get; init; }
     public Status Status { get; set; }
     public DateTime? CreatedAt { get; set; }
