@@ -91,12 +91,14 @@ public void Delete(int id)
 
     private BO.Status getStatuesOfTask(DO.Task task)
     {
-       // BO.Status status = BO.Status.Scheduled;
-        if (task.Id==1)
+       
+        if (task.ScheduleDate == DateTime.MinValue)
+            return BO.Status.Unscheduled;
+        else if (task.Start == DateTime.MinValue)
             return BO.Status.Scheduled;
-        //else return BO.Status.Scheduled;
-        /**/
-        return BO.Status.OnTrack;
+        else if (task.DeadLine < DateTime.Now && task.Complete == DateTime.MinValue)
+            return BO.Status.InJeopardy;
+        else return BO.Status.OnTrack;
     }
     public BO.Task? Read(int id)
     {
@@ -117,7 +119,7 @@ public void Delete(int id)
                 Id = t!.Id,
                 Alias = t.Alias
             }
-        ).Where(doTask => (_dal.Task.Read(doTask.Id)!.Milestone && (_dal.Dependency.ReadAll((d) => d!.DependentTask == doTask!.Id && d.DependOnTask == doTask.Id)) is not null)).FirstOrDefault(),
+                 ).Where(doTask => (_dal.Task.Read(doTask.Id)!.Milestone && (_dal.Dependency.ReadAll((d) => d!.DependentTask == doTask!.Id && d.DependOnTask == doTask.Id)) is not null)).FirstOrDefault(),
             Status = getStatuesOfTask(doTask!),
             DependenciesList = _dal.Dependency.ReadAll((d) => d!.DependentTask == doTask.Id).Select(d => new BO.TaskInList
             {
