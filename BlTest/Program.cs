@@ -1,2 +1,5 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿internal class Program
+{
+    static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
+
+}
