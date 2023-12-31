@@ -18,8 +18,8 @@ internal class MilestoneImplementation : IMilestone
         var groupByDependencies = dependencies.GroupBy(dependency => dependency!.DependOnTask,
             (dependencyOnTask, dependencies) =>new { Key = dependencyOnTask, Dependencies = dependencies.Select(dependency=>dependency!.DependentTask) }).Order();
         var groupByDependenciesNotDistinct = groupByDependencies.Distinct();
-        var x=groupByDependenciesNotDistinct.Select(gruopOfDependencies => gruopOfDependencies.Dependencies.Select(dependency => new DO.Dependency(dependency, gruopOfDependencies.Key)));
-        
+        var x = from dependency in groupByDependencies select new { };
+        //var x=groupByDependenciesNotDistinct.Select(gruopOfDependencies => gruopOfDependencies.Dependencies.Select(dependency => new DO.Dependency(dependency, gruopOfDependencies.Key)));
         //var c=hh.Select(hh => {hh.Key,hh.).ToList();
         //var x=from dependency in dependencies group dependency!.DependOnTask select new 
             throw new NotImplementedException(); 
@@ -37,6 +37,7 @@ internal class MilestoneImplementation : IMilestone
     //public double? CompletionPercentage { get; set; }
     //public string? Remarks { get; set; }
     public List<BO.TaskInList>? dependecies { get; set; }
+    
     public Milestone? Read(int id)
     {
         //is we need to chake bool milistone
@@ -51,7 +52,7 @@ internal class MilestoneImplementation : IMilestone
             MileStoneId = doTask!.Id,
             Description = doTask.Description,
             Alias = doTask.Alias,
-            Status = Status.OnTrack/*ffffffffffff*/,
+            Status = getStatuesOfTask(doTask),
             CreatedAt = doTask.CreatedAt,
             Start = doTask.Start,
             ForecastDate =DateTime.Now /*doTask.ForecastDate,*/,
