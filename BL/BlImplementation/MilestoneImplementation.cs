@@ -1,6 +1,8 @@
 ﻿using BlApi;
 using BO;
+using DO;
 using System.Diagnostics.Metrics;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 
@@ -10,9 +12,17 @@ internal class MilestoneImplementation : IMilestone
 {
     private DalApi.IDal _dal = DalApi.Factory.Get;
 
-    public Milestone CreateLUZ(int id)
+    public Milestone CreateLUZ()
     {
-        throw new NotImplementedException();
+        IEnumerable<Dependency?> dependencies = _dal.Dependency.ReadAll();
+        var groupByDependencies = dependencies.GroupBy(dependency => dependency!.DependOnTask,
+            (dependencyOnTask, dependencies) =>new { Key = dependencyOnTask, Dependencies = dependencies.Select(dependency=>dependency!.DependentTask) }).Order();
+        var groupByDependenciesNotDistinct = groupByDependencies.Distinct();
+        var x=groupByDependenciesNotDistinct.Select(gruopOfDependencies => gruopOfDependencies.Dependencies.Select(dependency => new DO.Dependency(dependency, gruopOfDependencies.Key)));
+        
+        //var c=hh.Select(hh => {hh.Key,hh.).ToList();
+        //var x=from dependency in dependencies group dependency!.DependOnTask select new 
+            throw new NotImplementedException(); 
     }
     //public int MileStoneId { get; init; }
     //public string? Descriotion { get; init; }
