@@ -80,11 +80,12 @@ internal class TaskImplementation : BlApi.ITask
 public void Delete(int id)
     {
         if (Read(id) is null) throw new Exception();
+        if 
         try
         {
             _dal.Task.Delete(id);
         }
-        catch (Exception ex) { Console.WriteLine(ex.Message); }
+        catch (Exception ex) { throw new Exception(); }
     }
 
 
