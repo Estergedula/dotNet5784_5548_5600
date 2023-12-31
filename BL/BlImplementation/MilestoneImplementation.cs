@@ -38,7 +38,7 @@ internal class MilestoneImplementation : IMilestone
     
     public BO.Milestone? Read(int id)
     {
-        //is we need to chake bool milistone
+        //is we need to chake bool milestone
         DO.Task? doTask = _dal.Task.Read(id);
         var n = from d in (_dal.Dependency.ReadAll((d) => d!.DependentTask == id))
                 select _dal.Task.Read(d.DependOnTask);
@@ -90,7 +90,7 @@ internal class MilestoneImplementation : IMilestone
             _dal.Task.Update(updateMilestone);
             IEnumerable<BO.TaskInList> tasksOfMilestone = from d in (_dal.Dependency.ReadAll((d) => d!.DependentTask == task.Id))
                                                        let taskOfMilestone = _dal.Task.Read(d.Id)
-                                                       select new BO.TaskInList { Id = taskOfMilestone.Id, Description = taskOfMilestone.Description, Alias = taskOfMilistone.Alias, Status = getStatuesOfTask(taskOfMilistone)/*====*/ };
+                                                       select new BO.TaskInList { Id = taskOfMilestone.Id, Description = taskOfMilestone.Description, Alias = taskOfMilestone.Alias, Status = getStatuesOfTask(taskOfMilestone)/*====*/ };
             return new BO.Milestone
             {
                 MileStoneId = updateMilestone.Id,
