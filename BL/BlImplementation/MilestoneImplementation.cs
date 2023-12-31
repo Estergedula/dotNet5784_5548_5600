@@ -42,7 +42,7 @@ internal class MilestoneImplementation : IMilestone
         DO.Task? doTask = _dal.Task.Read(id);
         var n = from d in (_dal.Dependency.ReadAll((d) => d!.DependentTask == id))
                 select _dal.Task.Read(d.DependOnTask);
-        IEnumerable<BO.TaskInList> tasksOfMilistone = from d in (_dal.Dependency.ReadAll((d) => d!.DependentTask == id))
+        IEnumerable<BO.TaskInList> tasksOfMilestone = from d in (_dal.Dependency.ReadAll((d) => d!.DependentTask == id))
               let task =_dal.Task.Read(d.Id)
               select new BO.TaskInList { Id = task.Id, Description = task.Description, Alias = task.Alias, Status = BO.Status.Scheduled/*====*/ };
         return new BO.Milestone
@@ -56,9 +56,9 @@ internal class MilestoneImplementation : IMilestone
             ForecastDate =DateTime.Now /*doTask.ForecastDate,*/,
             DeadLine = doTask.DeadLine,
             Complete = doTask.Complete,
-            CompletionPercentage = getCompletionPercentage(tasksOfMilistone),
+            CompletionPercentage = getCompletionPercentage(tasksOfMilestone),
             Remarks = doTask.Remarks,
-            Dependecies = tasksOfMilistone.ToList()
+            Dependecies = tasksOfMilestone.ToList()
         };
     }
     private BO.Status getStatuesOfTask(DO.Task task)
@@ -72,10 +72,10 @@ internal class MilestoneImplementation : IMilestone
             return BO.Status.InJeopardy;
         else return BO.Status.OnTrack;
     }
-    private double getCompletionPercentage(IEnumerable<BO.TaskInList> tasksOfMilistone)
+    private double getCompletionPercentage(IEnumerable<BO.TaskInList> tasksOfMilestone)
     {
-        int numOfStartTasks = tasksOfMilistone.Sum((taskOdMilstone) => taskOdMilstone.Status==BO.Status.Unscheduled/*===*/? 1:0);
-        int numOfAllDependiesTasks = tasksOfMilistone.Count();
+        int numOfStartTasks = tasksOfMilestone.Sum((taskOdMilstone) => taskOdMilstone.Status==BO.Status.Unscheduled/*===*/? 1:0);
+        int numOfAllDependiesTasks = tasksOfMilestone.Count();
         return (numOfStartTasks/numOfAllDependiesTasks)*100;
     }
     public BO.Milestone Update(BO.Task task)
@@ -86,29 +86,29 @@ internal class MilestoneImplementation : IMilestone
         {
             //לבדוק אם זה אבן דרך? אפה מקבלים את הערכים?
             DO.Task taskMilestone = _dal.Task.Read(task.Id)!;
-            DO.Task updateMilistone = taskMilestone with { Alias = task.Alias, Description = task.Description, Remarks = task.Remarks };
-            _dal.Task.Update(updateMilistone);
-            IEnumerable<BO.TaskInList> tasksOfMilistone = from d in (_dal.Dependency.ReadAll((d) => d!.DependentTask == task.Id))
-                                                       let taskOfMilistone = _dal.Task.Read(d.Id)
-                                                       select new BO.TaskInList { Id = taskOfMilistone.Id, Description = taskOfMilistone.Description, Alias = taskOfMilistone.Alias, Status = getStatuesOfTask(taskOfMilistone)/*====*/ };
+            DO.Task updateMilestone = taskMilestone with { Alias = task.Alias, Description = task.Description, Remarks = task.Remarks };
+            _dal.Task.Update(updateMilestone);
+            IEnumerable<BO.TaskInList> tasksOfMilestone = from d in (_dal.Dependency.ReadAll((d) => d!.DependentTask == task.Id))
+                                                       let taskOfMilestone = _dal.Task.Read(d.Id)
+                                                       select new BO.TaskInList { Id = taskOfMilestone.Id, Description = taskOfMilestone.Description, Alias = taskOfMilistone.Alias, Status = getStatuesOfTask(taskOfMilistone)/*====*/ };
             return new BO.Milestone
             {
-                MileStoneId = updateMilistone.Id,
-                Description = updateMilistone.Description,
-                Alias = updateMilistone.Alias,
-                CreatedAt = updateMilistone.CreatedAt,
-                Status = getStatuesOfTask(updateMilistone),
-                DeadLine = updateMilistone.DeadLine,
-                Complete = updateMilistone.Complete,
-                Remarks = updateMilistone.Remarks,
-                CompletionPercentage = getCompletionPercentage(tasksOfMilistone),
-                Dependecies = tasksOfMilistone.ToList(),
+                MileStoneId = updateMilestone.Id,
+                Description = updateMilestone.Description,
+                Alias = updateMilestone.Alias,
+                CreatedAt = updateMilestone.CreatedAt,
+                Status = getStatuesOfTask(updateMilestone),
+                DeadLine = updateMilestone.DeadLine,
+                Complete = updateMilestone.Complete,
+                Remarks = updateMilestone.Remarks,
+                CompletionPercentage = getCompletionPercentage(tasksOfMilestone),
+                Dependecies = tasksOfMilestone.ToList(),
                 ForecastDate = null
             };
         }
         catch (DO.DalDoesNotExistException)
         {
-            // throw new BO.BlDoesNotExistException($"Milistone with ID={task.Id} is not exists");
+            // throw new BO.BlDoesNotExistException($"Milestone with ID={task.Id} is not exists");
             throw new Exception();
         };
 
