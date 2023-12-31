@@ -1,4 +1,6 @@
-﻿namespace BlImplementation;
+﻿
+
+namespace BlImplementation;
 
 internal class TaskImplementation : BlApi.ITask
 {
@@ -19,7 +21,7 @@ internal class TaskImplementation : BlApi.ITask
     public int Create(BO.Task boTask)
     {
         if (boTask.Id <= 0 || boTask.Alias == "")
-            throw new Exception();
+            throw new BO.BlInvalidDataException($"The data you entered is incorrect.");
         boTask?.DependenciesList?.Select(task => new DO.Dependency(boTask.Id, task.Id));
         DO.Task doTask = new DO.Task(
             boTask!.Id, boTask.Description, boTask.Alias, false, boTask.CreatedAt,
@@ -33,8 +35,7 @@ internal class TaskImplementation : BlApi.ITask
         }
         catch (DO.DalAlreadyExistsException ex)
         {
-            // throw new BO.BlAlreadyExistsException($"Task with ID={boStudent.Id} already exists", ex);
-            throw new Exception(ex.Message);
+            throw new BO.BlAlreadyExistsException($"Task with ID={boTask.Id} already exists", ex);
         }
     }
 
@@ -79,13 +80,14 @@ internal class TaskImplementation : BlApi.ITask
 
 public void Delete(int id)
     {
-        if (Read(id) is null) throw new Exception();
-        if 
+        //BO.Task? boTask = Read(id);
+        //בדיקה האם נוצר כבר לו"ז
         try
         {
             _dal.Task.Delete(id);
         }
-        catch (Exception ex) { throw new Exception(); }
+        catch (DO.DalDeletionImpossible ex) { throw new BO.BlDeletionImpossible($"A task with ID number = {id} cannot be deleted.", ex); }
+        catch(DO.DalDoesNotExistException ex) { throw new BO.BlDoesNotExistException($"A task with ID number = {id} does not exist.", ex); }
     }
 
 
@@ -103,6 +105,7 @@ public void Delete(int id)
     public BO.Task? Read(int id)
     {
         DO.Task? doTask = _dal.Task.Read(id);
+        if (doTask == null) throw new BO.BlDoesNotExistException($"A task with ID number = {id} does not exist.");
         BO.MillestoneInTask? milestomeInList = _dal.Task.ReadAll().Select(t => new BO.MillestoneInTask
         {
             Id = t!.Id,
@@ -177,7 +180,7 @@ public void Delete(int id)
     public void Update(BO.Task boTask)
     {
         if (boTask.Id <= 0 || boTask.Alias == "")
-            throw new Exception();
+            throw new BO.BlInvalidDataException($"The data you entered is incorrect.");
         DO.Task doTask = new DO.Task
         (boTask.Id, boTask.Description, boTask.Alias, false/**/, boTask.CreatedAt, boTask.Start,
         boTask.ForecastDate, boTask.DeadLine, boTask.Complete, boTask.Deliverables, boTask.Remarks, boTask.Engineer!.Id, (DO.EngineerExperience)boTask.ComplexilyLevel);
@@ -187,8 +190,7 @@ public void Delete(int id)
         }
         catch (DO.DalAlreadyExistsException ex)
         {
-            throw new Exception(ex.Message);
-            //throw new BO.BlAlreadyExistsException($"Student with ID={boStudent.Id} already exists", ex);
+            throw new BO.BlAlreadyExistsException($"Student with ID={boTask.Id} already exists", ex);
         }
     }
 }

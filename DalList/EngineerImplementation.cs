@@ -28,7 +28,7 @@ internal class EngineerImplementation : IEngineer
     {
         Engineer? engineerToDelete = Read(id);
         if (engineerToDelete is null)
-            throw new DalDoesNotExistException($"Engineer with ID={id} does not exist.");
+            throw new DalDoesNotExistException($"An engineer with ID number = {id} does not exist.");
         else DataSource.Engineers.Remove(engineerToDelete);
     }
     /// <summary>
