@@ -1,6 +1,4 @@
 ﻿using BlApi;
-using BO;
-using DO;
 using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Security.Cryptography;
@@ -12,7 +10,7 @@ internal class MilestoneImplementation : IMilestone
 {
     private DalApi.IDal _dal = DalApi.Factory.Get;
 
-    public Milestone CreateLUZ()
+    public BO.Milestone CreateLUZ(int id)
     {
         IEnumerable<Dependency?> dependencies = _dal.Dependency.ReadAll();
         var groupByDependencies = dependencies.GroupBy(dependency => dependency!.DependOnTask,
@@ -44,10 +42,10 @@ internal class MilestoneImplementation : IMilestone
         DO.Task? doTask = _dal.Task.Read(id);
         var n = from d in (_dal.Dependency.ReadAll((d) => d!.DependentTask == id))
                 select _dal.Task.Read(d.DependOnTask);
-        IEnumerable<TaskInList> tasksOfMilistone = from d in (_dal.Dependency.ReadAll((d) => d!.DependentTask == id))
+        IEnumerable<BO.TaskInList> tasksOfMilistone = from d in (_dal.Dependency.ReadAll((d) => d!.DependentTask == id))
               let task =_dal.Task.Read(d.Id)
               select new BO.TaskInList { Id = task.Id, Description = task.Description, Alias = task.Alias, Status = BO.Status.Scheduled/*====*/ };
-        return new Milestone
+        return new BO.Milestone
         {
             MileStoneId = doTask!.Id,
             Description = doTask.Description,
@@ -74,7 +72,7 @@ internal class MilestoneImplementation : IMilestone
             return BO.Status.InJeopardy;
         else return BO.Status.OnTrack;
     }
-    private double getCompletionPercentage(IEnumerable<TaskInList> tasksOfMilistone)
+    private double getCompletionPercentage(IEnumerable<BO.TaskInList> tasksOfMilistone)
     {
         int numOfStartTasks = tasksOfMilistone.Sum((taskOdMilstone) => taskOdMilstone.Status==BO.Status.Unscheduled/*===*/? 1:0);
         int numOfAllDependiesTasks = tasksOfMilistone.Count();

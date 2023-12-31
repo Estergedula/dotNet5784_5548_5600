@@ -1,7 +1,5 @@
 ﻿using BlApi;
-using BO;
 using System.Net.Mail;
-using System.Runtime.CompilerServices;
 
 namespace BlImplementation;
 
@@ -39,7 +37,7 @@ internal class EngineerImplementation : IEngineer
     public int Create(BO.Engineer boEngineer)
     {
         if (boEngineer.Id <= 0 || boEngineer.Name == "" || boEngineer.Cost <= 0 || IsValidEmail(boEngineer.Email))
-            throw new Exception();
+            throw new BO.BlInvalidDataException($"The data you entered is incorrect.");
         DO.Engineer doEngineer = new DO.Engineer
         (boEngineer.Id, boEngineer.Name, boEngineer.Email, (DO.EngineerExperience)(boEngineer.Level), boEngineer.Cost);
         try
@@ -49,28 +47,24 @@ internal class EngineerImplementation : IEngineer
         }
         catch (DO.DalAlreadyExistsException ex)
         {
-            throw new Exception(ex.Message);
-            //throw new BO.BlAlreadyExistsException($"Student with ID={boStudent.Id} already exists", ex);
+            throw new BO.BlAlreadyExistsException($"Engineer with ID={boEngineer.Id} already exists", ex);
         }
     }
 
     public void Delete(int id)
     {
-        if (GetTasksOfEngineer(id) == null) throw new Exception();
+        if (GetTasksOfEngineer(id) is not null) throw new BO.BlDeletionImpossible($"An engineer with ID number = {id} cannot be deleted.");
         try
         {
             _dal.Engineer.Delete(id);
         }
-        catch (Exception ex) { Console.WriteLine(ex.Message); }
+        catch (DO.DalDoesNotExistException ex) { throw new BO.BlDoesNotExistException($"An engineer with ID number = {id} does not exist.", ex); }
     }
 
-    public Engineer? Read(int id)
+    public BO.Engineer? Read(int id)
     {
         DO.Engineer? doEngineer = _dal.Engineer.Read(id);
-        if (doEngineer == null)
-            throw new Exception();
-
-        //  throw new BO.BlDoesNotExistException($"Student with ID={id} does Not exist");
+        if (doEngineer == null) throw new BO.BlDoesNotExistException($"An engineer with ID number = {id} does not exist."); //יש לבדוק מה בנוגע לזריקת חריגות ממתודת קרחאה בשכבת הנתונים
         return new BO.Engineer
         {
             Id = id,
@@ -81,29 +75,29 @@ internal class EngineerImplementation : IEngineer
             CurrentTask = GetCurrentTaskOfEngineer(id)
         };
     }
-    private TaskInEngineer? GetCurrentTaskOfEngineer(int idOfEngineer)
+    private BO.TaskInEngineer? GetCurrentTaskOfEngineer(int idOfEngineer)
     {
         var allTasks = _dal.Task.ReadAll();
-        TaskInEngineer? currentTaskInEngineer =
+        BO.TaskInEngineer? currentTaskInEngineer =
              (from t in allTasks
               where ((t.EngineerId == idOfEngineer) && (t.Start > DateTime.Now) && (t.Complete != DateTime.MinValue))
-              select new TaskInEngineer { Id = t.Id, Name = t.Description }).FirstOrDefault();
+              select new BO.TaskInEngineer { Id = t.Id, Name = t.Description }).FirstOrDefault();
         return currentTaskInEngineer;
     }
-    private IEnumerable<TaskInEngineer> GetTasksOfEngineer(int idOfEngineer)
+    private IEnumerable<BO.TaskInEngineer> GetTasksOfEngineer(int idOfEngineer)
     {
         var allTasks = _dal.Task.ReadAll();
-        IEnumerable<TaskInEngineer>? taskInEngineer =
+        IEnumerable<BO.TaskInEngineer>? taskInEngineer =
             (from t in allTasks
              where (t.EngineerId == idOfEngineer)
-             select new TaskInEngineer { Id = t.Id, Name = t.Description });
+             select new BO.TaskInEngineer { Id = t.Id, Name = t.Description });
         return taskInEngineer;
     }
 
-    public void Update(Engineer boEngineer)
+    public void Update(BO.Engineer boEngineer)
     {
         if (boEngineer.Id <= 0 || boEngineer.Name == "" || boEngineer.Cost <= 0 || IsValidEmail(boEngineer.Email))
-            throw new Exception();
+            throw new BO.BlInvalidDataException($"The data you entered is incorrect.");
         DO.Engineer doEngineer = new DO.Engineer
        (boEngineer.Id, boEngineer.Name, boEngineer.Email, (DO.EngineerExperience)(boEngineer.Level), boEngineer.Cost);
         try
@@ -112,13 +106,12 @@ internal class EngineerImplementation : IEngineer
         }
         catch (DO.DalAlreadyExistsException ex)
         {
-            throw new Exception(ex.Message);
-            //throw new BO.BlAlreadyExistsException($"Student with ID={boStudent.Id} already exists", ex);
+            throw new BO.BlAlreadyExistsException($"An engineer with ID number = {boEngineer.Id} does not exist.", ex);
         }
     }
 
 
-    public IEnumerable<Engineer> ReadAll(Func<BO.Engineer?, bool>? filter = null)
+    public IEnumerable<BO.Engineer> ReadAll(Func<BO.Engineer?, bool>? filter = null)
     {
         IEnumerable<DO.Engineer?> allEngineers = _dal.Engineer.ReadAll((Func<DO.Engineer?, bool>?)filter);
         IEnumerable<BO.Engineer> allEngineersinBo = from doEngineer in allEngineers
