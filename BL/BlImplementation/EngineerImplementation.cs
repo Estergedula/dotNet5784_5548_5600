@@ -64,7 +64,7 @@ internal class EngineerImplementation : IEngineer
     public BO.Engineer? Read(int id)
     {
         DO.Engineer? doEngineer = _dal.Engineer.Read(id);
-        if (doEngineer == null) throw new BO.BlDoesNotExistException($"An engineer with ID number = {id} does not exist."); //יש לבדוק מה בנוגע לזריקת חריגות ממתודת קרחאה בשכבת הנתונים
+        if (doEngineer is null) throw new BO.BlDoesNotExistException($"An engineer with ID number = {id} does not exist."); //יש לבדוק מה בנוגע לזריקת חריגות ממתודת קרחאה בשכבת הנתונים
         return new BO.Engineer
         {
             Id = id,
@@ -81,7 +81,7 @@ internal class EngineerImplementation : IEngineer
         BO.TaskInEngineer? currentTaskInEngineer =
              (from t in allTasks
               where ((t.EngineerId == idOfEngineer) && (t.Start > DateTime.Now) && (t.Complete != DateTime.MinValue))
-              select new BO.TaskInEngineer { Id = t.Id, Name = t.Description }).FirstOrDefault();
+              select new BO.TaskInEngineer { Id = t.Id, Alias = t.Alias }).FirstOrDefault();
         return currentTaskInEngineer;
     }
     private IEnumerable<BO.TaskInEngineer> GetTasksOfEngineer(int idOfEngineer)
@@ -90,7 +90,7 @@ internal class EngineerImplementation : IEngineer
         IEnumerable<BO.TaskInEngineer>? taskInEngineer =
             (from t in allTasks
              where (t.EngineerId == idOfEngineer)
-             select new BO.TaskInEngineer { Id = t.Id, Name = t.Description });
+             select new BO.TaskInEngineer { Id = t.Id, Alias = t.Alias });
         return taskInEngineer;
     }
 

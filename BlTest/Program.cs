@@ -1,5 +1,8 @@
 ﻿
-namespace BLTest;
+using BO;
+using System.Numerics;
+
+namespace BlTest;
 
 internal class Program
 {
@@ -43,19 +46,28 @@ internal class Program
         Console.WriteLine("enter hourly cost\n");
         double.TryParse(Console.ReadLine(), out double _cost);
         Console.WriteLine("enter id of current task \n");
-        int.TryParse(Console.ReadLine(), out int _idOfCurrentTask);
+        int.TryParse(Console.ReadLine(), out int _idOfCurrentTask);      
         try
         {
-            BO.Task ? _currentTask = s_bl.Task.Read(_idOfCurrentTask);
+            BO.Task? _currentTask;
+            try
+            {
+               _currentTask = s_bl.Task.Read(_idOfCurrentTask);
+            }
+            catch (BO.BlDoesNotExistException ex)
+            {
+                throw ex;
+            }
+            BO.TaskInEngineer currentTaskOfEngineer=new BO.TaskInEngineer { Id = _currentTask!.Id, Alias=_currentTask!.Alias };
+            try
+            {
+                int id = s_bl!.Engineer.Create(new BO.Engineer { Id = _id, Name = _name, Email = _email, Level = _level, Cost = _cost, CurrentTask = currentTaskOfEngineer });
+                Console.WriteLine(id + "\n");
+            }
+            catch(BO.BlInvalidDataException ex) { throw ex; }
+            catch (BO.BlAlreadyExistsException ex) { throw ex; }
         }
-        catch (BO.BlDoesNotExistException e){ Console.WriteLine(e.Message + "\n"); }
-        try
-        {
-            BO.TaskInEngineer currentTaskOfEngineer=new BO.TaskInEngineer { Id = _id };
-            int id = s_bl!.Engineer.Create(new BO.Engineer { Id = _id, Name = _name, Email = _email, Level = _level, Cost = _cost, CurrentTask = _currentTask });
-            Console.WriteLine(id + "\n");
-        }
-        catch (BO.BlAlreadyExistsException e) { Console.WriteLine(e.Message + "\n"); }
+        catch (Exception ex) { Console.WriteLine(ex.Message + "\n"); }
     }
     /// <summary>
     /// input id of engineer and display his details
@@ -64,34 +76,39 @@ internal class Program
     {
         Console.WriteLine("enter Id to search");
         int.TryParse(Console.ReadLine(), out int _idToSearch);
-        Engineer? findEngineer = s_bl!.Engineer.Read(_idToSearch);
-        if (findEngineer is not null)
-            Console.WriteLine(findEngineer);
-        else Console.WriteLine("There is no id engineer");
+        try
+        {
+            Engineer? findEngineer = s_bl!.Engineer.Read(_idToSearch);
+            if (findEngineer is not null)
+                Console.WriteLine(findEngineer);
+            else Console.WriteLine("There is no id engineer");
+        }
+        catch (BO.BlDoesNotExistException ex) { Console.WriteLine(ex.Message+ "\n"); }
     }
     /// <summary>
     /// diplay all engineers
     /// </summary>
     public static void displayAllEngineers()
     {
-        List<Engineer?> allEngineers = s_bl!.Engineer.ReadAll().ToList();
-        foreach (Engineer? engineer in allEngineers)
-            Console.WriteLine(engineer + "\n");
+            List<Engineer> allEngineers = s_bl!.Engineer.ReadAll().ToList();
+            foreach (Engineer? engineer in allEngineers)
+                Console.WriteLine(engineer + "\n");
     }
     /// <summary>
     /// input id of engineer, his details and update
     /// </summary>
     public static void updateEngineer()
     {
-        Console.WriteLine("Enter Id to update");
-        int.TryParse(Console.ReadLine(), out int _idToUpDate);
-        Engineer? engineerToUpdate = s_dal!.Engineer.Read(_idToUpDate);
-        if (engineerToUpdate is null)
+        try
         {
-            Console.WriteLine("This id number does not exist");
-        }
-        else
-        {
+            Console.WriteLine("Enter Id to update");
+            int.TryParse(Console.ReadLine(), out int _idToUpDate);
+            Engineer? engineerToUpdate;
+            try
+            {
+                engineerToUpdate = s_bl!.Engineer.Read(_idToUpDate);
+            }
+            catch (BO.BlDoesNotExistException ex) { throw ex; }
             Console.WriteLine(engineerToUpdate);
             Console.WriteLine("Enter name\n");
             string? _name = Console.ReadLine();
@@ -100,18 +117,33 @@ internal class Program
             Console.WriteLine("Enter level: 1-Expert, 2-Junior, 3-Tyro\n");
             int.TryParse(Console.ReadLine(), out int experienceChoice);
             if (experienceChoice == 0)
-                experienceChoice = (int)engineerToUpdate.Level;
-            EngineerExperience _level = (EngineerExperience)experienceChoice;
+                experienceChoice = (int)engineerToUpdate!.Level;
+            BO.EngineerExperience _level = (BO.EngineerExperience)experienceChoice;
             Console.WriteLine("Enter hourly cost\n");
             double.TryParse(Console.ReadLine(), out double _cost);
             if (_cost == 0)
             {
-                if (engineerToUpdate.Cost is not null)
-                    _cost = (double)engineerToUpdate.Cost;
+             if (engineerToUpdate!.Cost is not null)
+                  _cost = (double)engineerToUpdate.Cost;
+             }
+            Console.WriteLine("enter id of current task \n");
+            int.TryParse(Console.ReadLine(), out int _idOfCurrentTask);
+            BO.TaskInEngineer? currentTaskOfEngineer;
+            try {
+                BO.Task ?currentTask = s_bl.Task.Read(_idOfCurrentTask);
+                currentTaskOfEngineer=new TaskInEngineer { Id=currentTask!.Id,Alias=currentTask.Alias};
             }
-            try { s_dal!.Engineer.Update(new(_idToUpDate, _name ?? engineerToUpdate.Name, _email ?? engineerToUpdate.Email, _level, _cost)); }
-            catch (DalDoesNotExistException e) { Console.WriteLine(e.Message + "\n"); }
+            catch(BO.BlDoesNotExistException )
+            {
+                currentTaskOfEngineer = engineerToUpdate!.CurrentTask;
+            }
+            try { s_bl!.Engineer.Update(new BO.Engineer { Id = _idToUpDate, Name = _name ?? engineerToUpdate!.Name, Email = _email ?? engineerToUpdate!.Email, Level = _level, Cost = _cost, CurrentTask = currentTaskOfEngineer }) ; }
+            catch(BO.BlInvalidDataException ex) { throw ex; }
+            catch (BO.BlDoesNotExistException ex) 
+                { throw ex; }
         }
+        catch (Exception e) 
+          { Console.WriteLine(e.Message + "\n"); }
     }
     /// <summary>
     /// input id of engineer and delete
@@ -122,9 +154,10 @@ internal class Program
         int.TryParse(Console.ReadLine(), out int _idToDelete);
         try
         {
-            s_dal!.Engineer.Delete(_idToDelete);
+            s_bl!.Engineer.Delete(_idToDelete);
         }
-        catch (DalDoesNotExistException e) { Console.WriteLine(e.Message + "\n"); }
+        catch (BO.BlDeletionImpossible e) { Console.WriteLine(e.Message + "\n"); }
+        catch (BO.BlDoesNotExistException e) { Console.WriteLine(e.Message + "\n"); }
     }
     /// <summary>
     /// display the option of engineer menu and do the user choice
@@ -160,6 +193,22 @@ internal class Program
     /// </summary>
     public static void createTask()
     {
+    //     public required int Id { get; init; }
+    //public required string Description { get; set; }
+    //public required string? Alias { get; set; }
+    //public MillestoneInTask? Milestone { get; set; }
+    //public Status Status { get; set; }
+    //public IEnumerable<TaskInList>? DependenciesList { get; set; }
+    //public required DateTime CreatedAt { get; set; }//תאריך יצירה
+    //public DateTime ScheduleDate { get; set; }//תאריך התחלה משוער
+    //public DateTime Start { get; set; }//תאריך התחלה בפועל
+    //public DateTime ForecastDate { get; set; }//תאריך משוער לסיום
+    //public DateTime DeadLine { get; set; }//תאריך אחרון לסיום
+    //public DateTime Complete { get; set; }//תאריך סיום בפועל
+    //public string? Deliverables { get; set; }
+    //public string? Remarks { get; set; }
+    //public EngineerInTask? Engineer { get; set; }
+    //public EngineerExperience ComplexilyLevel { get; set; }
         Console.WriteLine("Create a task \n");
         Console.WriteLine("Enter description:\n");
         string? _name = Console.ReadLine();
@@ -167,11 +216,12 @@ internal class Program
         string? _alias = Console.ReadLine();
         Console.WriteLine("Enter milestone:\n");
         bool.TryParse(Console.ReadLine(), out bool _milestone);
+       // Console.WriteLine("Enter Status ");
         DateTime _createdAt = DateTime.Now;
         DateTime _start = DateTime.MinValue;
         Console.WriteLine("Enter date of forecast\n");
-        DateTime _ForecastDate;
-        DateTime.TryParse(Console.ReadLine(), out _ForecastDate);
+        DateTime _ScheduleDate;
+        DateTime.TryParse(Console.ReadLine(), out _ScheduleDate);
         Console.WriteLine("Enter date of deadline\n");
         DateTime.TryParse(Console.ReadLine(), out DateTime _DeadLine);
         DateTime _Complete = DateTime.MinValue;
@@ -185,14 +235,41 @@ internal class Program
         EngineerExperience _level = (EngineerExperience)experienceChoice;
         Console.WriteLine("Enter ID of engineer\n");
         int.TryParse(Console.ReadLine(), out int _engineerID);
-        while (s_dal!.Engineer.Read(_engineerID) is null)
+        while (s_bl!.Engineer.Read(_engineerID) is null)
         {
             Console.WriteLine("Enter ID of engineer\n");
             int.TryParse(Console.ReadLine(), out _engineerID);
         }
-        int id = s_dal!.Task.Create(new(0, _name, _alias, _milestone,
-        _createdAt, _start, _ForecastDate, _DeadLine, _Complete,
-        _Deliverables, _Deliverables, _engineerID, _level));
+        int id = s_bl!.Task.Create(new BO.Task
+        {
+            Id = 0,
+            Description = _name,
+            Alias = _alias,
+            Milestone = _milestone,
+            CreatedAt = _createdAt,
+            Start = _start,
+            ScheduleDate = _ScheduleDate,
+            DeadLine = _DeadLine,
+            Complete = _Complete,
+            ///more somethings
+            _Deliverables,
+            _engineerID,
+            _level
+        });
+    //    int Id,
+    //string? Description,
+    //string? Alias,
+    //bool Milestone,
+    //DateTime CreatedAt,
+    //DateTime Start,
+    //DateTime ScheduleDate,
+    //DateTime DeadLine,
+    //DateTime Complete,
+    //string? Deliverables = null,
+    //string? Remarks = null,
+    //int EngineerId = 0,
+    //EngineerExperience ComplexilyLevel = EngineerExperience.Junior,
+    //bool isActive = true
         Console.WriteLine(id + "\n");
 
     }

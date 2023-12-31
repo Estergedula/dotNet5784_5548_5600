@@ -3,5 +3,5 @@
 public class TaskInEngineer
 {
     public int Id { get; init; }
-    public string? Name { get; set; }
+    public required string ?Alias { get; set; }
 }
