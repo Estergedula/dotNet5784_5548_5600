@@ -1,5 +1,6 @@
 ﻿using BlApi;
 using System.Diagnostics.Metrics;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 
@@ -11,7 +12,15 @@ internal class MilestoneImplementation : IMilestone
 
     public BO.Milestone CreateLUZ(int id)
     {
-        throw new NotImplementedException();
+        IEnumerable<Dependency?> dependencies = _dal.Dependency.ReadAll();
+        var groupByDependencies = dependencies.GroupBy(dependency => dependency!.DependOnTask,
+            (dependencyOnTask, dependencies) =>new { Key = dependencyOnTask, Dependencies = dependencies.Select(dependency=>dependency!.DependentTask) }).Order();
+        var groupByDependenciesNotDistinct = groupByDependencies.Distinct();
+        var x=groupByDependenciesNotDistinct.Select(gruopOfDependencies => gruopOfDependencies.Dependencies.Select(dependency => new DO.Dependency(dependency, gruopOfDependencies.Key)));
+        
+        //var c=hh.Select(hh => {hh.Key,hh.).ToList();
+        //var x=from dependency in dependencies group dependency!.DependOnTask select new 
+            throw new NotImplementedException(); 
     }
     //public int MileStoneId { get; init; }
     //public string? Descriotion { get; init; }
@@ -38,7 +47,7 @@ internal class MilestoneImplementation : IMilestone
         return new BO.Milestone
         {
             MileStoneId = doTask!.Id,
-            Descriotion = doTask.Description,
+            Description = doTask.Description,
             Alias = doTask.Alias,
             Status = BO.Status.OnTrack/*ffffffffffff*/,
             CreatedAt = doTask.CreatedAt,
@@ -68,7 +77,7 @@ internal class MilestoneImplementation : IMilestone
         int numOfAllDependiesTasks = tasksOfMilistone.Count();
         return (numOfStartTasks/numOfAllDependiesTasks)*100;
     }
-    public void Update(BO.Task task)
+    public BO.Milestone Update(BO.Task task)
     {
         if (task.Alias == "" || task.Description == "")
             throw new Exception();
@@ -78,6 +87,9 @@ internal class MilestoneImplementation : IMilestone
             DO.Task taskMilestone = _dal.Task.Read(task.Id)!;
             DO.Task updateMilistone = taskMilestone with { Alias = task.Alias, Description = task.Description, Remarks = task.Remarks };
             _dal.Task.Update(updateMilistone);
+            IEnumerable<TaskInList> tasksOfMilistone = from d in (_dal.Dependency.ReadAll((d) => d!.DependentTask == task.Id))
+                                                       let taskOfMilistone = _dal.Task.Read(d.Id)
+                                                       select new BO.TaskInList { Id = taskOfMilistone.Id, Description = taskOfMilistone.Description, Alias = taskOfMilistone.Alias, Status = getStatuesOfTask(taskOfMilistone)/*====*/ };
             return new BO.Milestone
             {
                 MileStoneId = updateMilistone.Id,
@@ -88,14 +100,15 @@ internal class MilestoneImplementation : IMilestone
                 DeadLine = updateMilistone.DeadLine,
                 Complete = updateMilistone.Complete,
                 Remarks = updateMilistone.Remarks,
-                CompletionPercentage = getCompletionPercentage(getDependeciesOfMilestone(updateMilistone.Id)),
-                Dependencies = getDependeciesOfMilstone(updateMilistone.Id).ToList(),
+                CompletionPercentage = getCompletionPercentage(tasksOfMilistone),
+                Dependecies = tasksOfMilistone.ToList(),
                 ForecastDate = null
             };
         }
         catch (DO.DalDoesNotExistException)
         {
-            throw new BO.BlDoesNotExistException($"Milistone with ID={task.Id} is not exists");
+            // throw new BO.BlDoesNotExistException($"Milistone with ID={task.Id} is not exists");
+            throw new Exception();
         };
 
     }
