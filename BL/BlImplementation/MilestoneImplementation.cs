@@ -12,14 +12,14 @@ internal class MilestoneImplementation : IMilestone
 
     public BO.Milestone CreateLUZ(int id)
     {
-        IEnumerable<DO.Dependency?> dependencies = _dal.Dependency.ReadAll();
-        var groupByDependencies = dependencies.GroupBy(dependency => dependency!.DependOnTask,
-            (dependencyOnTask, dependencies) =>new { Key = dependencyOnTask, Dependencies = dependencies.Select(dependency=>dependency!.DependentTask) }).Order();
-        var groupByDependenciesNotDistinct = groupByDependencies.Distinct();
-        var x = from dependency in groupByDependencies select new { };
-        //var x=groupByDependenciesNotDistinct.Select(gruopOfDependencies => gruopOfDependencies.Dependencies.Select(dependency => new DO.Dependency(dependency, gruopOfDependencies.Key)));
-        //var c=hh.Select(hh => {hh.Key,hh.).ToList();
-        //var x=from dependency in dependencies group dependency!.DependOnTask select new 
+        //IEnumerable<DO.Dependency?> dependencies = _dal.Dependency.ReadAll();
+        //var groupByDependencies = dependencies.GroupBy(dependency => dependency!.DependOnTask,
+        //    (dependencyOnTask, dependencies) =>new { Key = dependencyOnTask, Dependencies = dependencies.Select(dependency=>dependency!.DependentTask) }).Order();
+        //var groupByDependenciesNotDistinct = groupByDependencies.Distinct();
+        //var x = from dependency in groupByDependencies select new { };
+        ////var x=groupByDependenciesNotDistinct.Select(gruopOfDependencies => gruopOfDependencies.Dependencies.Select(dependency => new DO.Dependency(dependency, gruopOfDependencies.Key)));
+        ////var c=hh.Select(hh => {hh.Key,hh.).ToList();
+        ////var x=from dependency in dependencies group dependency!.DependOnTask select new 
             throw new NotImplementedException(); 
     }
     //public int MileStoneId { get; init; }
