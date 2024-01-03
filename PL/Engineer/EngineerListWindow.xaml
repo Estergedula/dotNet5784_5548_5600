@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.Engineer"
         mc:Ignorable="d"
-        Title="EngineerListWindow" Height="450" Width="800">
+        Title="EngineerListWindow" Height="450" Width="800"
+        	 DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
     <!--Extrnal Grid-->
     <Grid>
         <Grid.RowDefinitions>
@@ -14,17 +15,18 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <!--Internal, Upper Grid-->
-        <Grid HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" VerticalAlignment="Stretch" Width="auto">
+        <Grid Height="auto" Grid.Row="0" Width="auto" Margin="10,3,0,314" Grid.RowSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Label Content="Label" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Grid.Column="0"/>
-            <ComboBox HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="1"/>
+            <ComboBox  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="1" SelectedValue="{Binding Path=EngineerExperience, Mode=TwoWay}" SelectionChanged="cmbFilter_SelectedChange" />
 
         </Grid>
-        <ListView Grid.Row="1">
-            <ListView.View>
+        <!--<ListView    Margin="0,10,0,5" Grid.Row="1" ItemsSource="{Binding Path=EngineerList}">-->
+        <ListView Margin="5,47,5,5" Grid.Row="1" ItemsSource="{Binding EngineerList}">
+            <ListView.View >
                 <GridView>
                     <GridViewColumn/>
                 </GridView>
