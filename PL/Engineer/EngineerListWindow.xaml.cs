@@ -12,16 +12,16 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace PL.Engineer
+namespace PL.Engineer;
+
+/// <summary>
+/// Interaction logic for EngineerListWindow.xaml
+/// </summary>
+public partial class EngineerListWindow : Window
 {
-    /// <summary>
-    /// Interaction logic for EngineerListWindow.xaml
-    /// </summary>
-    public partial class EngineerListWindow : Window
+    public EngineerListWindow()
     {
-        public EngineerListWindow()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
+    static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
 }
