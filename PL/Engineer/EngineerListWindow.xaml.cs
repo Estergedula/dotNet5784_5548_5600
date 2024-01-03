@@ -42,7 +42,10 @@ public partial class EngineerListWindow : Window
 
     private void cmbFilter_SelectedChange(object sender, SelectionChangedEventArgs e)
     {
-
+        var temp = EngineerExperience == BO.EngineerExperience.All ?
+        s_bl?.Engineer.ReadAll() :
+        s_bl?.Engineer.ReadAll(item => item!.Level == EngineerExperience);
+        EngineerList = temp == null ? new() : new(temp);
     }
 }
 //נשים לב: המהנדסים לא מוצגים,  ו7א לא הלך
