@@ -17,5 +17,6 @@
         <ComboBox HorizontalAlignment="Left" Margin="434,266,0,0" VerticalAlignment="Top" Width="120"/>
         <TextBox HorizontalAlignment="Left" Margin="434,340,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
         <Label Content="Label" HorizontalAlignment="Left" Margin="90,332,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.254,0.441"/>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="335,461,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>
