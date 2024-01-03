@@ -1,6 +1,4 @@
-﻿
-
-namespace BlImplementation;
+﻿namespace BlImplementation;
 
 internal class TaskImplementation : BlApi.ITask
 {
