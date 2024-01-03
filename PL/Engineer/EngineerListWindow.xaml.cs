@@ -13,39 +13,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace PL.Engineer;
-
-
-/// <summary>
-/// Interaction logic for EngineerListWindow.xaml
-/// </summary>
-public partial class EngineerListWindow : Window
+namespace PL.Engineer
 {
-    static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
-    public BO.EngineerExperience EngineerExperience { get; set; } = BO.EngineerExperience.All;
-    public ObservableCollection<BO.Engineer> EngineerList
+    /// <summary>
+    /// Interaction logic for EngineerListWindow.xaml
+    /// </summary>
+    public partial class EngineerListWindow : Window
     {
-        get { return (ObservableCollection<BO.Engineer>)GetValue(EngineerListProperty); }
-        set { SetValue(EngineerListProperty, value); }
-    }
-    public static readonly DependencyProperty EngineerListProperty =
-        DependencyProperty.Register("CourseList", typeof(ObservableCollection<BO.Engineer>),
-            typeof(EngineerListWindow), new PropertyMetadata(null));
-
-
-    public EngineerListWindow()
-    {
-        InitializeComponent();
-        var temp = s_bl?.Engineer.ReadAll();
-        EngineerList = temp == null ? new() : new(temp);
-    }
-
-    private void cmbFilter_SelectedChange(object sender, SelectionChangedEventArgs e)
-    {
-        var temp = EngineerExperience == BO.EngineerExperience.All ?
-        s_bl?.Engineer.ReadAll() :
-        s_bl?.Engineer.ReadAll(item => item!.Level == EngineerExperience);
-        EngineerList = temp == null ? new() : new(temp);
+        public EngineerListWindow()
+        {
+            InitializeComponent();
+        }
     }
 }
 //נשים לב: המהנדסים לא מוצגים,  ו7א לא הלך
