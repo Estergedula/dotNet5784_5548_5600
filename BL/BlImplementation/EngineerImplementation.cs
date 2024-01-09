@@ -1,10 +1,12 @@
 ﻿using BlApi;
+using BO;
 using System.Net.Mail;
 
 namespace BlImplementation;
 
 internal class EngineerImplementation : IEngineer
 {
+
     private DalApi.IDal _dal = DalApi.Factory.Get;
     //DO==============
     //int Id,
@@ -113,7 +115,21 @@ internal class EngineerImplementation : IEngineer
 
     public IEnumerable<BO.Engineer> ReadAll(Func<BO.Engineer?, bool>? filter = null)
     {
-        IEnumerable<DO.Engineer?> allEngineers = _dal.Engineer.ReadAll((Func<DO.Engineer?, bool>?)filter);
+        //Delegate filterInDo =new Delegate(filter);
+        //Func<DO.Engineer?, bool>?  newFilter=Tools.ConvertDelegate(filter, (delegate bool filter(DO.Engineer));
+        //IEnumerable<DO.Engineer?> allEngineers = _dal.Engineer.ReadAll((Func<DO.Engineer?, bool>?)filter);
+        //IEnumerable<BO.Engineer> allEngineersinBo = from doEngineer in allEngineers
+        //                                            select new BO.Engineer
+        //                                            {
+        //                                                Id = doEngineer.Id,
+        //                                                Name = doEngineer.Name,
+        //                                                Email = doEngineer.Email,
+        //                                                Level = (BO.EngineerExperience)doEngineer.Level,
+        //                                                Cost = doEngineer.Cost,
+        //                                                CurrentTask = GetCurrentTaskOfEngineer(doEngineer.Id)
+        //                                            };
+        //return allEngineersinBo;
+        IEnumerable<DO.Engineer?> allEngineers = _dal.Engineer.ReadAll();
         IEnumerable<BO.Engineer> allEngineersinBo = from doEngineer in allEngineers
                                                     select new BO.Engineer
                                                     {
@@ -124,6 +140,7 @@ internal class EngineerImplementation : IEngineer
                                                         Cost = doEngineer.Cost,
                                                         CurrentTask = GetCurrentTaskOfEngineer(doEngineer.Id)
                                                     };
-        return allEngineersinBo;
+
+        return filter==null? allEngineersinBo:allEngineersinBo.Where(filter);
     }
 }

@@ -43,6 +43,13 @@ public static class Tools
         }
         return str;
     }
+    public static Delegate ConvertDelegate(Delegate sourceDelegate, Type targetType)
+    {
+        return Delegate.CreateDelegate(
+                targetType,
+                sourceDelegate.Target,
+                sourceDelegate.Method);
+    }
     //public static string ToStringProperty<T>(this T t)
     //{
     //    string str = "";

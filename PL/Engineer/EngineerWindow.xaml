@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="EngineerWindow" Height="640" Width="800">
     <Grid>
-        <Label Content="Label" Margin="90,109,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <Label Content="Name:" Margin="90,109,0,0" VerticalAlignment="Top" Grid.Column="1"/>
         <TextBox Margin="187,109,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" Grid.Column="0"/>
         <TextBox HorizontalAlignment="Left" Margin="434,159,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
         <Label Content="Label" HorizontalAlignment="Left" Margin="90,159,0,0" VerticalAlignment="Top"/>

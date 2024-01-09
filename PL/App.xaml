@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:PL"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <!--<local:EngineerExperiencesCollection x:Key="ExperiencsesCollectionKey"/>-->
+        <local:EngineerExperiencesCollection x:Key="EngineerExperiencesCollectionKey"/>
     </Application.Resources>
 </Application>

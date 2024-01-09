@@ -17,10 +17,14 @@ namespace PL.Engineer
 {
     /// <summary>
     /// Interaction logic for EngineerListWindow.xaml
-    /// </summary>
+    /// </summary>   
+    /// 
+  
     public partial class EngineerListWindow : Window
     {
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
+
+        public BO.EngineerExperience EngineerExperience { get; set; } = BO.EngineerExperience.All;
         public ObservableCollection<BO.Engineer> EngineerList
         {
             get { return (ObservableCollection<BO.Engineer>)GetValue(EngineerListProperty); }
@@ -34,6 +38,15 @@ namespace PL.Engineer
         {
             InitializeComponent();
             var temp = s_bl?.Engineer.ReadAll();
+            EngineerList = temp == null ? new() : new(temp);
+
+        }
+
+        private void cmbEngineerExperience_SelectionChange(object sender, SelectionChangedEventArgs e)
+        {
+            var temp = EngineerExperience == BO.EngineerExperience.All ?
+            s_bl?.Engineer.ReadAll() :
+            s_bl?.Engineer.ReadAll(item => item!.Level == EngineerExperience);
             EngineerList = temp == null ? new() : new(temp);
 
         }
