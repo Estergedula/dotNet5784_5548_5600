@@ -13,43 +13,53 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace PL.Engineer
+namespace PL.Engineer;
+
+/// <summary>
+/// Interaction logic for EngineerListWindow.xaml
+/// </summary>   
+/// 
+
+public partial class EngineerListWindow : Window
 {
-    /// <summary>
-    /// Interaction logic for EngineerListWindow.xaml
-    /// </summary>   
-    /// 
-  
-    public partial class EngineerListWindow : Window
+    static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
+
+    public BO.EngineerExperience EngineerExperience { get; set; } = BO.EngineerExperience.All;
+    public ObservableCollection<BO.Engineer> EngineerList
     {
-        static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
+        get { return (ObservableCollection<BO.Engineer>)GetValue(EngineerListProperty); }
+        set { SetValue(EngineerListProperty, value); }
+    }
 
-        public BO.EngineerExperience EngineerExperience { get; set; } = BO.EngineerExperience.All;
-        public ObservableCollection<BO.Engineer> EngineerList
-        {
-            get { return (ObservableCollection<BO.Engineer>)GetValue(EngineerListProperty); }
-            set { SetValue(EngineerListProperty, value); }
-        }
+    public static readonly DependencyProperty EngineerListProperty =
+        DependencyProperty.Register("EngineerList", typeof(ObservableCollection<BO.Engineer>), typeof(EngineerListWindow), new PropertyMetadata(null));
 
-        public static readonly DependencyProperty EngineerListProperty =
-            DependencyProperty.Register("EngineerList", typeof(ObservableCollection<BO.Engineer>), typeof(EngineerListWindow), new PropertyMetadata(null));
+    public EngineerListWindow()
+    {
+        InitializeComponent();
+        var temp = s_bl?.Engineer.ReadAll();
+        EngineerList = temp == null ? new() : new(temp);
 
-        public EngineerListWindow()
-        {
-            InitializeComponent();
-            var temp = s_bl?.Engineer.ReadAll();
-            EngineerList = temp == null ? new() : new(temp);
+    }
 
-        }
+    private void cmbEngineerExperience_SelectionChange(object sender, SelectionChangedEventArgs e)
+    {
+        var temp = EngineerExperience == BO.EngineerExperience.All ?
+        s_bl?.Engineer.ReadAll() :
+        s_bl?.Engineer.ReadAll(item => item!.Level == EngineerExperience);
+        EngineerList = temp == null ? new() : new(temp);
 
-        private void cmbEngineerExperience_SelectionChange(object sender, SelectionChangedEventArgs e)
-        {
-            var temp = EngineerExperience == BO.EngineerExperience.All ?
-            s_bl?.Engineer.ReadAll() :
-            s_bl?.Engineer.ReadAll(item => item!.Level == EngineerExperience);
-            EngineerList = temp == null ? new() : new(temp);
+    }
 
-        }
+    private void btnAddEngineer_Click(object sender, RoutedEventArgs e)
+    {
+        new EngineerWindow().ShowDialog();
+    }
+
+    private void lsvDisplayEngineers_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+    {
+        BO.Engineer? engineerInList = (sender as ListView)?.SelectedItem as BO.Engineer;
+        new EngineerWindow(engineerInList!.Id).ShowDialog();
     }
 }
-//נשים לב: המהנדסים לא מוצגים,  ו7א לא הלך
+//נשים לב: עד 8ד ועד 9ג

@@ -31,14 +31,14 @@
 
         </Grid>
 
-        <ListView Margin="5,47,5,148" Grid.Row="1" ItemsSource="{Binding EngineerList}">
+        <ListView Margin="5,47,5,148" Grid.Row="1" ItemsSource="{Binding EngineerList}" MouseDoubleClick="lsvDisplayEngineers_MouseDoubleClick">
             <ListView.View >
                 <GridView>
                     <GridViewColumn/>
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button Content="Add" Grid.Row="1" HorizontalAlignment="Center" Width="100"  Margin="0,469,0,0" Height="59" VerticalAlignment="Top"/>
+        <Button Content="Add" Grid.Row="1" HorizontalAlignment="Center" Width="100"  Margin="0,469,0,0" Height="59" VerticalAlignment="Top" Click="btnAddEngineer_Click"/>
 
 
     </Grid>
