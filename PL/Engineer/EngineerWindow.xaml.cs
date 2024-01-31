@@ -9,6 +9,7 @@ namespace PL.Engineer;
 
 public partial class EngineerWindow : Window
 {
+    private int id;
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
     public BO.Engineer? CurrentEngineer
     {
@@ -21,6 +22,7 @@ public partial class EngineerWindow : Window
     public EngineerWindow(int id = 0)
     {
         InitializeComponent();
+        this.id = id;
         if (id!=0)
         {
             try { CurrentEngineer=s_bl!.Engineer!.Read(id); }
@@ -28,7 +30,46 @@ public partial class EngineerWindow : Window
         }
         else
         {
-            CurrentEngineer=new BO.Engineer { Id=0,Name="fghjkl"};
+            CurrentEngineer=new BO.Engineer { Id=0};
+        }
+    }
+
+    private void btnAdd_Click(object sender, RoutedEventArgs e)
+    {
+        if(id != 0)
+        {
+            try
+            {
+                s_bl.Engineer.Update(CurrentEngineer!);
+                MessageBox.Show("Object with id " + id + "had updated successfully!");
+                this.Close();
+            }
+            catch (BO.BlInvalidDataException)
+            {
+                MessageBox.Show("ERROR: '\n'There is an invalid input in the object with id " + id);
+            }
+            catch (BO.BlDoesNotExistException)
+            {
+                MessageBox.Show("ERROR: '\n'There is no object with id " + id);
+            }
+        }
+        else
+        {
+            try
+            {
+                s_bl.Engineer.Create(CurrentEngineer!);
+                MessageBox.Show("Object with id " + id + "had created successfully!");
+                this.Close();
+            }
+            catch (BO.BlInvalidDataException)
+            {
+                MessageBox.Show("ERROR: '\n'There is an invalid input in the object with id " + id);
+            }
+            catch (BO.BlAlreadyExistsException)
+            {
+                MessageBox.Show("ERROR: '\n'There is already an object with id " + id);
+            }
+
         }
     }
 }

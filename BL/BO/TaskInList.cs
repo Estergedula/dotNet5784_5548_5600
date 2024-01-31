@@ -12,7 +12,9 @@ public class TaskInList
     public required string ?Description { get; set; }
     public string? Alias { get; set; }
     public Status Status { get; set; }
- 
+    public override string ToString() => this.ToStringProperty();
+
+
 }
 //●	ישות עזר של משימה-ברשימה - עבור מסך רשימת משימות ומסך אבני דרך:
 //○	מזהה 
