@@ -1,4 +1,5 @@
 ﻿using PL.Engineer;
+using PL.Task;
 using System.Windows;
 
 namespace PL;
@@ -26,4 +27,18 @@ public partial class MainWindow : Window
             DalTest.Initialization.Do(dal);
         }
     }
+
+    private void btnTasks_Click(object sender, RoutedEventArgs e)
+    {
+        new TaskListWindow().Show();
+    }
+
+    //private void btnCreateDataTask_Click(object sender, RoutedEventArgs e)
+    //{
+    //    if (MessageBox.Show("Do you want to create new data?", "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+    //    {
+    //        DalApi.IDal dal = DalApi.Factory.Get;
+    //        DalTest.Initialization.Do(dal);
+    //    }
+    //}
 }
