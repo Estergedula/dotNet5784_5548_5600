@@ -1,4 +1,6 @@
-﻿namespace BlImplementation;
+﻿using System;
+
+namespace BlImplementation;
 
 internal class TaskImplementation : BlApi.ITask
 {
@@ -140,7 +142,7 @@ public void Delete(int id)
             ComplexilyLevel=(BO.EngineerExperience)doTask.ComplexilyLevel
         };
     }
-    public IEnumerable<BO.Task> ReadAll(Func<BO.Task?, bool> filter)
+    public IEnumerable<BO.Task> ReadAll(Func<BO.Task?, bool>? filter = null)
     {
         IEnumerable<DO.Task?> allTasks = _dal.Task.ReadAll((Func<DO.Task?, bool>?)filter);
         IEnumerable<BO.Task> allTaskinBo = allTasks.Select(task => new BO.Task

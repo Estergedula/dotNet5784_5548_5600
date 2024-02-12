@@ -23,15 +23,15 @@ public partial class TaskListWindow : Window
 {
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
 
-    public BO.TaskExperience TaskExperience { get; set; } = BO.TaskExperience.All;
-    public ObservableCollection<BO.Task> TaskList
+    public BO.EngineerExperience TaskExperience { get; set; } = BO.EngineerExperience.All;
+    public ObservableCollection<BO.TaskInList> TaskList
     {
-        get { return (ObservableCollection<BO.Task>)GetValue(TaskListProperty); }
+        get { return (ObservableCollection<BO.TaskInList>)GetValue(TaskListProperty); }
         set { SetValue(TaskListProperty, value); }
     }
 
     public static readonly DependencyProperty TaskListProperty =
-        DependencyProperty.Register("TaskList", typeof(ObservableCollection<BO.Task>), typeof(EngineerListWindow), new PropertyMetadata(null));
+        DependencyProperty.Register("TaskList", typeof(ObservableCollection<BO.Task>), typeof(TaskListWindow), new PropertyMetadata(null));
 
     public TaskListWindow()
     {
@@ -43,9 +43,8 @@ public partial class TaskListWindow : Window
 
     private void cmbTaskExperience_SelectionChange(object sender, SelectionChangedEventArgs e)
     {
-        var temp = TaskExperience == BO.TaskExperience.All ?
-        s_bl?.Task.ReadAll() :
-        s_bl?.Task.ReadAll(item => item!.Level == TaskExperience);
+        var temp = TaskExperience == BO.EngineerExperience.All ? s_bl?.Task.ReadAll() :
+        s_bl?.Task.ReadAll(item => item!.ComplexilyLevel == TaskExperience);
         TaskList = temp == null ? new() : new(temp);
 
     }
