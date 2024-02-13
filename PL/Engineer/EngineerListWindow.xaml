@@ -28,7 +28,7 @@
             </Grid.ColumnDefinitions>
             <Label Content="Label" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
             <ComboBox SelectedValue="{Binding Path=EngineerExperience, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource EngineerExperiencesCollectionKey}}" Grid.Column="2" SelectionChanged="cmbEngineerExperience_SelectionChange" Grid.ColumnSpan="2" Grid.RowSpan="2" Height="62" VerticalAlignment="Top"  />
-
+                                                   
         </Grid>
         <ListView MouseDoubleClick="lsvDisplayEngineers_MouseDoubleClick" Margin="5,10,10,99" Grid.Row="1" ItemsSource="{Binding EngineerList}"/>
         <Button Content="Add" Grid.Row="1" HorizontalAlignment="Left" Width="100"  Margin="348,512,0,0" Height="59" VerticalAlignment="Top" Click="BtnAddEngineer_Click"/>

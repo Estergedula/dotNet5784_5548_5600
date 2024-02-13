@@ -47,8 +47,8 @@ public partial class EngineerListWindow : Window
         var temp = EngineerExperience == BO.EngineerExperience.All ?
         s_bl?.EngineerInList.ReadAll() :
           s_bl?.EngineerInList.ReadAll(item => item!.Level == EngineerExperience);
+        MessageBox.Show();
         EngineerList = temp == null ? new() : new(temp);
-
     }
 
     private void BtnAddEngineer_Click(object sender, RoutedEventArgs e)
