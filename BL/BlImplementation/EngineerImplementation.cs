@@ -8,19 +8,6 @@ internal class EngineerImplementation : IEngineer
 {
 
     private DalApi.IDal _dal = DalApi.Factory.Get;
-    //DO==============
-    //int Id,
-    //   string? Name = null,
-    //   string? Email = null,
-    //   EngineerExperience Level = EngineerExperience.Junior,
-    //   double? Cost = 0
-    //BO==========
-    //public int Id { get; init; }
-    //public string? Name { get; set; }
-    //public string? Email { get; set; }
-    //public EngineerExperience Level { get; set; }
-    //public double? Cost { get; set; }
-    //public int? CurrentTaskId { get; set; }
     private bool IsValidEmail(string? email)
     {
         bool valid = true;
@@ -40,6 +27,16 @@ internal class EngineerImplementation : IEngineer
     {
         if (boEngineer.Id <=0|| boEngineer.Name == "" || boEngineer.Cost <= 0 || !IsValidEmail(boEngineer.Email))
             throw new BO.BlInvalidDataException($"The data you entered is incorrect.");
+        try
+        {
+            DO.Task currentTask = _dal.Task.Read(boEngineer.CurrentTask!.Id)!;
+            DO.Task copyCurrentTask = currentTask with { EngineerId = boEngineer!.Id } as DO.Task;
+            _dal.Task.Update(currentTask);
+        }
+        catch
+        {
+            throw new BO.BlInvalidDataException($"The data you entered is incorrect.");
+        }
         DO.Engineer doEngineer = new DO.Engineer
         (boEngineer.Id, boEngineer.Name, boEngineer.Email, (DO.EngineerExperience)(boEngineer.Level), boEngineer.Cost);
         try
@@ -105,8 +102,20 @@ internal class EngineerImplementation : IEngineer
        (boEngineer.Id, boEngineer.Name, boEngineer.Email, (DO.EngineerExperience)(boEngineer.Level), boEngineer.Cost);
         try
         {
-            _dal.Engineer.Update(doEngineer);
+            DO.Task currentTask = _dal.Task.Read(boEngineer.CurrentTask!.Id)!;
+            DO.Task copyCurrentTask = currentTask with { EngineerId = boEngineer!.Id } as DO.Task;
+            _dal.Task.Update(copyCurrentTask);
         }
+        catch {
+            throw new BO.BlInvalidDataException($"The data you entered is incorrect.");
+        }
+        try
+        {
+          
+            _dal.Engineer.Update(doEngineer);
+           
+        }
+        
         catch (DO.DalAlreadyExistsException ex)
         {
             throw new BO.BlAlreadyExistsException($"An engineer with ID number = {boEngineer.Id} does not exist.", ex);
@@ -116,20 +125,6 @@ internal class EngineerImplementation : IEngineer
 
     public IEnumerable<BO.Engineer> ReadAll(Func<BO.Engineer?, bool>? filter = null)
     {
-        //Delegate filterInDo =new Delegate(filter);
-        //Func<DO.Engineer?, bool>?  newFilter=Tools.ConvertDelegate(filter, (delegate bool filter(DO.Engineer));
-        //IEnumerable<DO.Engineer?> allEngineers = _dal.Engineer.ReadAll((Func<DO.Engineer?, bool>?)filter);
-        //IEnumerable<BO.Engineer> allEngineersinBo = from doEngineer in allEngineers
-        //                                            select new BO.Engineer
-        //                                            {
-        //                                                Id = doEngineer.Id,
-        //                                                Name = doEngineer.Name,
-        //                                                Email = doEngineer.Email,
-        //                                                Level = (BO.EngineerExperience)doEngineer.Level,
-        //                                                Cost = doEngineer.Cost,
-        //                                                CurrentTask = GetCurrentTaskOfEngineer(doEngineer.Id)
-        //                                            };
-        //return allEngineersinBo;
         IEnumerable<DO.Engineer?> allEngineers = _dal.Engineer.ReadAll();
         IEnumerable<BO.Engineer> allEngineersinBo = from doEngineer in allEngineers
                                                     select new BO.Engineer
