@@ -11,7 +11,7 @@ public static class Initialization
     /// <summary>
     /// Create random Engineers objects
     /// </summary>
-    private static void createEngineer()
+    private static void CreateEngineer()
     {
         const int MIN_ID = 200000000;
         const int MAX_ID = 400000000;
@@ -86,7 +86,7 @@ public static class Initialization
     /// <summary>
     /// Create random Tasks objects
     /// </summary>
-    private static void createTask()
+    private static void CreateTask()
     {
         List<Engineer?> allEngineer = s_dal!.Engineer.ReadAll().ToList();
         int engineerCount= allEngineer.Count;
@@ -118,7 +118,7 @@ public static class Initialization
     /// <summary>
     /// Create random Dependencies objects
     /// </summary>
-    private static void createDependency()
+    private static void CreateDependency()
     {
         List<Task?> allTasks = s_dal!.Task.ReadAll().ToList();
         for (int i = 0; i < 250; i++)
@@ -137,8 +137,8 @@ public static class Initialization
     public static void Do(IDal dal)
     {
         s_dal = dal ?? throw new NullReferenceException("DAL object can not be null!");
-        createEngineer();
-        createTask();
-        createDependency();
+        CreateEngineer();
+        CreateTask();
+        CreateDependency();
     }
 }

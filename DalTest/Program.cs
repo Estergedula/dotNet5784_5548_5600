@@ -11,7 +11,7 @@ internal class Program
     /// Explain for the user the options of the main menu and input his choice
     /// </summary>
     /// <returns>value of the user choice</returns>
-    public static int writeMenu()
+    public static int WriteMenu()
     {
         Console.WriteLine("Welcome To Our Program \nTo exit type 0 \nTo Engineers type 1 \nTo Tasks type 2 \nTo Dependencies type 3 ");
         int.TryParse(Console.ReadLine(), out int myChoice);
@@ -21,7 +21,7 @@ internal class Program
     /// Explain for the user the options of the inner menu of each entity and input his choice
     /// </summary>
     /// <returns>value of the user choice</returns>
-    public static int writeInnerMenue()
+    public static int WriteInnerMenue()
     {
         Console.WriteLine("Please enter your choice \nType 1 to exit \nType 2 to create a new \nType 3 to display \nType 4 to display all \nType 5 to update \nType 6 to delate");
         int.TryParse(Console.ReadLine(), out int myChoice);
@@ -30,7 +30,7 @@ internal class Program
     /// <summary>
     /// input details of new engineer and create
     /// </summary>
-    public static void createEngineer()
+    public static void CreateEngineer()
     {
         Console.WriteLine("Create Engineer \ntype ID");
         int.TryParse(Console.ReadLine(), out int _id);
@@ -53,7 +53,7 @@ internal class Program
     /// <summary>
     /// input id of engineer and display his details
     /// </summary>
-    public static void displayEngineer()
+    public static void DisplayEngineer()
     {
         Console.WriteLine("enter Id to search");
         int.TryParse(Console.ReadLine(), out int _idToSearch);
@@ -65,7 +65,7 @@ internal class Program
     /// <summary>
     /// diplay all engineers
     /// </summary>
-    public static void displayAllEngineers()
+    public static void DisplayAllEngineers()
     {
         List<Engineer?> allEngineers = s_dal!.Engineer.ReadAll().ToList();
         foreach (Engineer? engineer in allEngineers)
@@ -74,7 +74,7 @@ internal class Program
     /// <summary>
     /// input id of engineer, his details and update
     /// </summary>
-    public static void updateEngineer()
+    public static void UpdateEngineer()
     {
         Console.WriteLine("Enter Id to update");
         int.TryParse(Console.ReadLine(), out int _idToUpDate);
@@ -109,7 +109,7 @@ internal class Program
     /// <summary>
     /// input id of engineer and delete
     /// </summary>
-    public static void deleteEngineer()
+    public static void DeleteEngineer()
     {
         Console.WriteLine("Enter Id to delete");
         int.TryParse(Console.ReadLine(), out int _idToDelete);
@@ -123,27 +123,27 @@ internal class Program
     /// display the option of engineer menu and do the user choice
     /// </summary>
     /// <returns>the user choice</returns>
-    public static int engineerMenu()
+    public static int EngineerMenu()
     {
-        int myChoice = writeInnerMenue();
+        int myChoice = WriteInnerMenue();
         switch (myChoice)
         {
             case 1:
                 break;
             case 2:
-                createEngineer();
+                CreateEngineer();
                 break;
             case 3:
-                displayEngineer();
+                DisplayEngineer();
                 break;
             case 4:
-                displayAllEngineers();
+                DisplayAllEngineers();
                 break;
             case 5:
-                updateEngineer();
+                UpdateEngineer();
                 break;
             case 6:
-                deleteEngineer();
+                DeleteEngineer();
                 break;
         }
         return myChoice;
@@ -151,7 +151,7 @@ internal class Program
     /// <summary>
     /// input details of new task and create
     /// </summary>
-    public static void createTask()
+    public static void CreateTask()
     {
         Console.WriteLine("Create a task \n");
         Console.WriteLine("Enter description:\n");
@@ -192,7 +192,7 @@ internal class Program
     /// <summary>
     /// input id of task and display his details
     /// </summary>
-    public static void displayTask()
+    public static void DisplayTask()
     {
         Console.WriteLine("enter ID to search\n");
         int.TryParse(Console.ReadLine(), out int _idToSearch);
@@ -204,7 +204,7 @@ internal class Program
     /// <summary>
     /// diplay all tasks
     /// </summary>
-    public static void displayAllTasks()
+    public static void DisplayAllTasks()
     {
         List<DO.Task?> allTasks = s_dal!.Task.ReadAll().ToList();
         foreach (DO.Task? task in allTasks)
@@ -213,7 +213,7 @@ internal class Program
     /// <summary>
     /// input id of task, his details and update
     /// </summary>
-    public static void updateTask()
+    public static void UpdateTask()
     {
         Console.WriteLine("Enter Id to update");
         int.TryParse(Console.ReadLine(), out int _idToUpDate);
@@ -269,7 +269,7 @@ internal class Program
     /// <summary>
     /// input id of task and delete
     /// </summary>
-    public static void deleteTask()
+    public static void DeleteTask()
     {
         Console.WriteLine("Enter Id to delete");
         int.TryParse(Console.ReadLine(), out int _idToDelete);
@@ -284,27 +284,27 @@ internal class Program
     /// display the option of engineer menu and do the user choice
     /// </summary>
     /// <returns>the user choice</returns>
-    public static int taskMenu()
+    public static int TaskMenu()
     {
-        int myChoice = writeInnerMenue();
+        int myChoice = WriteInnerMenue();
         switch (myChoice)
         {
             case 1:
                 break;
             case 2:
-                createTask();
+                CreateTask();
                 break;
             case 3:
-                displayTask();
+                DisplayTask();
                 break;
             case 4:
-                displayAllTasks();
+                DisplayAllTasks();
                 break;
             case 5:
-                updateTask();
+                UpdateTask();
                 break;
             case 6:
-                deleteTask();
+                DeleteTask();
                 break;
         }
         return myChoice;
@@ -312,7 +312,7 @@ internal class Program
     /// <summary>
     /// input id of dependency and delete
     /// </summary>
-    public static void deleteDependency()
+    public static void DeleteDependency()
     {
         Console.WriteLine("Enter Id to delete");
         int.TryParse(Console.ReadLine(), out int _idToDelete);
@@ -325,7 +325,7 @@ internal class Program
     /// <summary>
     /// input details of new dependency and create
     /// </summary>
-    public static void createDependency()
+    public static void CreateDependency()
     {
         int _idOfFirstTask;
         Console.WriteLine("Create Dependency \ntype ID of first task");
@@ -351,7 +351,7 @@ internal class Program
     /// <summary>
     /// input id of Dependency and display his details
     /// </summary>
-    public static void displayDependency()
+    public static void DisplayDependency()
     {
         Console.WriteLine("Enter Id to search");
         int.TryParse(Console.ReadLine(), out int _idToSearch);
@@ -363,7 +363,7 @@ internal class Program
     /// <summary>
     /// diplay all dependencies
     /// </summary>
-    public static void displayAllDependencies()
+    public static void DisplayAllDependencies()
     {
         List<Dependency?> allDependencies = s_dal.Dependency!.ReadAll().ToList();
         foreach (Dependency? dependency in allDependencies)
@@ -372,7 +372,7 @@ internal class Program
     /// <summary>
     /// input id of Dependency, his details and update, his details and update
     /// </summary>
-    public static void updateDependency()
+    public static void UpdateDependency()
     {
         Console.WriteLine("Enter Id to update");
         int.TryParse(Console.ReadLine(), out int _idToUpDate);
@@ -412,27 +412,27 @@ internal class Program
     /// display the option of dependency menu and do the user choice
     /// </summary>
     /// <returns>the user choice</returns>
-    public static int dependencyMenu()
+    public static int DependencyMenu()
     {
-        int myChoice = writeInnerMenue();
+        int myChoice = WriteInnerMenue();
         switch (myChoice)
         {
             case 1:
                 break;
             case 2:
-                createDependency();
+                CreateDependency();
                 break;
             case 3:
-                displayDependency();
+                DisplayDependency();
                 break;
             case 4:
-                displayAllDependencies();
+                DisplayAllDependencies();
                 break;
             case 5:
-                updateDependency();
+                UpdateDependency();
                 break;
             case 6:
-                deleteDependency();
+                DeleteDependency();
                 break;
         }
         return myChoice;
@@ -446,25 +446,25 @@ internal class Program
         try
         {
             Initialization.Do(s_dal);
-            int myChoice = writeMenu();
+            int myChoice = WriteMenu();
             while (myChoice != 0)
             {
                 int innerChoice = 0;
                 switch (myChoice)
                 {
                     case 1:
-                        innerChoice = engineerMenu();
+                        innerChoice = EngineerMenu();
                         break;
                     case 2:
-                        innerChoice = taskMenu();
+                        innerChoice = TaskMenu();
                         break;
                     case 3:
-                        innerChoice = dependencyMenu();
+                        innerChoice = DependencyMenu();
                         break;
                 }
                 if (innerChoice == 1)
                     break;
-                myChoice= writeMenu();
+                myChoice= WriteMenu();
             }
         }
         catch (Exception e) { Console.WriteLine(e.Message); }

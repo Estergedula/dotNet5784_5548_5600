@@ -55,12 +55,12 @@ public partial class EngineerWindow : Window
     public static bool IsValidEmailAddress(string? s)
     {
         Regex regex = new Regex(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
-        return !regex.IsMatch(s!);
+        return regex.IsMatch(s!);
     }
 
-    public static bool inputIntegrityCheck(BO.Engineer? engineer)
+    public static bool InputIntegrityCheck(BO.Engineer? engineer)
     {
-        if (engineer?.Id <= 0 || engineer!.Name == "" || engineer.Cost <= 0 || IsValidEmailAddress(engineer.Email))
+        if (engineer?.Id <= 0 || engineer!.Name == "" || engineer.Cost <= 0 || !(IsValidEmailAddress(engineer.Email)))
         {
             MessageBox.Show("ERROR: '\n'The data you entered is incorrect.");
             return false;
@@ -75,16 +75,15 @@ public partial class EngineerWindow : Window
         {
             if (CurrentEngineer!.CurrentTask!.Id != 0)
             {
-                try
-
-                {
-                    s_bl.Task.Read(CurrentEngineer!.CurrentTask!.Id);
-                }
-                catch (BO.BlDoesNotExistException)
-                {
-                    isOk = false;
-                    MessageBox.Show("there is no engineer with this id");
-                }
+                //try
+                //{
+                //    s_bl.Task.Read(CurrentEngineer!.CurrentTask!.Id);
+                //}
+                //catch (BO.BlDoesNotExistException)
+                //{
+                //    isOk = false;
+                //    MessageBox.Show("There is no engineer with this id");
+                //}
             }
         }
         if (isOk)
@@ -95,7 +94,7 @@ public partial class EngineerWindow : Window
                 {
 
 
-                    if (inputIntegrityCheck(CurrentEngineer))
+                    if (InputIntegrityCheck(CurrentEngineer))
                     {
                         s_bl.Engineer.Update(CurrentEngineer!);
                         MessageBox.Show("Object with id " + id + "had updated successfully!");
@@ -115,7 +114,7 @@ public partial class EngineerWindow : Window
             {
                 try
                 {
-                    if (inputIntegrityCheck(CurrentEngineer))
+                    if (InputIntegrityCheck(CurrentEngineer))
                     {
                         s_bl.Engineer.Create(CurrentEngineer!);
                         MessageBox.Show("Object with id " + CurrentEngineer!.Id + "had created successfully!");

@@ -18,8 +18,18 @@ internal class TaskImplementation : BlApi.ITask
     private DalApi.IDal _dal = DalApi.Factory.Get;
     public int Create(BO.Task boTask)
     {
-        if (boTask.Alias == "")
+        if (boTask.Start > boTask.ScheduleDate || boTask.ScheduleDate > boTask.ForecastDate ||
+            boTask.ForecastDate < boTask.Complete || boTask.DeadLine < boTask.Complete ||
+            boTask.Id <= 0 || boTask.Alias == "" || boTask.Id > 999999999 || boTask.Id < 11111111)
             throw new BO.BlInvalidDataException($"The data you entered is incorrect.");
+        try
+        {
+            _dal.Task.Read(boTask.Engineer!.Id);
+        }
+        catch (DO.DalDoesNotExistException)
+        {
+            throw new BO.BlDoesNotExistException($"ENginner with ID={boTask.Engineer!.Id} does not exixt ");
+        }
 
         boTask?.DependenciesList?.Select(task => new DO.Dependency(boTask.Id, task.Id));
 
@@ -91,7 +101,7 @@ internal class TaskImplementation : BlApi.ITask
     }
 
 
-    private BO.Status getStatuesOfTask(DO.Task task)
+    private BO.Status GetStatuesOfTask(DO.Task task)
     {
 
         if (task.ScheduleDate == DateTime.MinValue)
@@ -124,12 +134,12 @@ internal class TaskImplementation : BlApi.ITask
                 Alias = t.Alias
             }
                  ).Where(doTask => (_dal.Task.Read(doTask.Id)!.Milestone && (_dal.Dependency.ReadAll((d) => d!.DependentTask == doTask!.Id && d.DependOnTask == doTask.Id)) is not null)).FirstOrDefault(),
-            Status = getStatuesOfTask(doTask!),
+            Status = GetStatuesOfTask(doTask!),
             DependenciesList = _dal.Dependency.ReadAll((d) => d!.DependentTask == doTask.Id).Select(d => new BO.TaskInList
             {
                 Id = d!.Id,
                 Alias = _dal.Task.Read(d.Id)!.Alias,
-                Status = getStatuesOfTask(_dal.Task.Read(d.Id)!),
+                Status = GetStatuesOfTask(_dal.Task.Read(d.Id)!),
                 Description = _dal.Task.Read(d.Id)!.Description
             }),
             CreatedAt = doTask!.CreatedAt,
@@ -158,12 +168,12 @@ internal class TaskImplementation : BlApi.ITask
                 Alias = t.Alias
             }
         ).Where(t => (_dal.Task.Read(t.Id)!.Milestone && (_dal.Dependency.ReadAll((d) => d!.DependentTask == t!.Id && d.DependOnTask == t.Id)) is not null)).FirstOrDefault(),
-            Status = getStatuesOfTask(task),
+            Status = GetStatuesOfTask(task),
             DependenciesList = _dal.Dependency.ReadAll((d) => d!.DependentTask == task.Id).Select(d => new BO.TaskInList
             {
                 Id = d!.Id,
                 Alias = _dal.Task.Read(d.Id)!.Alias,
-                Status = getStatuesOfTask(_dal.Task.Read(d.Id)!),
+                Status = GetStatuesOfTask(_dal.Task.Read(d.Id)!),
                 Description = _dal.Task.Read(d.Id)!.Description
             }),
             CreatedAt = task!.CreatedAt,
@@ -181,8 +191,18 @@ internal class TaskImplementation : BlApi.ITask
 
     public void Update(BO.Task boTask)
     {
-        if (boTask.Id <= 0 || boTask.Alias == "")
+        if (boTask.Start > boTask.ScheduleDate || boTask.ScheduleDate > boTask.ForecastDate ||
+            boTask.ForecastDate < boTask.Complete || boTask.DeadLine < boTask.Complete ||
+            boTask.Id <= 0 || boTask.Alias == "" || boTask.Id > 999999999 || boTask.Id < 11111111)
             throw new BO.BlInvalidDataException($"The data you entered is incorrect.");
+        try
+        {
+            _dal.Task.Read(boTask.Engineer!.Id);
+        }
+        catch (DO.DalDoesNotExistException)
+        {
+            throw new BO.BlDoesNotExistException($"Engineer with ID={boTask.Engineer!.Id} does not exixt ");
+        }
         DO.Task doTask = new DO.Task
         (boTask.Id, boTask.Description, boTask.Alias, false/**/, boTask.CreatedAt, boTask.Start,
         boTask.ForecastDate, boTask.DeadLine, boTask.Complete, boTask.Deliverables, boTask.Remarks, boTask.Engineer!.Id, (DO.EngineerExperience)boTask.ComplexilyLevel);
