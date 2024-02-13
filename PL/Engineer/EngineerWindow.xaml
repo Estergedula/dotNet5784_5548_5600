@@ -30,7 +30,7 @@
         <Label   Grid.Row="2"  Content="Name" HorizontalAlignment="Left"  />
         <TextBox  HorizontalAlignment="Left"  Grid.Row="2" TextWrapping="Wrap"    Text="{Binding Name, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  />
         <Label Content="Email" HorizontalAlignment="Left" Grid.Row="3"  RenderTransformOrigin="-0.584,0.516"/>
-        <TextBox  HorizontalAlignment="Left" Grid.Row="3"  TextWrapping="Wrap"  Text="{Binding Name, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"/>
+        <TextBox  HorizontalAlignment="Left" Grid.Row="3"  TextWrapping="Wrap"  Text="{Binding Email, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"/>
         <Label   Content="Level"  Grid.Row="4" HorizontalAlignment="Left"   RenderTransformOrigin="-0.681,0.689"/>
         <ComboBox  HorizontalAlignment="Left"  Grid.Row="4" ItemsSource="{Binding Source={StaticResource EngineerExperiencesCollectionKey}}" SelectedValue="{Binding Level, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
         <Label  Content="Cost" HorizontalAlignment="Left" RenderTransformOrigin="-1.254,0.441" Grid.Row="5"  />
