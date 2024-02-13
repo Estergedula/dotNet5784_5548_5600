@@ -9,8 +9,9 @@
     <Grid>
         <!--show engineers-->
         <Button Content="Handle Engineers" HorizontalAlignment="Left" Margin="95,44,0,0" VerticalAlignment="Top" Height="69" Width="104" Click="btnEngineers_Click"/>
-        <Button Content="Create Data" HorizontalAlignment="Left" Margin="237,46,0,0" VerticalAlignment="Top" Height="67" Width="107" Click="btnCreateData_Click"/>
+        <Button Content="Create Data" HorizontalAlignment="Left" Margin="455,46,0,0" VerticalAlignment="Top" Height="67" Width="107" Click="btnCreateData_Click"/>
         <!--show tasks-->
-        <Button Content="Handle Tasks" HorizontalAlignment="Left" Margin="95,44,0,0" VerticalAlignment="Top" Height="69" Width="104" Click="btnTask_Click"/>
+        <Button Content="Handle Engineers" HorizontalAlignment="Left" Margin="95,44,0,0" VerticalAlignment="Top" Height="69" Width="104" Click="btnEngineer_Click"/>
+        <Button Content="Handle Tasks" HorizontalAlignment="Left" Margin="271,46,0,0" VerticalAlignment="Top" Height="69" Width="104" Click="btnTask_Click"/>
     </Grid>
 </Window>

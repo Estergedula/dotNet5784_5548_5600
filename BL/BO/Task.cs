@@ -7,12 +7,12 @@ public class Task
     public MillestoneInTask? Milestone { get; set; }
     public Status Status { get; set; }
     public IEnumerable<TaskInList>? DependenciesList { get; set; }
-    public required DateTime CreatedAt { get; set; }//תאריך יצירה
-    public DateTime ScheduleDate { get;  set; }//תאריך התחלה משוער
-    public DateTime Start { get; set; }//תאריך התחלה בפועל
-    public DateTime ForecastDate { get; set; }//תאריך משוער לסיום
-    public DateTime DeadLine { get; set; }//תאריך אחרון לסיום
-    public DateTime Complete { get; set; }//תאריך סיום בפועל
+    public required DateTime ?CreatedAt { get; set; }//תאריך יצירה
+    public DateTime ?ScheduleDate { get;  set; }//תאריך התחלה משוער
+    public DateTime ?Start { get; set; }//תאריך התחלה בפועל
+    public DateTime ?ForecastDate { get; set; }//תאריך משוער לסיום
+    public DateTime ?DeadLine { get; set; }//תאריך אחרון לסיום
+    public DateTime ?Complete { get; set; }//תאריך סיום בפועל
     public string? Deliverables { get; set; }
     public string? Remarks { get; set; }
     public EngineerInTask? Engineer { get; set; }

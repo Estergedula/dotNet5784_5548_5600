@@ -232,25 +232,16 @@ internal class Program
             Console.WriteLine("Enter milestone:\n");
             bool.TryParse(Console.ReadLine(), out bool _milestone);
             Console.WriteLine("Enter date created\n");
-            DateTime.TryParse(Console.ReadLine(), out DateTime _createdAt);
-            if (_createdAt==DateTime.MinValue)
-                _createdAt=taskToUpdate.CreatedAt;
+            DateTime _createdAt= DateTime.Now;
             Console.WriteLine("Enter date started\n");
-            DateTime.TryParse(Console.ReadLine(), out DateTime _start);
-            if (_start==DateTime.MinValue)
-                _start=taskToUpdate.Start;
+            DateTime _start;
+            DateTime.TryParse(Console.ReadLine(), out  _start);
             Console.WriteLine("Enter date of forecast\n");
             DateTime.TryParse(Console.ReadLine(), out DateTime _ForecastDate);
-            //if (_ForecastDate==DateTime.MinValue)
-            //    _ForecastDate=taskToUpdate.ForecastDate;
             Console.WriteLine("Enter date of deadline\n");
             DateTime.TryParse(Console.ReadLine(), out DateTime _DeadLine);
-            if (_DeadLine==DateTime.MinValue)
-                _DeadLine=taskToUpdate.DeadLine;
             Console.WriteLine("Enter date of complete\n");
             DateTime.TryParse(Console.ReadLine(), out DateTime _Complete);
-            if (_Complete==DateTime.MinValue)
-                _Complete=taskToUpdate.Complete;
             Console.WriteLine("Enter deliverables\n");
             string? _Deliverables = Console.ReadLine();
             Console.WriteLine("Enter remarks\n");
@@ -270,7 +261,7 @@ internal class Program
                     Console.WriteLine("Enter ID of first task");
                     int.TryParse(Console.ReadLine(), out _engineerID);
                 }
-            try { s_dal!.Task.Update(new(taskToUpdate.Id, _description??taskToUpdate.Description, _alias??taskToUpdate.Alias, _milestone, _createdAt, _start, _ForecastDate, _DeadLine, _Complete, _Deliverables??taskToUpdate.Deliverables, _Remarks??taskToUpdate.Remarks, _engineerID, _level)); }
+            try { s_dal!.Task.Update(new(taskToUpdate.Id, _description??taskToUpdate.Description, _alias??taskToUpdate.Alias, _milestone, _createdAt, _start==DateTime.MinValue?taskToUpdate.Start:_start,_ForecastDate, _DeadLine, _Complete, _Deliverables??taskToUpdate.Deliverables, _Remarks??taskToUpdate.Remarks, _engineerID, _level)); }
             catch (DalDoesNotExistException e) { Console.WriteLine(e.Message + "\n"); }
 
         }

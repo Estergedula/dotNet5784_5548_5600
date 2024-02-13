@@ -28,17 +28,13 @@ public partial class MainWindow : Window
         }
     }
 
-    private void btnTasks_Click(object sender, RoutedEventArgs e)
+    private void btnTask_Click(object sender, RoutedEventArgs e)
     {
         new TaskListWindow().Show();
     }
-
-    //private void btnCreateDataTask_Click(object sender, RoutedEventArgs e)
-    //{
-    //    if (MessageBox.Show("Do you want to create new data?", "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-    //    {
-    //        DalApi.IDal dal = DalApi.Factory.Get;
-    //        DalTest.Initialization.Do(dal);
-    //    }
-    //}
+    private void btnEngineer_Click(object sender, RoutedEventArgs e)
+    {
+        new EngineerListWindow().Show();
+    }
 }
+

@@ -30,13 +30,13 @@ public partial class EngineerWindow : Window
         }
         else
         {
-            CurrentEngineer=new BO.Engineer { Id=0};
+            CurrentEngineer=new BO.Engineer { Id=0 };
         }
     }
 
     private void btnAdd_Click(object sender, RoutedEventArgs e)
     {
-        if(id != 0)
+        if (id != 0)
         {
             try
             {

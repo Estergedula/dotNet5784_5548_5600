@@ -1,4 +1,6 @@
-﻿using PL.Task;
+﻿using BlApi;
+using PL.Engineer;
+using PL.Task;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -23,7 +25,7 @@ public partial class TaskListWindow : Window
 {
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
 
-    public BO.EngineerExperience TaskExperience { get; set; } = BO.EngineerExperience.All;
+    public BO.Status TaskStatus { get; set; } = BO.Status.All;
     public ObservableCollection<BO.TaskInList> TaskList
     {
         get { return (ObservableCollection<BO.TaskInList>)GetValue(TaskListProperty); }
@@ -31,20 +33,19 @@ public partial class TaskListWindow : Window
     }
 
     public static readonly DependencyProperty TaskListProperty =
-        DependencyProperty.Register("TaskList", typeof(ObservableCollection<BO.Task>), typeof(TaskListWindow), new PropertyMetadata(null));
+        DependencyProperty.Register("TaskList", typeof(ObservableCollection<BO.TaskInList>), typeof(TaskListWindow), new PropertyMetadata(null));
 
     public TaskListWindow()
     {
         InitializeComponent();
-        var temp = s_bl?.Task.ReadAll();
+        var temp = s_bl?.TaskInList.ReadAll();
         TaskList = temp == null ? new() : new(temp);
-
     }
 
-    private void cmbTaskExperience_SelectionChange(object sender, SelectionChangedEventArgs e)
+    private void cmbTaskStatus_SelectionChange(object sender, SelectionChangedEventArgs e)
     {
-        var temp = TaskExperience == BO.EngineerExperience.All ? s_bl?.Task.ReadAll() :
-        s_bl?.Task.ReadAll(item => item!.ComplexilyLevel == TaskExperience);
+        var temp = TaskStatus == BO.Status.All ? s_bl?.TaskInList.ReadAll() :
+        s_bl?.TaskInList.ReadAll(item => item!.Status == TaskStatus);
         TaskList = temp == null ? new() : new(temp);
 
     }
@@ -54,9 +55,11 @@ public partial class TaskListWindow : Window
         new TaskWindow().ShowDialog();
     }
 
-    private void lsvDisplayTasks_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+    private void lsvDisplayEngineers_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
-        BO.Task? taskInList = (sender as ListView)?.SelectedItem as BO.Task;
+        BO.TaskInList? taskInList = (sender as ListView)?.SelectedItem as BO.TaskInList;
         new TaskWindow(taskInList!.Id).ShowDialog();
     }
+
+
 }
