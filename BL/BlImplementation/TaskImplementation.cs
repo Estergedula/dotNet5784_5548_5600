@@ -22,6 +22,7 @@ internal class TaskImplementation : BlApi.ITask
             throw new BO.BlInvalidDataException($"The data you entered is incorrect.");
 
         boTask?.DependenciesList?.Select(task => new DO.Dependency(boTask.Id, task.Id));
+
         DO.Task doTask = new DO.Task(
             boTask!.Id, boTask.Description, boTask.Alias, false, boTask.CreatedAt,
              boTask.Start, boTask.ForecastDate,

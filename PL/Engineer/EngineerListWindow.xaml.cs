@@ -44,10 +44,10 @@ public partial class EngineerListWindow : Window
 
     private void cmbEngineerExperience_SelectionChange(object sender, SelectionChangedEventArgs e)
     {
-        var temp = EngineerExperience == BO.EngineerExperience.All ? s_bl?.EngineerInList.ReadAll() :
-        s_bl?.EngineerInList.ReadAll(item => item!.Level == EngineerExperience);
+        var temp = EngineerExperience == BO.EngineerExperience.All ?
+        s_bl?.EngineerInList.ReadAll() :
+          s_bl?.EngineerInList.ReadAll(item => item!.Level == EngineerExperience);
         EngineerList = temp == null ? new() : new(temp);
-
     }
 
     private void BtnAddEngineer_Click(object sender, RoutedEventArgs e)
