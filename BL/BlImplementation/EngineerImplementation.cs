@@ -45,6 +45,7 @@ internal class EngineerImplementation : IEngineer
         try
         {
             int idEng = _dal.Engineer.Create(doEngineer);
+
             return idEng;
         }
         catch (DO.DalAlreadyExistsException ex)

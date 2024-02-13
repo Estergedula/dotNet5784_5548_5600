@@ -7,9 +7,43 @@
         mc:Ignorable="d"
         Title="TaskWindow" Height="770" Width="800"
         DataContext="{Binding CurrentTask, RelativeSource={RelativeSource Self}, Mode=TwoWay}">
-    <Window.Resources>        <Style             TargetType="Label">            <Setter Property="FontSize"            Value="25" />            <Setter Property="FontFamily"            Value="Consolas" />            <Setter Property="VerticalAlignment" Value="Center"/>            <!--<Setter Property="FontWeight"                Value="Bold" />-->        </Style>        <Style             TargetType="TextBox">            <Setter Property="Grid.Column" Value="2"/>            <Setter Property="VerticalAlignment" Value="Center"/>            <Setter Property="Background" Value="Yellow"/>            <Setter Property="Width" Value="200"/>            <Setter Property="Height" Value="25"/>        </Style>        <Style                  TargetType="ComboBox">            <Setter Property="Grid.Column" Value="2"/>            <Setter Property="VerticalAlignment" Value="Center"/>            <Setter Property="Width" Value="200"/>            <Setter Property="Height" Value="25"/>        </Style>        <Style                  TargetType="DatePicker">            <Setter Property="Grid.Column" Value="2"/>            <Setter Property="VerticalAlignment" Value="Center"/>            <Setter Property="Width" Value="200"/>            <Setter Property="Height" Value="25"/>        </Style>    </Window.Resources>
+    <Window.Resources>
+        <Style 
+            TargetType="Label">
+            <Setter Property="FontSize"
+            Value="25" />
+            <Setter Property="FontFamily"
+            Value="Consolas" />
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <!--<Setter Property="FontWeight"
+                Value="Bold" />-->
+        </Style>
+        <Style 
+            TargetType="TextBox">
+            <Setter Property="Grid.Column" Value="2"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Background" Value="Yellow"/>
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="Height" Value="25"/>
+        </Style>
+        <Style 
+                 TargetType="ComboBox">
+            <Setter Property="Grid.Column" Value="2"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="Height" Value="25"/>
+        </Style>
+        <Style 
+                 TargetType="DatePicker">
+            <Setter Property="Grid.Column" Value="2"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="Height" Value="25"/>
+        </Style>
+    </Window.Resources>
     <Grid Margin="0,0,0,-6">
         <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
@@ -54,10 +88,12 @@
         <TextBox Text="{Binding Deliverables, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  Grid.Row="10"/>
         <Label Content="Remarks" Grid.Row="11"/>
         <TextBox  Text="{Binding Remarks, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  Grid.Row="11"/>
-        <Label Content="Engineer" Grid.Row="12"/>
+        <Label Content="Engineer Id" Grid.Row="12"/>
         <TextBox Text="{Binding Engineer.Id, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  Grid.Row="12"/>
-        <Label Content="ComplexilyLevel" Grid.Row="13"/>
-        <ComboBox ItemsSource="{Binding Source={StaticResource EngineerExperiencesCollectionKey}}"  SelectedValue="{Binding ComplexilyLevel, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="13"/>
-        <Button Content="{Binding Id, Mode=OneTime, Converter={StaticResource ConverIdToContentKey}}" Grid.Column="1" Grid.Row="15" Margin="13,10,16,16" Click="btnAddOrUpdate_Click" > </Button>
+        <Label Content="Engineer Alias" Grid.Row="13"/>
+        <Label Content="{Binding Engineer.Id, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  FontSize="14" Grid.Column="1" Grid.Row="13" Height="25" Margin="100,6,100,0" VerticalAlignment="Top"/>
+        <Label Content="ComplexilyLevel" Grid.Row="14"/>
+        <ComboBox ItemsSource="{Binding Source={StaticResource EngineerExperiencesCollectionKey}}"  SelectedValue="{Binding ComplexilyLevel, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="14"/>
+        <Button Content="{Binding Id, Mode=OneTime, Converter={StaticResource ConverIdToContentKey}}" Grid.Column="1" Grid.Row="15" Margin="13,10,16,16" Click="BtnAddOrUpdate_Click" ></Button>
     </Grid>
 </Window>

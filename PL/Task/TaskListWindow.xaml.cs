@@ -46,7 +46,7 @@ public partial class TaskListWindow : Window
         TaskList = temp == null ? new() : new(temp);
     }
 
-    private void cmbTaskStatus_SelectionChange(object sender, SelectionChangedEventArgs e)
+    private void CmbTaskStatus_SelectionChange(object sender, SelectionChangedEventArgs e)
     {
         var temp = TaskStatus == BO.Status.All ? s_bl?.TaskInList.ReadAll() :
         s_bl?.TaskInList.ReadAll(item => item!.Status == TaskStatus);
@@ -55,13 +55,13 @@ public partial class TaskListWindow : Window
     }
 
 
-    private void lsvDisplayEngineers_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+    private void LsvDisplayEngineers_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
         BO.TaskInList? taskInList = (sender as ListView)?.SelectedItem as BO.TaskInList;
         new TaskWindow(taskInList!.Id).ShowDialog();
     }
 
-    private void btnAddTask_Click(object sender, RoutedEventArgs e)
+    private void BtnAddTask_Click(object sender, RoutedEventArgs e)
     {
         new TaskWindow().ShowDialog();
     }

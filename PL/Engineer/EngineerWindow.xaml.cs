@@ -41,7 +41,7 @@ public partial class EngineerWindow : Window
         }
         else
         {
-            CurrentEngineer = new BO.Engineer { Id = 0 };
+            CurrentEngineer = new BO.Engineer { Id = 0, CurrentTask = new BO.TaskInEngineer { Id = 0, Alias = " " } };
         }
         AllTasksId = s_bl.Task.ReadAll().Select(t => t.Id).ToList();
     }
@@ -49,61 +49,77 @@ public partial class EngineerWindow : Window
     public static bool IsValidEmailAddress(string? s)
     {
         Regex regex = new Regex(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
-        return regex.IsMatch(s!);
+        return !regex.IsMatch(s!);
     }
 
     public static bool inputIntegrityCheck(BO.Engineer? engineer)
     {
         if (engineer?.Id <= 0 || engineer!.Name == "" || engineer.Cost <= 0 || IsValidEmailAddress(engineer.Email))
-        { 
+        {
             MessageBox.Show("ERROR: '\n'The data you entered is incorrect.");
-            return false; 
+            return false;
         }
         return true;
     }
 
-    private void btnAdd_Click(object sender, RoutedEventArgs e)
+    private void BtnAdd_Click(object sender, RoutedEventArgs e)
     {
-        if (id != 0)
+        bool isOk = true;
+        try
         {
-            try
-            {
-                if (inputIntegrityCheck(CurrentEngineer))
-                { 
-                    s_bl.Engineer.Update(CurrentEngineer!);
-                    MessageBox.Show("Object with id " + id + "had updated successfully!");
-                    this.Close();
-                }
-            }
-            catch (BO.BlInvalidDataException)
-            {
-                MessageBox.Show("ERROR: '\n'There is an invalid input in the object with id " + id);
-            }
-            catch (BO.BlDoesNotExistException)
-            {
-                MessageBox.Show("ERROR: '\n'There is no object with id " + id);
-            }
+            s_bl.Task.Read(CurrentEngineer!.CurrentTask!.Id);
         }
-        else
+        catch (BO.BlDoesNotExistException)
         {
-            try
+            isOk = false;
+            MessageBox.Show("there is no engineer with this id");
+        }
+        if (isOk)
+        {
+            if (id != 0)
             {
-                if (inputIntegrityCheck(CurrentEngineer))
-                { 
-                    s_bl.Engineer.Create(CurrentEngineer!);
-                    MessageBox.Show("Object with id " + id + "had created successfully!");
-                    this.Close();
+                try
+                {
+
+
+                    if (inputIntegrityCheck(CurrentEngineer))
+                    {
+                        s_bl.Engineer.Update(CurrentEngineer!);
+                        MessageBox.Show("Object with id " + id + "had updated successfully!");
+                        this.Close();
+                    }
+                }
+                catch (BO.BlInvalidDataException)
+                {
+                    MessageBox.Show("ERROR: '\n'There is an invalid input in the object with id " + id);
+                }
+                catch (BO.BlDoesNotExistException)
+                {
+                    MessageBox.Show("ERROR: '\n'There is no object with id " + id);
                 }
             }
-            catch (BO.BlInvalidDataException)
+            else
             {
-                MessageBox.Show("ERROR: '\n'There is an invalid input in the object with id " + CurrentEngineer!.Id);
-            }
-            catch (BO.BlAlreadyExistsException)
-            {
-                MessageBox.Show("ERROR: '\n'There is already an object with id " + CurrentEngineer!.Id);
-            }
+                try
+                {
+                    if (inputIntegrityCheck(CurrentEngineer))
+                    {
+                        s_bl.Engineer.Create(CurrentEngineer!);
+                        MessageBox.Show("Object with id " + id + "had created successfully!");
+                        this.Close();
+                    }
+                }
+                catch (BO.BlInvalidDataException)
+                {
+                    MessageBox.Show("ERROR: '\n'There is an invalid input in the object with id " + CurrentEngineer!.Id);
+                }
+                catch (BO.BlAlreadyExistsException)
+                {
+                    MessageBox.Show("ERROR: '\n'There is already an object with id " + CurrentEngineer!.Id);
+                }
 
+            }
         }
     }
+
 }

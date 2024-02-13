@@ -1,41 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfEngineer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Engineer>
-    <Id>321612127</Id>
-    <Name>Toiby Braish</Name>
-    <Email>Toiby Braish32@gmail.com</Email>
-    <Level>Expert</Level>
-    <Cost>350</Cost>
-  </Engineer>
-  <Engineer>
-    <Id>285513461</Id>
-    <Name>Maly Kibelevitz</Name>
-    <Email>Maly Kibelevitz28@gmail.com</Email>
-    <Level>Expert</Level>
-    <Cost>377</Cost>
-  </Engineer>
-  <Engineer>
-    <Id>280948773</Id>
-    <Name>Ruti Salomon</Name>
-    <Email>Ruti Salomon28@gmail.com</Email>
-    <Level>Junior</Level>
-    <Cost>415</Cost>
-  </Engineer>
-  <Engineer>
-    <Id>266967337</Id>
-    <Name>Dvory Mimran</Name>
-    <Email>Dvory Mimran26@gmail.com</Email>
-    <Level>Expert</Level>
-    <Cost>534</Cost>
-  </Engineer>
-  <Engineer>
-    <Id>341001733</Id>
-    <Name>Sari Brodi</Name>
-    <Email>Sari Brodi34@gmail.com</Email>
-    <Level>Expert</Level>
-    <Cost>802</Cost>
-  </Engineer>
-  <Engineer>
     <Id>253350847</Id>
     <Name>Roizy Lefkovit</Name>
     <Email>Roizy Lefkovit25@gmail.com</Email>
@@ -1168,5 +1133,40 @@
     <Email>Shuly Eler23@gmail.com</Email>
     <Level>Expert</Level>
     <Cost>821</Cost>
+  </Engineer>
+  <Engineer>
+    <Id>280948773</Id>
+    <Name>Ruti Salomon</Name>
+    <Email>Ruti Salomon28@gmail.com</Email>
+    <Level>Junior</Level>
+    <Cost>10000</Cost>
+  </Engineer>
+  <Engineer>
+    <Id>321612127</Id>
+    <Name>Toiby Braish</Name>
+    <Email>Toiby Braish32@gmail.com</Email>
+    <Level>Expert</Level>
+    <Cost>100000</Cost>
+  </Engineer>
+  <Engineer>
+    <Id>341001733</Id>
+    <Name>Sari Brodi</Name>
+    <Email>Sari Brodi34@gmail.com</Email>
+    <Level>Expert</Level>
+    <Cost>802</Cost>
+  </Engineer>
+  <Engineer>
+    <Id>285513461</Id>
+    <Name>Maly Kibelevitz</Name>
+    <Email>Maly Kibelevitz28@gmail.com</Email>
+    <Level>Expert</Level>
+    <Cost>3251</Cost>
+  </Engineer>
+  <Engineer>
+    <Id>266967337</Id>
+    <Name>Dvory Mimran</Name>
+    <Email>DvoryMimran26@gmail.com</Email>
+    <Level>Expert</Level>
+    <Cost>534</Cost>
   </Engineer>
 </ArrayOfEngineer>

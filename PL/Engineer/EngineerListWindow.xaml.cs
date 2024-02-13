@@ -51,7 +51,7 @@ public partial class EngineerListWindow : Window
 
     }
 
-    private void btnAddEngineer_Click(object sender, RoutedEventArgs e)
+    private void BtnAddEngineer_Click(object sender, RoutedEventArgs e)
     {
         new EngineerWindow().ShowDialog();
     }

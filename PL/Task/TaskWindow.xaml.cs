@@ -51,7 +51,7 @@ public partial class TaskWindow : Window
         }
     }
 
-    public static bool inputIntegrityCheck(BO.Task? task)
+    public static bool InputIntegrityCheck(BO.Task? task)
     {
         if (task?.Id <= 0 || task!.Alias == "")
         {
@@ -61,48 +61,53 @@ public partial class TaskWindow : Window
         return true;
     }
 
-    private void btnAddOrUpdate_Click(object sender, RoutedEventArgs e)
+    private void BtnAddOrUpdate_Click(object sender, RoutedEventArgs e)
     {
-        if (id != 0)
-        {
-            try
-            {
-                if(inputIntegrityCheck(CurrentTask))
-                {
-                s_bl.Task.Update(CurrentTask!);
-                MessageBox.Show("Object with id " + id + "had updated successfully!");
-                this.Close();
-            }
-            }
-            catch (BO.BlInvalidDataException)
-            {
-                MessageBox.Show("ERROR: '\n'There is an invalid input in the object with id " + id);
-            }
-            catch (BO.BlDoesNotExistException)
-            {
-                MessageBox.Show("ERROR: '\n'There is no object with id " + id);
-            }
-        }
+        if (s_bl.Engineer.Read(CurrentTask!.Engineer!.Id) is null)
+            MessageBox.Show("there is no engineer with this id");
         else
         {
-            try
+            if (id != 0)
             {
-                if (inputIntegrityCheck(CurrentTask))
+                try
                 {
-                s_bl.Task.Create(CurrentTask!);
-                MessageBox.Show("Object with id " + id + "had created successfully!");
-                this.Close();
+                    if (InputIntegrityCheck(CurrentTask))
+                    {
+                        s_bl.Task.Update(CurrentTask!);
+                        MessageBox.Show("Object with id " + id + "had updated successfully!");
+                        this.Close();
+                    }
+                }
+                catch (BO.BlInvalidDataException)
+                {
+                    MessageBox.Show("ERROR: '\n'There is an invalid input in the object with id " + id);
+                }
+                catch (BO.BlDoesNotExistException)
+                {
+                    MessageBox.Show("ERROR: '\n'There is no object with id " + id);
+                }
             }
-            }
-            catch (BO.BlInvalidDataException)
+            else
             {
-                MessageBox.Show("ERROR: '\n'There is an invalid input in the object with id " + id);
-            }
-            catch (BO.BlAlreadyExistsException)
-            {
-                MessageBox.Show("ERROR: '\n'There is already an object with id " + id);
-            }
+                try
+                {
+                    if (InputIntegrityCheck(CurrentTask))
+                    {
+                        s_bl.Task.Create(CurrentTask!);
+                        MessageBox.Show("Object with id " + id + "had created successfully!");
+                        this.Close();
+                    }
+                }
+                catch (BO.BlInvalidDataException)
+                {
+                    MessageBox.Show("ERROR: '\n'There is an invalid input in the object with id " + id);
+                }
+                catch (BO.BlAlreadyExistsException)
+                {
+                    MessageBox.Show("ERROR: '\n'There is already an object with id " + id);
+                }
 
+            }
         }
     }
 }

@@ -31,7 +31,7 @@
 
         </Grid>
         <ListView MouseDoubleClick="lsvDisplayEngineers_MouseDoubleClick" Margin="5,10,10,99" Grid.Row="1" ItemsSource="{Binding EngineerList}"/>
-        <Button Content="Add" Grid.Row="1" HorizontalAlignment="Left" Width="100"  Margin="348,512,0,0" Height="59" VerticalAlignment="Top" Click="btnAddEngineer_Click"/>
+        <Button Content="Add" Grid.Row="1" HorizontalAlignment="Left" Width="100"  Margin="348,512,0,0" Height="59" VerticalAlignment="Top" Click="BtnAddEngineer_Click"/>
 
 
     </Grid>
