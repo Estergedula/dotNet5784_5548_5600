@@ -25,30 +25,30 @@ public partial class EngineerListWindow : Window
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
 
     public BO.EngineerExperience EngineerExperience { get; set; } = BO.EngineerExperience.All;
-    public ObservableCollection<BO.EngineerInList> EngineerList
+    public IEnumerable<BO.EngineerInList>? EngineerList
     {
-        get { return (ObservableCollection<BO.EngineerInList>)GetValue(EngineerListProperty); }
+        get { return (IEnumerable<BO.EngineerInList>)GetValue(EngineerListProperty); }
         set { SetValue(EngineerListProperty, value); }
     }
 
     public static readonly DependencyProperty EngineerListProperty =
-        DependencyProperty.Register("EngineerInList", typeof(ObservableCollection<BO.EngineerInList>), typeof(EngineerListWindow), new PropertyMetadata(null));
+        DependencyProperty.Register("EngineerList", typeof(IEnumerable<BO.EngineerInList>), typeof(EngineerListWindow), new PropertyMetadata(null));
 
     public EngineerListWindow()
     {
         InitializeComponent();
         var temp = s_bl?.EngineerInList.ReadAll();
-        EngineerList = temp == null ? new() : new(temp);
+        EngineerList = temp;// == null ? new() : new(temp);
 
     }
 
     private void CmbEngineerExperience_SelectionChange(object sender, SelectionChangedEventArgs e)
     {
-        var x = (EngineerExperience == BO.EngineerExperience.All) ? s_bl?.EngineerInList.ReadAll()! : s_bl?.EngineerInList.ReadAll(item => item!.Level == EngineerExperience)!;
+        //var x = (EngineerExperience == BO.EngineerExperience.All) ? s_bl?.EngineerInList.ReadAll()! : s_bl?.EngineerInList.ReadAll(item => item!.Level == EngineerExperience)!;
         var temp = EngineerExperience == BO.EngineerExperience.All ?
         s_bl?.EngineerInList.ReadAll() :
           s_bl?.EngineerInList.ReadAll(item => item!.Level == EngineerExperience);
-        EngineerList = temp == null ? new() : new(temp);
+        EngineerList = temp;// == null ? new() : new(temp);
     }
 
     private void BtnAddEngineer_Click(object sender, RoutedEventArgs e)
@@ -56,16 +56,17 @@ public partial class EngineerListWindow : Window
         new EngineerWindow().ShowDialog();
         var temp = EngineerExperience == BO.EngineerExperience.All ? s_bl?.EngineerInList.ReadAll() :
              s_bl?.EngineerInList.ReadAll(item => item!.Level == EngineerExperience);
-        EngineerList = temp == null ? new() : new(temp);
+        EngineerList = temp;// == null ? new() : new(temp);
     }
 
     private void LsvDisplayEngineers_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
         BO.EngineerInList? engineerInList = (sender as ListView)?.SelectedItem as BO.EngineerInList;
         new EngineerWindow(engineerInList!.Id).ShowDialog();
-        var temp = EngineerExperience == BO.EngineerExperience.All ? s_bl?.EngineerInList.ReadAll() :
-             s_bl?.EngineerInList.ReadAll(item => item!.Level == EngineerExperience);
-        EngineerList = temp == null ? new() : new(temp);
+        //var temp = EngineerExperience == BO.EngineerExperience.All ? s_bl?.EngineerInList.ReadAll() :
+        //s_bl?.EngineerInList.ReadAll(item => item!.Level == EngineerExperience);
+        var temp = s_bl?.EngineerInList.ReadAll();
+        EngineerList = temp;// == null ? new() : new(temp);
     }
 }
 //נשים לב: עד 8ד ועד 9ג

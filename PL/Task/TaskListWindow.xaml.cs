@@ -18,27 +18,26 @@ public partial class TaskListWindow : Window
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
 
     public BO.Status TaskStatus { get; set; } = BO.Status.All;
-    public ObservableCollection<BO.TaskInList> TaskList
+    public IEnumerable<BO.TaskInList>? TaskList
     {
-        get { return (ObservableCollection<BO.TaskInList>)GetValue(TaskListProperty); }
+        get { return (IEnumerable<BO.TaskInList>)GetValue(TaskListProperty); }
         set { SetValue(TaskListProperty, value); }
     }
 
     public static readonly DependencyProperty TaskListProperty =
-        DependencyProperty.Register("TaskList", typeof(ObservableCollection<BO.TaskInList>), typeof(TaskListWindow), new PropertyMetadata(null));
+        DependencyProperty.Register("TaskList", typeof(IEnumerable<BO.TaskInList>), typeof(TaskListWindow), new PropertyMetadata(null));
 
     public TaskListWindow()
     {
         InitializeComponent();
         var temp = s_bl?.TaskInList.ReadAll();
-        TaskList = temp == null ? new() : new(temp);
+        TaskList = temp;
     }
-
     private void CmbTaskStatus_SelectionChange(object sender, SelectionChangedEventArgs e)
     {
         var temp = TaskStatus == BO.Status.All ? s_bl?.TaskInList.ReadAll() :
         s_bl?.TaskInList.ReadAll(item => item!.Status == TaskStatus);
-        TaskList = temp == null ? new() : new(temp);
+        TaskList = temp;// == null ? new() : new(temp);
     }
 
 
@@ -48,7 +47,7 @@ public partial class TaskListWindow : Window
         new TaskWindow(taskInList!.Id).ShowDialog();
         var temp = TaskStatus == BO.Status.All ? s_bl?.TaskInList.ReadAll() :
         s_bl?.TaskInList.ReadAll(item => item!.Status == TaskStatus);
-        TaskList = temp == null ? new() : new(temp);
+        TaskList = temp; //== null ? new() : new(temp);
     }
 
     private void BtnAddTask_Click(object sender, RoutedEventArgs e)
@@ -56,6 +55,6 @@ public partial class TaskListWindow : Window
         new TaskWindow().ShowDialog();
         var temp = TaskStatus == BO.Status.All ? s_bl?.TaskInList.ReadAll() :
         s_bl?.TaskInList.ReadAll(item => item!.Status == TaskStatus);
-        TaskList = temp == null ? new() : new(temp);
+        TaskList = temp;//== null ? new() : new(temp);
     }
 }
