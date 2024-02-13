@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace BlImplementation;
+﻿namespace BlImplementation;
 
 internal class TaskImplementation : BlApi.ITask
 {
@@ -20,9 +18,9 @@ internal class TaskImplementation : BlApi.ITask
     private DalApi.IDal _dal = DalApi.Factory.Get;
     public int Create(BO.Task boTask)
     {
-        if ( boTask.Alias == "")
+        if (boTask.Alias == "")
             throw new BO.BlInvalidDataException($"The data you entered is incorrect.");
-        
+
         boTask?.DependenciesList?.Select(task => new DO.Dependency(boTask.Id, task.Id));
         DO.Task doTask = new DO.Task(
             boTask!.Id, boTask.Description, boTask.Alias, false, boTask.CreatedAt,
@@ -59,27 +57,27 @@ internal class TaskImplementation : BlApi.ITask
     // 16. public EngineerExperience ComplexilyLevel
     // 17. public DateTime RegistrationDate
     //================================
-//    public int Id { get; init; }
-//    public required string Description { get; set; }
-//    public string? Alias { get; set; }
-//    public MillestoneInTask? Milestone { get; set; }
-//    public Status Status { get; set; }
-//    public IEnumerable<TaskInList>? DependenciesList { get; set; }
-//    public DateTime CreatedAt { get; set; }//תאריך יצירה
-//    public DateTime BaselineStartDate { get; set; }//תאריך התחלה משוער
-//    public DateTime Start { get; set; }//תאריך התחלה בפועל
-//    public DateTime ForecastDate { get; set; }//תאריך משוער לסיום
-//    public DateTime DeadLine { get; set; }//תאריך אחרון לסיום
-//    public DateTime Complete { get; set; }//תאריך סיום בפועל
-//    public string? Deliverables { get; set; }
-//    public string? Remarks { get; set; }
-//    public EngineerInTask? Engineer { get; set; }
-//    public EngineerExperience ComplexilyLevel { get; set; }
-//    public DateTime RegistrationDate { get; init; }
+    //    public int Id { get; init; }
+    //    public required string Description { get; set; }
+    //    public string? Alias { get; set; }
+    //    public MillestoneInTask? Milestone { get; set; }
+    //    public Status Status { get; set; }
+    //    public IEnumerable<TaskInList>? DependenciesList { get; set; }
+    //    public DateTime CreatedAt { get; set; }//תאריך יצירה
+    //    public DateTime BaselineStartDate { get; set; }//תאריך התחלה משוער
+    //    public DateTime Start { get; set; }//תאריך התחלה בפועל
+    //    public DateTime ForecastDate { get; set; }//תאריך משוער לסיום
+    //    public DateTime DeadLine { get; set; }//תאריך אחרון לסיום
+    //    public DateTime Complete { get; set; }//תאריך סיום בפועל
+    //    public string? Deliverables { get; set; }
+    //    public string? Remarks { get; set; }
+    //    public EngineerInTask? Engineer { get; set; }
+    //    public EngineerExperience ComplexilyLevel { get; set; }
+    //    public DateTime RegistrationDate { get; init; }
 
-//}
+    //}
 
-public void Delete(int id)
+    public void Delete(int id)
     {
         //BO.Task? boTask = Read(id);
         //בדיקה האם נוצר כבר לו"ז
@@ -88,13 +86,13 @@ public void Delete(int id)
             _dal.Task.Delete(id);
         }
         catch (DO.DalDeletionImpossible ex) { throw new BO.BlDeletionImpossible($"A task with ID number = {id} cannot be deleted.", ex); }
-        catch(DO.DalDoesNotExistException ex) { throw new BO.BlDoesNotExistException($"A task with ID number = {id} does not exist.", ex); }
+        catch (DO.DalDoesNotExistException ex) { throw new BO.BlDoesNotExistException($"A task with ID number = {id} does not exist.", ex); }
     }
 
 
     private BO.Status getStatuesOfTask(DO.Task task)
     {
-       
+
         if (task.ScheduleDate == DateTime.MinValue)
             return BO.Status.Unscheduled;
         else if (task.Start == DateTime.MinValue)
@@ -113,6 +111,7 @@ public void Delete(int id)
             Alias = t.Alias
         }
         ).Where(t => (_dal.Task.Read(t.Id)!.Milestone && (_dal.Dependency.ReadAll((d) => d!.DependentTask == doTask!.Id && d.DependOnTask == t.Id)) is not null)).FirstOrDefault();
+        DO.Engineer? engineerOfTask = _dal!.Engineer!.Read(doTask.EngineerId);
         return new BO.Task
         {
             Id = doTask!.Id,
@@ -133,15 +132,15 @@ public void Delete(int id)
                 Description = _dal.Task.Read(d.Id)!.Description
             }),
             CreatedAt = doTask!.CreatedAt,
-            ScheduleDate=doTask.ScheduleDate,
-            Start=doTask.Start,
-            ForecastDate =DateTime.Now/*doTask.ForecastDate,*/,
-            DeadLine =doTask.DeadLine,
-            Complete =doTask.Complete,
-            Deliverables =doTask.Deliverables,
-            Engineer=new BO.EngineerInTask { Id=doTask.EngineerId,Name=_dal!.Engineer!.Read(doTask.EngineerId)!.Name},
-            Remarks =doTask.Remarks,
-            ComplexilyLevel=(BO.EngineerExperience)doTask.ComplexilyLevel
+            ScheduleDate = doTask.ScheduleDate,
+            Start = doTask.Start,
+            ForecastDate = DateTime.Now/*doTask.ForecastDate,*/,
+            DeadLine = doTask.DeadLine,
+            Complete = doTask.Complete,
+            Deliverables = doTask.Deliverables,
+            Engineer = new BO.EngineerInTask { Id = doTask.EngineerId, Name = engineerOfTask!.Name },
+            Remarks = doTask.Remarks,
+            ComplexilyLevel = (BO.EngineerExperience)doTask.ComplexilyLevel
         };
     }
     public IEnumerable<BO.Task> ReadAll(Func<BO.Task?, bool>? filter = null)
@@ -159,7 +158,7 @@ public void Delete(int id)
             }
         ).Where(t => (_dal.Task.Read(t.Id)!.Milestone && (_dal.Dependency.ReadAll((d) => d!.DependentTask == t!.Id && d.DependOnTask == t.Id)) is not null)).FirstOrDefault(),
             Status = getStatuesOfTask(task),
-            DependenciesList = _dal.Dependency.ReadAll((d) => d!.DependentTask ==task.Id).Select(d => new BO.TaskInList
+            DependenciesList = _dal.Dependency.ReadAll((d) => d!.DependentTask == task.Id).Select(d => new BO.TaskInList
             {
                 Id = d!.Id,
                 Alias = _dal.Task.Read(d.Id)!.Alias,
@@ -167,14 +166,14 @@ public void Delete(int id)
                 Description = _dal.Task.Read(d.Id)!.Description
             }),
             CreatedAt = task!.CreatedAt,
-            ScheduleDate=task.ScheduleDate,
-            Start=task.Start,
-            ForecastDate =DateTime.Now/*doTask.ForecastDate,*/,
-            DeadLine =task.DeadLine,
-            Complete =task.Complete,
-            Deliverables =task.Deliverables,
-            Remarks =task.Remarks,
-            ComplexilyLevel=(BO.EngineerExperience)task.ComplexilyLevel,
+            ScheduleDate = task.ScheduleDate,
+            Start = task.Start,
+            ForecastDate = DateTime.Now/*doTask.ForecastDate,*/,
+            DeadLine = task.DeadLine,
+            Complete = task.Complete,
+            Deliverables = task.Deliverables,
+            Remarks = task.Remarks,
+            ComplexilyLevel = (BO.EngineerExperience)task.ComplexilyLevel,
         });
         return allTaskinBo;
     }

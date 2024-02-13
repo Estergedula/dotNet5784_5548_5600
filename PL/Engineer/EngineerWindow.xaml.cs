@@ -36,7 +36,13 @@ public partial class EngineerWindow : Window
         this.id = id;
         if (id != 0)
         {
-            try { CurrentEngineer = s_bl!.Engineer!.Read(id); }
+            try { 
+                CurrentEngineer = s_bl!.Engineer!.Read(id);
+                if(CurrentEngineer!.CurrentTask is null) {
+                    CurrentEngineer.CurrentTask = new BO.TaskInEngineer {Id=0,Alias=" " };
+                }
+         
+            }
             catch (BO.BlDoesNotExistException) { MessageBox.Show("ERROR: '\n'There is no object with id " + id); }
         }
         else
@@ -65,14 +71,21 @@ public partial class EngineerWindow : Window
     private void BtnAdd_Click(object sender, RoutedEventArgs e)
     {
         bool isOk = true;
-        try
+        if (CurrentEngineer!.CurrentTask != null)
         {
-            s_bl.Task.Read(CurrentEngineer!.CurrentTask!.Id);
-        }
-        catch (BO.BlDoesNotExistException)
-        {
-            isOk = false;
-            MessageBox.Show("there is no engineer with this id");
+            if (CurrentEngineer!.CurrentTask!.Id != 0)
+            {
+                try
+
+                {
+                    s_bl.Task.Read(CurrentEngineer!.CurrentTask!.Id);
+                }
+                catch (BO.BlDoesNotExistException)
+                {
+                    isOk = false;
+                    MessageBox.Show("there is no engineer with this id");
+                }
+            }
         }
         if (isOk)
         {

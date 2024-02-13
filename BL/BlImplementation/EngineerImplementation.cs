@@ -102,6 +102,7 @@ internal class EngineerImplementation : IEngineer
        (boEngineer.Id, boEngineer.Name, boEngineer.Email, (DO.EngineerExperience)(boEngineer.Level), boEngineer.Cost);
         try
         {
+
             DO.Task currentTask = _dal.Task.Read(boEngineer.CurrentTask!.Id)!;
             DO.Task copyCurrentTask = currentTask with { EngineerId = boEngineer!.Id } as DO.Task;
             _dal.Task.Update(copyCurrentTask);
