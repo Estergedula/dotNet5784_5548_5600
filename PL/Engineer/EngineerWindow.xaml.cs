@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 
 namespace PL.Engineer;
@@ -33,16 +34,32 @@ public partial class EngineerWindow : Window
     {
         InitializeComponent();
         this.id = id;
-        if (id!=0)
+        if (id != 0)
         {
-            try { CurrentEngineer=s_bl!.Engineer!.Read(id); }
-            catch (BO.BlDoesNotExistException) { MessageBox.Show("ERROR: '\n'There is no object with id "+id); }
+            try { CurrentEngineer = s_bl!.Engineer!.Read(id); }
+            catch (BO.BlDoesNotExistException) { MessageBox.Show("ERROR: '\n'There is no object with id " + id); }
         }
         else
         {
-            CurrentEngineer=new BO.Engineer { Id=0 };
+            CurrentEngineer = new BO.Engineer { Id = 0 };
         }
-        AllTasksId=s_bl.Task.ReadAll().Select(t => t.Id).ToList();
+        AllTasksId = s_bl.Task.ReadAll().Select(t => t.Id).ToList();
+    }
+
+    public static bool IsValidEmailAddress(string? s)
+    {
+        Regex regex = new Regex(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
+        return regex.IsMatch(s!);
+    }
+
+    public static bool inputIntegrityCheck(BO.Engineer? engineer)
+    {
+        if (engineer?.Id <= 0 || engineer!.Name == "" || engineer.Cost <= 0 || IsValidEmailAddress(engineer.Email))
+        { 
+            MessageBox.Show("ERROR: '\n'The data you entered is incorrect.");
+            return false; 
+        }
+        return true;
     }
 
     private void btnAdd_Click(object sender, RoutedEventArgs e)
@@ -51,9 +68,12 @@ public partial class EngineerWindow : Window
         {
             try
             {
-                s_bl.Engineer.Update(CurrentEngineer!);
-                MessageBox.Show("Object with id " + id + "had updated successfully!");
-                this.Close();
+                if (inputIntegrityCheck(CurrentEngineer))
+                { 
+                    s_bl.Engineer.Update(CurrentEngineer!);
+                    MessageBox.Show("Object with id " + id + "had updated successfully!");
+                    this.Close();
+                }
             }
             catch (BO.BlInvalidDataException)
             {
@@ -68,9 +88,12 @@ public partial class EngineerWindow : Window
         {
             try
             {
-                s_bl.Engineer.Create(CurrentEngineer!);
-                MessageBox.Show("Object with id " + id + "had created successfully!");
-                this.Close();
+                if (inputIntegrityCheck(CurrentEngineer))
+                { 
+                    s_bl.Engineer.Create(CurrentEngineer!);
+                    MessageBox.Show("Object with id " + id + "had created successfully!");
+                    this.Close();
+                }
             }
             catch (BO.BlInvalidDataException)
             {

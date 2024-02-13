@@ -32,7 +32,6 @@ internal class TaskInListImplementation : ITaskInList
                                                   Description = task.Description!,
                                                   Alias = task!.Alias,
                                                   Status = getStatuesOfTask(task),
-
                                               };
         return filter == null ? allTasks : allTasks.Where(filter);
 

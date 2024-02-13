@@ -8,7 +8,33 @@
         Title="EngineerWindow" Height="640" Width="800"
         DataContext="{Binding CurrentEngineer, RelativeSource={RelativeSource Self}, Mode=TwoWay}"
        >
-    <Window.Resources>        <Style             TargetType="Label">            <Setter Property="FontSize"            Value="25" />            <Setter Property="FontFamily"            Value="Consolas" />            <Setter Property="VerticalAlignment" Value="Center"/>            <!--<Setter Property="FontWeight"                Value="Bold" />-->        </Style>        <Style             TargetType="TextBox">            <Setter Property="Grid.Column" Value="2"/>            <Setter Property="VerticalAlignment" Value="Center"/>            <Setter Property="Background" Value="Yellow"/>            <Setter Property="Width" Value="200"/>            <Setter Property="Height" Value="25"/>        </Style>        <Style                  TargetType="ComboBox">            <Setter Property="Grid.Column" Value="2"/>            <Setter Property="VerticalAlignment" Value="Center"/>            <Setter Property="Width" Value="200"/>            <Setter Property="Height" Value="25"/>        </Style>    </Window.Resources>
+    <Window.Resources>
+        <Style 
+            TargetType="Label">
+            <Setter Property="FontSize"
+            Value="25" />
+            <Setter Property="FontFamily"
+            Value="Consolas" />
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <!--<Setter Property="FontWeight"
+                Value="Bold" />-->
+        </Style>
+        <Style 
+            TargetType="TextBox">
+            <Setter Property="Grid.Column" Value="2"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Background" Value="Yellow"/>
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="Height" Value="25"/>
+        </Style>
+        <Style 
+                 TargetType="ComboBox">
+            <Setter Property="Grid.Column" Value="2"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="Height" Value="25"/>
+        </Style>
+    </Window.Resources>
     <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
