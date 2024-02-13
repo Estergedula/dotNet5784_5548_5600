@@ -25,14 +25,16 @@ internal class TaskInListImplementation : ITaskInList
     }
     public IEnumerable<TaskInList> ReadAll(Func<TaskInList?, bool>? filter = null)
     {
-        IEnumerable<DO.Task?> allTasks = _dal.Task.ReadAll((Func<DO.Task?, bool>?)filter);
-        IEnumerable<BO.TaskInList> allTaskinBo = allTasks.Select(task => new BO.TaskInList
-        {
-            Id = task!.Id,
-            Description = task!.Description!,
-            Alias = task!.Alias,
-            Status=getStatuesOfTask(task)   
-        });
-        return allTaskinBo;
+        IEnumerable<BO.TaskInList> allTasks = from task in _dal.Task.ReadAll()
+                                              select new BO.TaskInList
+                                              {
+                                                  Id = task.Id,
+                                                  Description = task.Description!,
+                                                  Alias = task!.Alias,
+                                                  Status = getStatuesOfTask(task),
+
+                                              };
+        return filter == null ? allTasks : allTasks.Where(filter);
+
     }
 }

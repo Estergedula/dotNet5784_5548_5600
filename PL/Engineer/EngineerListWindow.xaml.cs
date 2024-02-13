@@ -46,9 +46,9 @@ public partial class EngineerListWindow : Window
     {
         var temp = EngineerExperience == BO.EngineerExperience.All ?
         s_bl?.EngineerInList.ReadAll() :
-        s_bl?.EngineerInList.ReadAll(item => item!.Level == EngineerExperience);
+          s_bl?.EngineerInList.ReadAll(item => item!.Level == EngineerExperience);
         EngineerList = temp == null ? new() : new(temp);
-        //uhujh vgmtrdtnrmkygbulk  mhbuvftly;y
+
     }
 
     private void btnAddEngineer_Click(object sender, RoutedEventArgs e)
