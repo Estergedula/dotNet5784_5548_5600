@@ -97,11 +97,11 @@ public partial class EngineerWindow : Window
             }
             catch (BO.BlInvalidDataException)
             {
-                MessageBox.Show("ERROR: '\n'There is an invalid input in the object with id " + id);
+                MessageBox.Show("ERROR: '\n'There is an invalid input in the object with id " + CurrentEngineer!.Id);
             }
             catch (BO.BlAlreadyExistsException)
             {
-                MessageBox.Show("ERROR: '\n'There is already an object with id " + id);
+                MessageBox.Show("ERROR: '\n'There is already an object with id " + CurrentEngineer!.Id);
             }
 
         }

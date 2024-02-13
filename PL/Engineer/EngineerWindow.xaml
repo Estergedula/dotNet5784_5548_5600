@@ -8,33 +8,7 @@
         Title="EngineerWindow" Height="640" Width="800"
         DataContext="{Binding CurrentEngineer, RelativeSource={RelativeSource Self}, Mode=TwoWay}"
        >
-    <Window.Resources>
-        <Style 
-            TargetType="Label">
-            <Setter Property="FontSize"
-            Value="25" />
-            <Setter Property="FontFamily"
-            Value="Consolas" />
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <!--<Setter Property="FontWeight"
-                Value="Bold" />-->
-        </Style>
-        <Style 
-            TargetType="TextBox">
-            <Setter Property="Grid.Column" Value="2"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Background" Value="Yellow"/>
-            <Setter Property="Width" Value="200"/>
-            <Setter Property="Height" Value="25"/>
-        </Style>
-        <Style 
-                 TargetType="ComboBox">
-            <Setter Property="Grid.Column" Value="2"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Width" Value="200"/>
-            <Setter Property="Height" Value="25"/>
-        </Style>
-    </Window.Resources>
+    <Window.Resources>        <Style             TargetType="Label">            <Setter Property="FontSize"            Value="25" />            <Setter Property="FontFamily"            Value="Consolas" />            <Setter Property="VerticalAlignment" Value="Center"/>            <!--<Setter Property="FontWeight"                Value="Bold" />-->        </Style>        <Style             TargetType="TextBox">            <Setter Property="Grid.Column" Value="2"/>            <Setter Property="VerticalAlignment" Value="Center"/>            <Setter Property="Background" Value="Yellow"/>            <Setter Property="Width" Value="200"/>            <Setter Property="Height" Value="25"/>        </Style>        <Style                  TargetType="ComboBox">            <Setter Property="Grid.Column" Value="2"/>            <Setter Property="VerticalAlignment" Value="Center"/>            <Setter Property="Width" Value="200"/>            <Setter Property="Height" Value="25"/>        </Style>    </Window.Resources>
     <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -52,7 +26,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Label  Content="Id"   Grid.Row="1"   />
-        <TextBox   IsEnabled="False"  TextWrapping="Wrap"    Text="{Binding  Id, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  HorizontalAlignment="Left" Grid.Row="1"/>
+        <TextBox    TextWrapping="Wrap"    Text="{Binding  Id, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  HorizontalAlignment="Left" Grid.Row="1"/>
         <Label   Grid.Row="2"  Content="Name" HorizontalAlignment="Left"  />
         <TextBox  HorizontalAlignment="Left"  Grid.Row="2" TextWrapping="Wrap"    Text="{Binding Name, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  />
         <Label Content="Email" HorizontalAlignment="Left" Grid.Row="3"  RenderTransformOrigin="-0.584,0.516"/>

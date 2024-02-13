@@ -38,7 +38,7 @@ internal class EngineerImplementation : IEngineer
     }
     public int Create(BO.Engineer boEngineer)
     {
-        if (boEngineer.Id <= 0 || boEngineer.Name == "" || boEngineer.Cost <= 0 || IsValidEmail(boEngineer.Email))
+        if (boEngineer.Id <=0|| boEngineer.Name == "" || boEngineer.Cost <= 0 || !IsValidEmail(boEngineer.Email))
             throw new BO.BlInvalidDataException($"The data you entered is incorrect.");
         DO.Engineer doEngineer = new DO.Engineer
         (boEngineer.Id, boEngineer.Name, boEngineer.Email, (DO.EngineerExperience)(boEngineer.Level), boEngineer.Cost);
