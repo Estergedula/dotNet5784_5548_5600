@@ -51,15 +51,28 @@ public partial class TaskWindow : Window
         }
     }
 
+    public static bool inputIntegrityCheck(BO.Task? task)
+    {
+        if (task?.Id <= 0 || task!.Alias == "")
+        {
+            MessageBox.Show("ERROR: '\n'The data you entered is incorrect.");
+            return false;
+        }
+        return true;
+    }
+
     private void btnAddOrUpdate_Click(object sender, RoutedEventArgs e)
     {
         if (id != 0)
         {
             try
             {
+                if(inputIntegrityCheck(CurrentTask))
+                {
                 s_bl.Task.Update(CurrentTask!);
                 MessageBox.Show("Object with id " + id + "had updated successfully!");
                 this.Close();
+            }
             }
             catch (BO.BlInvalidDataException)
             {
@@ -74,10 +87,12 @@ public partial class TaskWindow : Window
         {
             try
             {
-
+                if (inputIntegrityCheck(CurrentTask))
+                {
                 s_bl.Task.Create(CurrentTask!);
                 MessageBox.Show("Object with id " + id + "had created successfully!");
                 this.Close();
+            }
             }
             catch (BO.BlInvalidDataException)
             {
