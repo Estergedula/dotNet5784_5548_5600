@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:PL.Engineer"
         mc:Ignorable="d"
         Title="EngineerWindow" Height="640" Width="800"
-        DataContext="{Binding CurrentEngineer, RelativeSource={RelativeSource Self}, Mode=TwoWay}">
+        DataContext="{Binding CurrentEngineer, RelativeSource={RelativeSource Self}, Mode=TwoWay}"
+       >
     <Window.Resources>        <Style             TargetType="Label">            <Setter Property="FontSize"            Value="25" />            <Setter Property="FontFamily"            Value="Consolas" />            <Setter Property="VerticalAlignment" Value="Center"/>            <!--<Setter Property="FontWeight"                Value="Bold" />-->        </Style>        <Style             TargetType="TextBox">            <Setter Property="Grid.Column" Value="2"/>            <Setter Property="VerticalAlignment" Value="Center"/>            <Setter Property="Background" Value="Yellow"/>            <Setter Property="Width" Value="200"/>            <Setter Property="Height" Value="25"/>        </Style>        <Style                  TargetType="ComboBox">            <Setter Property="Grid.Column" Value="2"/>            <Setter Property="VerticalAlignment" Value="Center"/>            <Setter Property="Width" Value="200"/>            <Setter Property="Height" Value="25"/>        </Style>    </Window.Resources>
     <Grid >
         <Grid.RowDefinitions>
@@ -35,8 +36,7 @@
         <Label  Content="Cost" HorizontalAlignment="Left" RenderTransformOrigin="-1.254,0.441" Grid.Row="5"  />
         <TextBox  HorizontalAlignment="Left"  TextWrapping="Wrap"   Text="{Binding Cost, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Grid.Row="5" />
         <Label  Content="Current Task" HorizontalAlignment="Left" Grid.Row="6"  RenderTransformOrigin="-0.403,0.075" />
-        <ComboBox  Grid.Row="6" HorizontalAlignment="Left"    SelectedValue="{Binding CurrentTask.Id, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"    />
+        <ComboBox  Grid.Row="6" HorizontalAlignment="Left"  ItemsSource="{Binding AllTasksId }"   SelectedValue="{Binding CurrentTask.Id, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"    />
         <Button Content="{Binding Id, Converter={StaticResource ConverIdToContentKey}, Mode=OneTime}"  HorizontalAlignment="Center" Click="btnAdd_Click" Grid.Row="7" Height="46"  Width="100" Grid.Column="1"/>
-        <!--ItemsSource="{Binding Source={StaticResource YearsCollectionKey}}"-->
     </Grid>
 </Window>

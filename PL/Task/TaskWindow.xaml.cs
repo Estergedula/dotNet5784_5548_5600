@@ -30,7 +30,7 @@ public partial class TaskWindow : Window
     }
 
     public static readonly DependencyProperty TaskProperty =
-        DependencyProperty.Register("Task", typeof(BO.Task), typeof(TaskWindow), new PropertyMetadata(null));
+        DependencyProperty.Register("CurrentTask", typeof(BO.Task), typeof(TaskWindow), new PropertyMetadata(null));
     public TaskWindow(int id=0)
     {
         InitializeComponent();

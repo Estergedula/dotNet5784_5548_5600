@@ -25,19 +25,19 @@ public partial class EngineerListWindow : Window
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
 
     public BO.EngineerExperience EngineerExperience { get; set; } = BO.EngineerExperience.All;
-    public ObservableCollection<BO.Engineer> EngineerList
+    public ObservableCollection<BO.EngineerInList> EngineerList
     {
-        get { return (ObservableCollection<BO.Engineer>)GetValue(EngineerListProperty); }
+        get { return (ObservableCollection<BO.EngineerInList>)GetValue(EngineerListProperty); }
         set { SetValue(EngineerListProperty, value); }
     }
 
     public static readonly DependencyProperty EngineerListProperty =
-        DependencyProperty.Register("EngineerList", typeof(ObservableCollection<BO.Engineer>), typeof(EngineerListWindow), new PropertyMetadata(null));
+        DependencyProperty.Register("EngineerInList", typeof(ObservableCollection<BO.EngineerInList>), typeof(EngineerListWindow), new PropertyMetadata(null));
 
     public EngineerListWindow()
     {
         InitializeComponent();
-        var temp = s_bl?.Engineer.ReadAll();
+        var temp = s_bl?.EngineerInList.ReadAll();
         EngineerList = temp == null ? new() : new(temp);
 
     }
@@ -45,10 +45,10 @@ public partial class EngineerListWindow : Window
     private void cmbEngineerExperience_SelectionChange(object sender, SelectionChangedEventArgs e)
     {
         var temp = EngineerExperience == BO.EngineerExperience.All ?
-        s_bl?.Engineer.ReadAll() :
-        s_bl?.Engineer.ReadAll(item => item!.Level == EngineerExperience);
+        s_bl?.EngineerInList.ReadAll() :
+        s_bl?.EngineerInList.ReadAll(item => item!.Level == EngineerExperience);
         EngineerList = temp == null ? new() : new(temp);
-
+        //uhujh vgmtrdtnrmkygbulk  mhbuvftly;y
     }
 
     private void btnAddEngineer_Click(object sender, RoutedEventArgs e)

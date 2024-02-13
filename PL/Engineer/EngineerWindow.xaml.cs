@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
 
 namespace PL.Engineer;
 
@@ -11,6 +13,14 @@ public partial class EngineerWindow : Window
 {
     private int id;
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
+    public IEnumerable<int> AllTasksId
+    {
+        get { return (IEnumerable<int>)GetValue(TasksProperty); }
+        set { SetValue(TasksProperty, value); }
+    }
+
+    public static readonly DependencyProperty TasksProperty =
+        DependencyProperty.Register("AllTasksId", typeof(IEnumerable<int>), typeof(EngineerWindow), new PropertyMetadata(null));
     public BO.Engineer? CurrentEngineer
     {
         get { return (BO.Engineer)GetValue(EngineerProperty); }
@@ -18,7 +28,7 @@ public partial class EngineerWindow : Window
     }
 
     public static readonly DependencyProperty EngineerProperty =
-        DependencyProperty.Register("Engineer", typeof(BO.Engineer), typeof(EngineerWindow), new PropertyMetadata(null));
+        DependencyProperty.Register("CurrentEngineer", typeof(BO.Engineer), typeof(EngineerWindow), new PropertyMetadata(null));
     public EngineerWindow(int id = 0)
     {
         InitializeComponent();
@@ -32,6 +42,7 @@ public partial class EngineerWindow : Window
         {
             CurrentEngineer=new BO.Engineer { Id=0 };
         }
+        AllTasksId=s_bl.Task.ReadAll().Select(t => t.Id).ToList();
     }
 
     private void btnAdd_Click(object sender, RoutedEventArgs e)

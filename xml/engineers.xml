@@ -1,20 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfEngineer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Engineer>
-    <Id>397624800</Id>
-    <Name>Ariela Levin</Name>
-    <Email>Ariela Levin39@gmail.com</Email>
-    <Level>Expert</Level>
-    <Cost>844</Cost>
-  </Engineer>
-  <Engineer>
-    <Id>371031014</Id>
-    <Name>Dina Klein</Name>
-    <Email>Dina Klein37@gmail.com</Email>
-    <Level>Expert</Level>
-    <Cost>987</Cost>
-  </Engineer>
-  <Engineer>
     <Id>285968657</Id>
     <Name>Shira Israelof</Name>
     <Email>Shira Israelof28@gmail.com</Email>
@@ -860,5 +846,19 @@
     <Email>Yair Cohen27@gmail.com</Email>
     <Level>Expert</Level>
     <Cost>233</Cost>
+  </Engineer>
+  <Engineer>
+    <Id>397624800</Id>
+    <Name>Ariela Levin</Name>
+    <Email>Ariela Levin39@gmail.com</Email>
+    <Level>Expert</Level>
+    <Cost>844481</Cost>
+  </Engineer>
+  <Engineer>
+    <Id>371031014</Id>
+    <Name>Dina Klein</Name>
+    <Email>Dina Klein37@gmail.com</Email>
+    <Level>Expert</Level>
+    <Cost>98754848</Cost>
   </Engineer>
 </ArrayOfEngineer>
