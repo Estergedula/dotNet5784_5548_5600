@@ -15,7 +15,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <!--Internal, Upper Grid-->
-        <Grid Height="auto" Grid.Row="0" Width="auto" Margin="10,3,0,536" Grid.RowSpan="2">
+        <Grid Height="auto" Grid.Row="0" Width="auto" Margin="10,3,0,573" Grid.RowSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="14*"/>
                 <RowDefinition Height="71*"/>
@@ -27,18 +27,11 @@
                 <ColumnDefinition Width="7*"/>
             </Grid.ColumnDefinitions>
             <Label Content="Label" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
-            <ComboBox SelectedValue="{Binding Path=EngineerExperience, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource EngineerExperiencesCollectionKey}}" Grid.Column="2" SelectionChanged="cmbEngineerExperience_SelectionChange" Grid.ColumnSpan="2" Grid.RowSpan="2"  />
+            <ComboBox SelectedValue="{Binding Path=EngineerExperience, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource EngineerExperiencesCollectionKey}}" Grid.Column="2" SelectionChanged="cmbEngineerExperience_SelectionChange" Grid.ColumnSpan="2" Grid.RowSpan="2" Height="62" VerticalAlignment="Top"  />
 
         </Grid>
-
-        <ListView x:Name="load" Margin="5,47,5,148" Grid.Row="1" ItemsSource="{Binding EngineerList}" MouseDoubleClick="lsvDisplayEngineers_MouseDoubleClick">
-            <ListView.View >
-                <GridView>
-                    <GridViewColumn/>
-                </GridView>
-            </ListView.View>
-        </ListView>
-        <Button Content="Add" Grid.Row="1" HorizontalAlignment="Center" Width="100"  Margin="0,469,0,0" Height="59" VerticalAlignment="Top" Click="btnAddEngineer_Click"/>
+        <ListView MouseDoubleClick="lsvDisplayEngineers_MouseDoubleClick" Margin="5,10,10,99" Grid.Row="1" ItemsSource="{Binding EngineerList}"/>
+        <Button Content="Add" Grid.Row="1" HorizontalAlignment="Left" Width="100"  Margin="348,512,0,0" Height="59" VerticalAlignment="Top" Click="btnAddEngineer_Click"/>
 
 
     </Grid>

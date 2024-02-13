@@ -20,8 +20,9 @@ internal class TaskImplementation : BlApi.ITask
     private DalApi.IDal _dal = DalApi.Factory.Get;
     public int Create(BO.Task boTask)
     {
-        if (boTask.Id <= 0 || boTask.Alias == "")
+        if ( boTask.Alias == "")
             throw new BO.BlInvalidDataException($"The data you entered is incorrect.");
+        
         boTask?.DependenciesList?.Select(task => new DO.Dependency(boTask.Id, task.Id));
         DO.Task doTask = new DO.Task(
             boTask!.Id, boTask.Description, boTask.Alias, false, boTask.CreatedAt,
@@ -138,6 +139,7 @@ public void Delete(int id)
             DeadLine =doTask.DeadLine,
             Complete =doTask.Complete,
             Deliverables =doTask.Deliverables,
+            Engineer=new BO.EngineerInTask { Id=doTask.EngineerId,Name=_dal!.Engineer!.Read(doTask.EngineerId)!.Name},
             Remarks =doTask.Remarks,
             ComplexilyLevel=(BO.EngineerExperience)doTask.ComplexilyLevel
         };

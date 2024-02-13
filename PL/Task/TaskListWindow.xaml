@@ -24,7 +24,7 @@
             <Label Content="select task" Width="111" RenderTransformOrigin="0.5,0.541" Margin="86,10,603,0" Grid.Column="0"/>
             <ComboBox SelectedValue="{Binding Path=TaskStatus, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource StatusCollectionKey}}" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="cmbTaskStatus_SelectionChange" />
         </Grid>
-        <Button Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="50" Width="100"/>
+        <Button Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="50" Width="100" Click="btnAddTask_Click"/>
         <ListView x:Name="load" Margin="5" Grid.Row="1" ItemsSource="{Binding TaskList}" MouseDoubleClick="lsvDisplayEngineers_MouseDoubleClick"  >
             <ListView.View >
                 <GridView>

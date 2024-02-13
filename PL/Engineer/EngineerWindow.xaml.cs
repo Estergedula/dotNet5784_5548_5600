@@ -69,16 +69,16 @@ public partial class EngineerWindow : Window
             try
             {
                 s_bl.Engineer.Create(CurrentEngineer!);
-                MessageBox.Show("Object with id " + id + "had created successfully!");
+                MessageBox.Show("Object with id " + CurrentEngineer!.Id + "had created successfully!");
                 this.Close();
             }
             catch (BO.BlInvalidDataException)
             {
-                MessageBox.Show("ERROR: '\n'There is an invalid input in the object with id " + id);
+                MessageBox.Show("ERROR: '\n'There is an invalid input in the object with id " + CurrentEngineer!.Id);
             }
             catch (BO.BlAlreadyExistsException)
             {
-                MessageBox.Show("ERROR: '\n'There is already an object with id " + id);
+                MessageBox.Show("ERROR: '\n'There is already an object with id " + CurrentEngineer!.Id);
             }
 
         }

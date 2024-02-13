@@ -37,12 +37,17 @@ public partial class TaskWindow : Window
         this.id = id;
         if (id!=0)
         {
-            try { CurrentTask=s_bl!.Task!.Read(id); }
+            try
+            {
+                CurrentTask = s_bl!.Task!.Read(id);
+                MessageBox.Show("gvg");
+            
+            }
             catch (BO.BlDoesNotExistException) { MessageBox.Show("ERROR: '\n'There is no object with id "+id); }
         }
         else
         {
-            CurrentTask=new BO.Task { Id=0,Alias="",Description="",CreatedAt=DateTime.Now };
+            CurrentTask=new BO.Task { Id=0,Alias="",Description="",CreatedAt=DateTime.Now,Engineer=new EngineerInTask { Id=0} };
         }
     }
 
@@ -69,6 +74,7 @@ public partial class TaskWindow : Window
         {
             try
             {
+
                 s_bl.Task.Create(CurrentTask!);
                 MessageBox.Show("Object with id " + id + "had created successfully!");
                 this.Close();

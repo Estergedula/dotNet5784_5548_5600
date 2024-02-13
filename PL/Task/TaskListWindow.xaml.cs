@@ -54,10 +54,6 @@ public partial class TaskListWindow : Window
 
     }
 
-    private void btnAddTask_Click(object sender, RoutedEventArgs e)
-    {
-        new TaskWindow().ShowDialog();
-    }
 
     private void lsvDisplayEngineers_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
@@ -65,5 +61,8 @@ public partial class TaskListWindow : Window
         new TaskWindow(taskInList!.Id).ShowDialog();
     }
 
-
+    private void btnAddTask_Click(object sender, RoutedEventArgs e)
+    {
+        new TaskWindow().ShowDialog();
+    }
 }
