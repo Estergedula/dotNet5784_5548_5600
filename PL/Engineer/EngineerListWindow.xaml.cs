@@ -54,16 +54,16 @@ public partial class EngineerListWindow : Window
     private void BtnAddEngineer_Click(object sender, RoutedEventArgs e)
     {
         new EngineerWindow().ShowDialog();
+        var temp = s_bl?.EngineerInList.ReadAll();
+        EngineerList = new(temp!);
     }
 
-    private void lsvDisplayEngineers_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+    private void LsvDisplayEngineers_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
         BO.EngineerInList? engineerInList = (sender as ListView)?.SelectedItem as BO.EngineerInList;
         new EngineerWindow(engineerInList!.Id).ShowDialog();
         var temp = s_bl?.EngineerInList.ReadAll();
         EngineerList = new(temp!);
-
-
     }
 }
 //נשים לב: עד 8ד ועד 9ג

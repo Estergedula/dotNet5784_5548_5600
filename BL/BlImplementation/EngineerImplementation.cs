@@ -31,7 +31,7 @@ internal class EngineerImplementation : IEngineer
         {
             DO.Task currentTask = _dal.Task.Read(boEngineer.CurrentTask!.Id)!;
             DO.Task copyCurrentTask = currentTask with { EngineerId = boEngineer!.Id } as DO.Task;
-            _dal.Task.Update(currentTask);
+            _dal.Task.Update(copyCurrentTask);
         }
         catch
         {

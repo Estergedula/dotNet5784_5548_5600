@@ -63,7 +63,18 @@ public partial class TaskWindow : Window
 
     private void BtnAddOrUpdate_Click(object sender, RoutedEventArgs e)
     {
-        if (s_bl.Engineer.Read(CurrentTask!.Engineer!.Id) is null)
+        bool isOk = true;
+        try
+        {
+            s_bl.Engineer.Read(CurrentTask!.Engineer!.Id);
+                
+        }
+        catch(BO.BlDoesNotExistException)
+        {
+            isOk = false;
+          
+        }
+        if(!isOk)
             MessageBox.Show("there is no engineer with this id");
         else
         {
