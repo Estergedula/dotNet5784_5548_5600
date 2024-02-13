@@ -1,20 +1,8 @@
-﻿using BlApi;
-using PL.Engineer;
-using PL.Task;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace PL.Task;
 
@@ -51,18 +39,23 @@ public partial class TaskListWindow : Window
         var temp = TaskStatus == BO.Status.All ? s_bl?.TaskInList.ReadAll() :
         s_bl?.TaskInList.ReadAll(item => item!.Status == TaskStatus);
         TaskList = temp == null ? new() : new(temp);
-
     }
 
 
-    private void LsvDisplayEngineers_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+    private void LsvDisplayTasks_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
         BO.TaskInList? taskInList = (sender as ListView)?.SelectedItem as BO.TaskInList;
         new TaskWindow(taskInList!.Id).ShowDialog();
+        var temp = TaskStatus == BO.Status.All ? s_bl?.TaskInList.ReadAll() :
+        s_bl?.TaskInList.ReadAll(item => item!.Status == TaskStatus);
+        TaskList = temp == null ? new() : new(temp);
     }
 
     private void BtnAddTask_Click(object sender, RoutedEventArgs e)
     {
         new TaskWindow().ShowDialog();
+        var temp = TaskStatus == BO.Status.All ? s_bl?.TaskInList.ReadAll() :
+        s_bl?.TaskInList.ReadAll(item => item!.Status == TaskStatus);
+        TaskList = temp == null ? new() : new(temp);
     }
 }

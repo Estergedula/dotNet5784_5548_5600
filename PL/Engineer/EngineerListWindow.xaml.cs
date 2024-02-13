@@ -54,16 +54,18 @@ public partial class EngineerListWindow : Window
     private void BtnAddEngineer_Click(object sender, RoutedEventArgs e)
     {
         new EngineerWindow().ShowDialog();
-        var temp = s_bl?.EngineerInList.ReadAll();
-        EngineerList = new(temp!);
+        var temp = EngineerExperience == BO.EngineerExperience.All ? s_bl?.EngineerInList.ReadAll() :
+             s_bl?.EngineerInList.ReadAll(item => item!.Level == EngineerExperience);
+        EngineerList = temp == null ? new() : new(temp);
     }
 
     private void LsvDisplayEngineers_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
         BO.EngineerInList? engineerInList = (sender as ListView)?.SelectedItem as BO.EngineerInList;
         new EngineerWindow(engineerInList!.Id).ShowDialog();
-        var temp = s_bl?.EngineerInList.ReadAll();
-        EngineerList = new(temp!);
+        var temp = EngineerExperience == BO.EngineerExperience.All ? s_bl?.EngineerInList.ReadAll() :
+             s_bl?.EngineerInList.ReadAll(item => item!.Level == EngineerExperience);
+        EngineerList = temp == null ? new() : new(temp);
     }
 }
 //נשים לב: עד 8ד ועד 9ג
