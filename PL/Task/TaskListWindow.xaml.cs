@@ -12,8 +12,7 @@ namespace PL.Task;
 public partial class TaskListWindow : Window
 {
 
-    public static readonly DependencyProperty CourseListProperty =
-        DependencyProperty.Register("CourseList", typeof(IEnumerable<BO.TaskInList>), typeof(TaskListWindow), new PropertyMetadata(null));
+
 
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
 
