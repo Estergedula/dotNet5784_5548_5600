@@ -40,7 +40,7 @@ public partial class TaskWindow : Window
             try
             {
                 CurrentTask = s_bl!.Task!.Read(id);
-                MessageBox.Show("gvg");
+          
             
             }
             catch (BO.BlDoesNotExistException) { MessageBox.Show("ERROR: '\n'There is no object with id "+id); }
