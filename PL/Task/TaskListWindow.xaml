@@ -25,7 +25,7 @@
             <ComboBox SelectedValue="{Binding Path=TaskStatus, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource StatusCollectionKey}}" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="cmbTaskStatus_SelectionChange" />
         </Grid>
         <Button Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="50" Width="100"/>
-        <ListView x:Name="load" Margin="5,47,5,148" Grid.Row="1" ItemsSource="{Binding TaskList}" MouseDoubleClick="lsvDisplayEngineers_MouseDoubleClick"  >
+        <ListView x:Name="load" Margin="5" Grid.Row="1" ItemsSource="{Binding TaskList}" MouseDoubleClick="lsvDisplayEngineers_MouseDoubleClick"  >
             <ListView.View >
                 <GridView>
                     <GridViewColumn/>

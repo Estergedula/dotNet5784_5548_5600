@@ -7,7 +7,6 @@
         <local:EngineerExperiencesCollection x:Key="EngineerExperiencesCollectionKey"/>
         <local:ConvertIdToContent x:Key="ConverIdToContentKey"/>
         <local:StatusCollection x:Key="StatusCollectionKey"/>
-
     </Application.Resources>
 </Application>
 <!--לא עשינו את 8ד-->
