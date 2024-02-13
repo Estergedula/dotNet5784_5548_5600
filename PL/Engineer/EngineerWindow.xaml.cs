@@ -105,7 +105,7 @@ public partial class EngineerWindow : Window
                     if (inputIntegrityCheck(CurrentEngineer))
                     {
                         s_bl.Engineer.Create(CurrentEngineer!);
-                        MessageBox.Show("Object with id " + id + "had created successfully!");
+                        MessageBox.Show("Object with id " + CurrentEngineer!.Id + "had created successfully!");
                         this.Close();
                     }
                 }

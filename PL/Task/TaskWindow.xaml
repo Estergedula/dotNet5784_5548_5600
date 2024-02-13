@@ -90,8 +90,8 @@
         <TextBox  Text="{Binding Remarks, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  Grid.Row="11"/>
         <Label Content="Engineer Id" Grid.Row="12"/>
         <TextBox Text="{Binding Engineer.Id, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  Grid.Row="12"/>
-        <Label Content="Engineer Alias" Grid.Row="13"/>
-        <Label Content="{Binding Engineer.Id, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  FontSize="14" Grid.Column="1" Grid.Row="13" Height="25" Margin="100,6,100,0" VerticalAlignment="Top"/>
+        <Label Content="Engineer Name" Grid.Row="13"/>
+        <Label Content="{Binding Engineer.Name, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  FontSize="14" Grid.Column="1" Grid.Row="13" Height="25" Margin="100,6,100,0" VerticalAlignment="Top"/>
         <Label Content="ComplexilyLevel" Grid.Row="14"/>
         <ComboBox ItemsSource="{Binding Source={StaticResource EngineerExperiencesCollectionKey}}"  SelectedValue="{Binding ComplexilyLevel, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="14"/>
         <Button Content="{Binding Id, Mode=OneTime, Converter={StaticResource ConverIdToContentKey}}" Grid.Column="1" Grid.Row="15" Margin="13,10,16,16" Click="BtnAddOrUpdate_Click" ></Button>

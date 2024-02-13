@@ -30,8 +30,8 @@
             <ComboBox SelectedValue="{Binding Path=EngineerExperience, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource EngineerExperiencesCollectionKey}}" Grid.Column="2" SelectionChanged="cmbEngineerExperience_SelectionChange" Grid.ColumnSpan="2" Grid.RowSpan="2" Height="62" VerticalAlignment="Top"  />
                                                    
         </Grid>
-        <ListView MouseDoubleClick="lsvDisplayEngineers_MouseDoubleClick" Margin="5,10,10,99" Grid.Row="1" ItemsSource="{Binding EngineerList}"/>
-        <Button Content="Add" Grid.Row="1" HorizontalAlignment="Left" Width="100"  Margin="348,512,0,0" Height="59" VerticalAlignment="Top" Click="BtnAddEngineer_Click"/>
+        <ListView MouseDoubleClick="LsvDisplayEngineers_MouseDoubleClick" Margin="5,10,10,99" Grid.Row="1" ItemsSource="{Binding EngineerList}"/>
+        <Button Content="Add" Grid.Row="1" HorizontalAlignment="Left" Width="100"  Margin="348,494,0,0" Height="59" VerticalAlignment="Top" Click="BtnAddEngineer_Click"/>
 
 
     </Grid>
