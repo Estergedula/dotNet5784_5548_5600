@@ -20,7 +20,7 @@ internal class TaskImplementation : BlApi.ITask
     {
         if (boTask.Start > boTask.ScheduleDate || boTask.ScheduleDate > boTask.ForecastDate ||
             boTask.ForecastDate < boTask.Complete || boTask.DeadLine < boTask.Complete ||
-            boTask.Id <= 0 || boTask.Alias == "" || boTask.Id > 999999999 || boTask.Id < 11111111)
+            boTask.Id <= 0 || boTask.Alias == "")
             throw new BO.BlInvalidDataException($"The data you entered is incorrect.");
         try
         {
