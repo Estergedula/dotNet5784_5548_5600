@@ -29,11 +29,11 @@ internal class EngineerImplementation : IEngineer
             throw new BO.BlInvalidDataException($"The data you entered is incorrect.");
         try
         {
-            _dal.Task.Read(boEngineer.CurrentTask!.Id);
+            Read(boEngineer.CurrentTask!.Id);
         }
-        catch (DO.DalDoesNotExistException)
+        catch (BO.BlDoesNotExistException)
         {
-            throw new BO.BlDoesNotExistException($"Current task with ID={boEngineer.CurrentTask!.Id} does not exixt ");
+            throw new BO.BlInvalidDataException($"Current task with ID={boEngineer.CurrentTask!.Id} does not exixt ");
         }
         try
         {

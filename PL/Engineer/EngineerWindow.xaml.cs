@@ -60,46 +60,25 @@ public partial class EngineerWindow : Window
 
     public static bool InputIntegrityCheck(BO.Engineer? engineer)
     {
-        if (engineer?.Id <= 0 || engineer!.Name == "" || engineer.Cost <= 0 || !(IsValidEmailAddress(engineer.Email)))
-        {
-            MessageBox.Show("ERROR: '\n'The data you entered is incorrect.");
-            return false;
-        }
-        return true;
+       return (engineer?.Id <= 0 || engineer!.Name == "" || engineer.Cost <= 0 || !(IsValidEmailAddress(engineer.Email)))?false:true;            
     }
 
     private void BtnAdd_Click(object sender, RoutedEventArgs e)
     {
-        bool isOk = true;
-        if (CurrentEngineer!.CurrentTask != null)
-        {
-            if (CurrentEngineer!.CurrentTask!.Id != 0)
-            {
-                //try
-                //{
-                //    s_bl.Task.Read(CurrentEngineer!.CurrentTask!.Id);
-                //}
-                //catch (BO.BlDoesNotExistException)
-                //{
-                //    isOk = false;
-                //    MessageBox.Show("There is no engineer with this id");
-                //}
-            }
-        }
+        bool isOk= (CurrentEngineer!.CurrentTask is null) ?false:true;
         if (isOk)
         {
             if (id != 0)
             {
                 try
                 {
-
-
                     if (InputIntegrityCheck(CurrentEngineer))
                     {
                         s_bl.Engineer.Update(CurrentEngineer!);
                         MessageBox.Show("Engineer with id " + id + " had updated successfully!");
                         this.Close();
                     }
+                    else MessageBox.Show("ERROR: '\n'The data you entered is incorrect.");
                 }
                 catch (BO.BlInvalidDataException)
                 {
@@ -120,6 +99,7 @@ public partial class EngineerWindow : Window
                         MessageBox.Show("Engineer with id " + CurrentEngineer!.Id + " had created successfully!");
                         this.Close();
                     }
+                    else MessageBox.Show("ERROR: '\n'The data you entered is incorrect.");
                 }
                 catch (BO.BlInvalidDataException)
                 {
