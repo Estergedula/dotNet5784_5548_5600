@@ -1,6 +1,7 @@
 ﻿using DalApi;
 
 namespace BlApi;
+
 /// <summary>
 /// A main logical interface that centralizes access to logical sub-interfaces.
 /// </summary>

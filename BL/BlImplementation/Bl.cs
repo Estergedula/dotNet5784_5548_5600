@@ -1,6 +1,9 @@
 ﻿namespace BlImplementation;
 
 using BlApi;
+/// <summary>
+/// A main class that implements the main logical interface IBl
+/// </summary>
 internal class Bl : IBl
 {
     public ITask Task => new TaskImplementation();

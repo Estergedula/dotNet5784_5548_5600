@@ -1,17 +1,19 @@
 ﻿using BlApi;
-using BO;
 using System.Net.Mail;
 
 namespace BlImplementation;
 
 internal class EngineerImplementation : IEngineer
 {
-
     private readonly DalApi.IDal _dal = DalApi.Factory.Get;
+    /// <summary>
+    /// A function that checks whether the email address entered is a valid email address
+    /// </summary>
+    /// <param name="email">The email adress which entered as a input for validation</param>
+    /// <returns></returns>
     private static bool IsValidEmail(string? email)
     {
         bool valid = true;
-
         try
         {
             var emailAddress = new MailAddress(email ?? " ");
@@ -23,6 +25,14 @@ internal class EngineerImplementation : IEngineer
 
         return valid;
     }
+
+    /// <summary>
+    /// Creates new Engineer object in DAL
+    /// </summary>
+    /// <param name="boEngineer">The BO engineer type entity which recieved for creation</param>
+    /// <returns>Id of the engineer created in DAL</returns>
+    /// <exception cref="BO.BlInvalidDataException">Thrown if invalid data was received as input</exception>
+    /// <exception cref="BO.BlAlreadyExistsException">Thrown if an attempt was made to create an engineer that already exists</exception>
     public int Create(BO.Engineer boEngineer)
     {
         if (boEngineer.Id < 10000000|| boEngineer.Id > 99999999 || boEngineer.Name == "" || boEngineer.Cost <= 0 || !IsValidEmail(boEngineer.Email))
@@ -59,6 +69,12 @@ internal class EngineerImplementation : IEngineer
         }
     }
 
+    /// <summary>
+    /// Deletes a Engineer by his Id
+    /// </summary>
+    /// <param name="id">The identification number of the engineer accepted for deletion</param>
+    /// <exception cref="BO.BlDeletionImpossible">Thrown if the id of the engineer accepted for deletion belongs to an engineer whose deletion is impossible</exception>
+    /// <exception cref="BO.BlDoesNotExistException">Thrown if the id of the engineer accepted for deletion belongs to an engineer who does not exist in the data layer</exception>
     public void Delete(int id)
     {
         if (GetTasksOfEngineer(id) is not null) throw new BO.BlDeletionImpossible($"An engineer with ID number = {id} cannot be deleted.");
@@ -69,6 +85,12 @@ internal class EngineerImplementation : IEngineer
         catch (DO.DalDoesNotExistException ex) { throw new BO.BlDoesNotExistException($"An engineer with ID number = {id} does not exist.", ex); }
     }
 
+    /// <summary>
+    /// Reads entity Engineer by his ID
+    /// </summary>
+    /// <param name="id">Id of the engineer to read</param>
+    /// <returns>The BO engineer type entity who created from the asked engineer in the data layer</returns>
+    /// <exception cref="BO.BlDoesNotExistException">Thrown if the id of the engineer accepted for reading belongs to an engineer who does not exist in the data layer</exception>
     public BO.Engineer? Read(int id)
     {
         DO.Engineer? doEngineer = _dal.Engineer.Read(id) ?? throw new BO.BlDoesNotExistException($"An engineer with ID number = {id} does not exist.");
@@ -82,6 +104,12 @@ internal class EngineerImplementation : IEngineer
             CurrentTask = GetCurrentTaskOfEngineer(id)
         };
     }
+
+    /// <summary>
+    /// Get the current task of a specific engineer
+    /// </summary>
+    /// <param name="idOfEngineer">The id of the engineer for whom you want to receive the current task</param>
+    /// <returns>A BO task type entity which is the current task of the engineer</returns>
     private BO.TaskInEngineer? GetCurrentTaskOfEngineer(int idOfEngineer)
     {
         var allTasks = _dal.Task.ReadAll();
@@ -91,6 +119,12 @@ internal class EngineerImplementation : IEngineer
               select new BO.TaskInEngineer { Id = t.Id, Alias = t.Alias }).FirstOrDefault();
         return currentTaskInEngineer;
     }
+
+    /// <summary>
+    /// Get the tasks of a specific engineer
+    /// </summary>
+    /// <param name="idOfEngineer">The id of the engineer for whom you want to receive his tasks</param>
+    /// <returns>A set of the tasks of the engineer</returns>
     private IEnumerable<BO.TaskInEngineer> GetTasksOfEngineer(int idOfEngineer)
     {
         var allTasks = _dal.Task.ReadAll();
@@ -101,6 +135,12 @@ internal class EngineerImplementation : IEngineer
         return taskInEngineer;
     }
 
+    /// <summary>
+    /// Updates an Engineer object
+    /// </summary>
+    /// <param name="boEngineer">The BO engineer type entity which recieved for updation</param>
+    /// <exception cref="BO.BlInvalidDataException">Thrown if invalid data was received as input</exception>
+    /// <exception cref="BO.BlAlreadyExistsException">Thrown if an attempt was made to create a engineer that already exists</exception>
     public void Update(BO.Engineer boEngineer)
     {
         if (boEngineer.Id <= 0 || boEngineer.Name == "" || boEngineer.Cost <= 0 || !IsValidEmail(boEngineer.Email))
@@ -111,7 +151,7 @@ internal class EngineerImplementation : IEngineer
         }
         catch (DO.DalDoesNotExistException)
         {
-            throw new BO.BlDoesNotExistException($"Current task with ID={boEngineer.CurrentTask!.Id} does not exixt ");
+            throw new BO.BlInvalidDataException($"Current task with ID={boEngineer.CurrentTask!.Id} does not exixt ");
         }
         DO.Engineer doEngineer = new 
        (boEngineer.Id, boEngineer.Name, boEngineer.Email, (DO.EngineerExperience)(boEngineer.Level), boEngineer.Cost);
@@ -137,7 +177,11 @@ internal class EngineerImplementation : IEngineer
         }
     }
 
-
+    /// <summary>
+    /// Read all engineers who fulfill a certain condition for screening
+    /// </summary>
+    /// <param name="filter">The condition for screening</param>
+    /// <returns>A set of the engineers who fulfill the condition</returns>
     public IEnumerable<BO.Engineer> ReadAll(Func<BO.Engineer?, bool>? filter = null)
     {
         IEnumerable<DO.Engineer?> allEngineers = _dal.Engineer.ReadAll();

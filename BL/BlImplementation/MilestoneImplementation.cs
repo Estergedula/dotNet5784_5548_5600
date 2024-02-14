@@ -22,25 +22,12 @@ internal class MilestoneImplementation : IMilestone
         ////var x=from dependency in dependencies group dependency!.DependOnTask select new 
             throw new NotImplementedException(); 
     }
-    //public int MileStoneId { get; init; }
-    //public string? Descriotion { get; init; }
-    //public string? Alias { get; init; }
-    //public Status Status { get; set; }
-    //public DateTime? CreatedAt { get; set; }
-    //public DateTime? BaselineStartDate { get; set; }
-    //public DateTime? Start { get; set; }
-    //public DateTime? ForecastDate { get; set; }
-    //public DateTime? DeadLine { get; set; }
-    //public DateTime? Complete { get; set; }
-    //public double? CompletionPercentage { get; set; }
-    //public string? Remarks { get; set; }
     public List<BO.TaskInList>? Dependecies { get; set; }
     
     public BO.Milestone? Read(int id)
     {
         //Do we need to check bool milestone
         DO.Task? doTask = _dal.Task.Read(id) ?? throw new BO.BlDoesNotExistException($"A milestone with ID number = {id} does not exist.");
-        //.יש לבדוק האם מתודות הקריאה בשכבת הנתונים מחזירות שגיאות
         IEnumerable<DO.Task>tasksWhichDepentOnMe = from d in (_dal.Dependency.ReadAll((d) => d!.DependentTask == id))
                 select _dal.Task.Read(d.DependOnTask);
 

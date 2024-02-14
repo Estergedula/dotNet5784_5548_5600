@@ -16,6 +16,14 @@ internal class TaskImplementation : BlApi.ITask
     //EngineerExperience ComplexilyLevel = EngineerExperience.Junior,
     //bool isActive = true
     private DalApi.IDal _dal = DalApi.Factory.Get;
+
+    /// <summary>
+    /// Creates new Task object in DAL
+    /// </summary>
+    /// <param name="boTask">The BO task type entity which recieved for creation</param>
+    /// <returns>Id of the engineer created in DAL</returns>
+    /// <exception cref="BO.BlInvalidDataException">Thrown if invalid data was received as input</exception>
+    /// <exception cref="BO.BlAlreadyExistsException">Thrown if an attempt was made to create a task that already exists</exception>
     public int Create(BO.Task boTask)
     {
         if (boTask.Start > boTask.ScheduleDate || boTask.ScheduleDate > boTask.ForecastDate ||
@@ -24,11 +32,11 @@ internal class TaskImplementation : BlApi.ITask
             throw new BO.BlInvalidDataException($"The data you entered is incorrect.");
         try
         {
-            _dal.Task.Read(boTask.EngineerId!.Id);
+            _dal.Task.Read(boTask.Engineer!.Id);
         }
         catch (DO.DalDoesNotExistException)
         {
-            throw new BO.BlDoesNotExistException($"ENginner with ID={boTask.EngineerId!.Id} does not exixt ");
+            throw new BO.BlInvalidDataException($"ENginner with ID={boTask.Engineer!.Id} does not exixt ");
         }
 
         boTask?.DependenciesList?.Select(task => new DO.Dependency(boTask.Id, task.Id));
@@ -37,7 +45,7 @@ internal class TaskImplementation : BlApi.ITask
             boTask!.Id, boTask.Description, boTask.Alias, false, boTask.CreatedAt,
              boTask.Start, boTask.ForecastDate,
              boTask.DeadLine, boTask.Complete, boTask.Deliverables, boTask.Remarks,
-             boTask.EngineerId!.Id, (DO.EngineerExperience)boTask.ComplexilyLevel, true);
+             boTask.Engineer!.Id, (DO.EngineerExperience)boTask.ComplexilyLevel, true);
         try
         {
             int idTask = _dal.Task.Create(doTask);
@@ -88,6 +96,12 @@ internal class TaskImplementation : BlApi.ITask
 
     //}
 
+    /// <summary>
+    /// Deletes a Engineer by his Id
+    /// </summary>
+    /// <param name="id">The identification number of the task entity accepted for deletion</param>
+    /// <exception cref="BO.BlDeletionImpossible">Thrown if the id of the task entity accepted for deletion belongs to an engineer whose deletion is impossible</exception>
+    /// <exception cref="BO.BlDoesNotExistException">Thrown if the id of the task entity accepted for deletion belongs to an engineer who does not exist in the data layer</exception>
     public void Delete(int id)
     {
         try
@@ -98,7 +112,11 @@ internal class TaskImplementation : BlApi.ITask
         catch (DO.DalDoesNotExistException ex) { throw new BO.BlDoesNotExistException($"A task with ID number = {id} does not exist.", ex); }
     }
 
-
+    /// <summary>
+    /// Get the statues of a specifict task
+    /// </summary>
+    /// <param name="task">The DO task type entity for whom you want to receive its status</param>
+    /// <returns>The status of the task who recieved</returns>
     private BO.Status GetStatuesOfTask(DO.Task task)
     {
 
@@ -110,6 +128,13 @@ internal class TaskImplementation : BlApi.ITask
             return BO.Status.InJeopardy;
         else return BO.Status.OnTrack;
     }
+
+    /// <summary>
+    /// Reads entity Task by his ID
+    /// </summary>
+    /// <param name="id">Id of the task to read</param>
+    /// <returns>The BO engineer type entity who created from the asked task in the data layer</returns>
+    /// <exception cref="BO.BlDoesNotExistException">Thrown if the id of the task accepted for reading belongs to an task who does not exist in the data layer</exception>
     public BO.Task? Read(int id)
     {
         DO.Task? doTask = _dal.Task.Read(id);
@@ -147,11 +172,17 @@ internal class TaskImplementation : BlApi.ITask
             DeadLine = doTask.DeadLine,
             Complete = doTask.Complete,
             Deliverables = doTask.Deliverables,
-            EngineerId = new BO.EngineerInTask { Id = doTask.EngineerId, Name = engineerOfTask!.Name },
+            Engineer = new BO.EngineerInTask { Id = doTask.EngineerId, Name = engineerOfTask!.Name },
             Remarks = doTask.Remarks,
             ComplexilyLevel = (BO.EngineerExperience)doTask.ComplexilyLevel
         };
     }
+
+    /// <summary>
+    /// Read all engineers who fulfill a certain condition for screening
+    /// </summary>
+    /// <param name="filter">The condition for screening</param>
+    /// <returns>A set of the engineers who fulfill the condition</returns>
     public IEnumerable<BO.Task> ReadAll(Func<BO.Task?, bool>? filter = null)
     {
         IEnumerable<DO.Task?> allTasks = _dal.Task.ReadAll((Func<DO.Task?, bool>?)filter);
@@ -187,6 +218,12 @@ internal class TaskImplementation : BlApi.ITask
         return allTaskinBo;
     }
 
+    /// <summary>
+    /// Updates a Task object
+    /// </summary>
+    /// <param name="boTask">The BO task type entity which recieved for updation</param>
+    /// <exception cref="BO.BlInvalidDataException">Thrown if invalid data was received as input</exception>
+    /// <exception cref="BO.BlAlreadyExistsException">Thrown if an attempt was made to create a task that already exists</exception>
     public void Update(BO.Task boTask)
     {
         if (boTask.Start > boTask.ScheduleDate || boTask.ScheduleDate< boTask.ForecastDate ||
@@ -195,15 +232,15 @@ internal class TaskImplementation : BlApi.ITask
             throw new BO.BlInvalidDataException($"The data you entered is incorrect.");
         try
         {
-            _dal.Task.Read(boTask.EngineerId!.Id);
+            _dal.Task.Read(boTask.Engineer!.Id);
         }
         catch (DO.DalDoesNotExistException)
         {
-            throw new BO.BlDoesNotExistException($"Engineer with ID={boTask.EngineerId!.Id} does not exixt ");
+            throw new BO.BlDoesNotExistException($"Engineer with ID={boTask.Engineer!.Id} does not exixt ");
         }
         DO.Task doTask = new DO.Task
         (boTask.Id, boTask.Description, boTask.Alias, false/**/, boTask.CreatedAt, boTask.Start,
-        boTask.ForecastDate, boTask.DeadLine, boTask.Complete, boTask.Deliverables, boTask.Remarks, boTask.EngineerId!.Id, (DO.EngineerExperience)boTask.ComplexilyLevel);
+        boTask.ForecastDate, boTask.DeadLine, boTask.Complete, boTask.Deliverables, boTask.Remarks, boTask.Engineer!.Id, (DO.EngineerExperience)boTask.ComplexilyLevel);
         try
         {
             _dal.Task.Update(doTask);
