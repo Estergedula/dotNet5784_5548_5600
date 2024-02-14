@@ -1,5 +1,8 @@
 ﻿namespace BlApi;
 
+/// <summary>
+/// A logical subinterface for a primary logical entity: Task
+/// </summary>
 public interface ITask
 {
     public int Create(BO.Task item);

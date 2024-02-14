@@ -1,18 +1,6 @@
 ﻿using BO;
-using PL.Engineer;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace PL.Task;
 
@@ -31,27 +19,27 @@ public partial class TaskWindow : Window
 
     public static readonly DependencyProperty TaskProperty =
         DependencyProperty.Register("CurrentTask", typeof(BO.Task), typeof(TaskWindow), new PropertyMetadata(null));
-    public TaskWindow(int id=0)
+    public TaskWindow(int id = 0)
     {
         InitializeComponent();
         this.id = id;
-        if (id!=0)
+        if (id != 0)
         {
             try
             {
                 CurrentTask = s_bl!.Task!.Read(id);
             }
-            catch (BO.BlDoesNotExistException) { MessageBox.Show("ERROR: '\n'There is no object with id "+id); }
+            catch (BO.BlDoesNotExistException ex) { MessageBox.Show("ERROR: '\n" + ex.Message); }
         }
         else
         {
-            CurrentTask = new BO.Task { Id=0,Alias="",Description="",CreatedAt=DateTime.Now,EngineerId=new EngineerInTask { Id=0} };
+            CurrentTask = new BO.Task { Id = 0, Alias = "", Description = "", CreatedAt = DateTime.Now, Engineer = new EngineerInTask { Id = 0 } };
         }
     }
 
     public static bool InputIntegrityCheck(BO.Task? task)
     {
-        if ( task!.Alias == "" || task.Description == "" || task.CreatedAt is null)
+        if (task!.Alias == "" || task.Description == "" || task.CreatedAt is null)
         {
             MessageBox.Show("ERROR: '\n'Missing data!.");
             return false;
@@ -64,17 +52,17 @@ public partial class TaskWindow : Window
         bool isOk = true;
         try
         {
-            s_bl.Engineer.Read(CurrentTask!.EngineerId!.Id);
-                
+            s_bl.Engineer.Read(CurrentTask!.Engineer!.Id);
+
         }
-        catch(BO.BlDoesNotExistException)
+        catch (BO.BlDoesNotExistException ex)
         {
             isOk = false;
-          
+            MessageBox.Show("ERROR: '\n" + ex.Message);
+
         }
-        if(!isOk)
-            MessageBox.Show("ERROR: '\n'There is no engineer with this id");
-        else
+        
+        if (isOk)
         {
             if (id != 0)
             {
@@ -87,13 +75,13 @@ public partial class TaskWindow : Window
                         this.Close();
                     }
                 }
-                catch (BO.BlInvalidDataException)
+                catch (BO.BlInvalidDataException ex)
                 {
-                    MessageBox.Show("ERROR: '\n'There is an invalid input in the object with id " + id);
+                    MessageBox.Show("ERROR: '\n" + ex.Message);
                 }
-                catch (BO.BlDoesNotExistException)
+                catch (BO.BlDoesNotExistException ex)
                 {
-                    MessageBox.Show("ERROR: '\n'There is no object with id " + id);
+                    MessageBox.Show("ERROR: '\n" + ex.Message );
                 }
             }
             else
@@ -107,17 +95,16 @@ public partial class TaskWindow : Window
                         this.Close();
                     }
                 }
-                catch (BO.BlInvalidDataException)
+                catch (BO.BlInvalidDataException ex)
                 {
-                    MessageBox.Show("ERROR: '\n'There is an invalid input in the object with id " + id);
+                    MessageBox.Show("ERROR: '\n" + ex.Message);
                 }
-                catch (BO.BlAlreadyExistsException)
+                catch (BO.BlAlreadyExistsException ex)
                 {
-                    MessageBox.Show("ERROR: '\n'There is already an object with id " + id);
+                    MessageBox.Show("ERROR: '\n" + ex.Message);
                 }
 
             }
         }
     }
 }
-

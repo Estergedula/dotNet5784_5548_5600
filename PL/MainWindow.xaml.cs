@@ -14,12 +14,12 @@ public partial class MainWindow : Window
         InitializeComponent();
     }
 
-    private void btnEngineers_Click(object sender, RoutedEventArgs e)
+    private void BtnEngineers_Click(object sender, RoutedEventArgs e)
     {
         new EngineerListWindow().Show();
     }
 
-    private void btnCreateData_Click(object sender, RoutedEventArgs e)
+    private void BtnCreateData_Click(object sender, RoutedEventArgs e)
     {
         if (MessageBox.Show("Do you want to create new data?", "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
         {
@@ -28,11 +28,11 @@ public partial class MainWindow : Window
         }
     }
 
-    private void btnTask_Click(object sender, RoutedEventArgs e)
+    private void BtnTask_Click(object sender, RoutedEventArgs e)
     {
         new TaskListWindow().Show();
     }
-    private void btnEngineer_Click(object sender, RoutedEventArgs e)
+    private void BtnEngineer_Click(object sender, RoutedEventArgs e)
     {
         new EngineerListWindow().Show();
     }

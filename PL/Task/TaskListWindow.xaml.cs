@@ -11,9 +11,6 @@ namespace PL.Task;
 /// </summary>
 public partial class TaskListWindow : Window
 {
-
-
-
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
 
     public BO.Status TaskStatus { get; set; } = BO.Status.All;
@@ -36,7 +33,7 @@ public partial class TaskListWindow : Window
     {
         var temp = TaskStatus == BO.Status.All ? s_bl?.TaskInList.ReadAll() :
         s_bl?.TaskInList.ReadAll(item => item!.Status == TaskStatus);
-        TaskList = temp;// == null ? new() : new(temp);
+        TaskList = temp;
     }
 
 
@@ -46,7 +43,7 @@ public partial class TaskListWindow : Window
         new TaskWindow(taskInList!.Id).ShowDialog();
         var temp = TaskStatus == BO.Status.All ? s_bl?.TaskInList.ReadAll() :
         s_bl?.TaskInList.ReadAll(item => item!.Status == TaskStatus);
-        TaskList = temp; //== null ? new() : new(temp);
+        TaskList = temp;
     }
 
     private void BtnAddTask_Click(object sender, RoutedEventArgs e)
@@ -54,6 +51,6 @@ public partial class TaskListWindow : Window
         new TaskWindow().ShowDialog();
         var temp = TaskStatus == BO.Status.All ? s_bl?.TaskInList.ReadAll() :
         s_bl?.TaskInList.ReadAll(item => item!.Status == TaskStatus);
-        TaskList = temp;//== null ? new() : new(temp);
+        TaskList = temp;
     }
 }

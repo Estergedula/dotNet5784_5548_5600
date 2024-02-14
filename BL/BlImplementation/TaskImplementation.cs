@@ -90,8 +90,6 @@ internal class TaskImplementation : BlApi.ITask
 
     public void Delete(int id)
     {
-        //BO.Task? boTask = Read(id);
-        //בדיקה האם נוצר כבר לו"ז
         try
         {
             _dal.Task.Delete(id);
@@ -191,9 +189,9 @@ internal class TaskImplementation : BlApi.ITask
 
     public void Update(BO.Task boTask)
     {
-        if (boTask.Start > boTask.ScheduleDate || boTask.ScheduleDate > boTask.ForecastDate ||
-            boTask.ForecastDate < boTask.Complete || boTask.DeadLine < boTask.Complete ||
-            boTask.Id <= 0 || boTask.Alias == "" || boTask.Id > 999999999 || boTask.Id < 11111111)
+        if (boTask.Start > boTask.ScheduleDate || boTask.ScheduleDate< boTask.ForecastDate ||
+             boTask.DeadLine < boTask.Complete ||boTask.DeadLine< boTask.ForecastDate||
+            boTask.Id <= 0 || boTask.Alias == "" || boTask.Id <0)
             throw new BO.BlInvalidDataException($"The data you entered is incorrect.");
         try
         {

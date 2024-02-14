@@ -87,9 +87,7 @@ internal class EngineerImplementation : IEngineer
     {
         const string XMLENGINEER = "engineers";
         List<Engineer> list = XMLTools.LoadListFromXMLSerializer<Engineer>(XMLENGINEER);
-        Engineer? engineerToUpdate = Read(item.Id);
-        if (engineerToUpdate is null)
-            throw new DalDoesNotExistException($"Engineer with ID={item.Id} does not exist.");
+        Engineer? engineerToUpdate = Read(item.Id) ?? throw new DalDoesNotExistException($"Engineer with ID={item.Id} does not exist.");
         list.Remove(engineerToUpdate);
         Engineer engineer = new(item.Id, item.Name, item.Email, item.Level, item.Cost);
         list.Add(engineer);

@@ -38,17 +38,16 @@ public partial class EngineerListWindow : Window
     {
         InitializeComponent();
         var temp = s_bl?.EngineerInList.ReadAll();
-        EngineerList = temp;// == null ? new() : new(temp);
+        EngineerList = temp;
 
     }
 
     private void CmbEngineerExperience_SelectionChange(object sender, SelectionChangedEventArgs e)
     {
-        //var x = (EngineerExperience == BO.EngineerExperience.All) ? s_bl?.EngineerInList.ReadAll()! : s_bl?.EngineerInList.ReadAll(item => item!.Level == EngineerExperience)!;
         var temp = EngineerExperience == BO.EngineerExperience.All ?
         s_bl?.EngineerInList.ReadAll() :
           s_bl?.EngineerInList.ReadAll(item => item!.Level == EngineerExperience);
-        EngineerList = temp;// == null ? new() : new(temp);
+        EngineerList = temp;
     }
 
     private void BtnAddEngineer_Click(object sender, RoutedEventArgs e)
@@ -56,17 +55,15 @@ public partial class EngineerListWindow : Window
         new EngineerWindow().ShowDialog();
         var temp = EngineerExperience == BO.EngineerExperience.All ? s_bl?.EngineerInList.ReadAll() :
              s_bl?.EngineerInList.ReadAll(item => item!.Level == EngineerExperience);
-        EngineerList = temp;// == null ? new() : new(temp);
+        EngineerList = temp;
     }
 
     private void LsvDisplayEngineers_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
         BO.EngineerInList? engineerInList = (sender as ListView)?.SelectedItem as BO.EngineerInList;
         new EngineerWindow(engineerInList!.Id).ShowDialog();
-        //var temp = EngineerExperience == BO.EngineerExperience.All ? s_bl?.EngineerInList.ReadAll() :
-        //s_bl?.EngineerInList.ReadAll(item => item!.Level == EngineerExperience);
-        var temp = s_bl?.EngineerInList.ReadAll();
-        EngineerList = temp;// == null ? new() : new(temp);
+        var temp = EngineerExperience == BO.EngineerExperience.All ? s_bl?.EngineerInList.ReadAll() :
+        s_bl?.EngineerInList.ReadAll(item => item!.Level == EngineerExperience);
+        EngineerList = temp;
     }
 }
-//נשים לב: עד 8ד ועד 9ג

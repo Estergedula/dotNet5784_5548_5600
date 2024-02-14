@@ -1,5 +1,8 @@
 ﻿namespace BlApi;
 
+/// <summary>
+/// A logical subinterface for a primary logical entity: Milestone
+/// </summary>
 public interface IMilestone
 {
     //public int Create(BO.Milestone item);
