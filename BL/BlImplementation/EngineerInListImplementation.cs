@@ -10,7 +10,7 @@ namespace BlImplementation;
 
 internal class EngineerInListImplementation:IEngineerInList
 {
-    private DalApi.IDal _dal = DalApi.Factory.Get;
+    private readonly DalApi.IDal _dal = DalApi.Factory.Get;
 
     public IEnumerable<EngineerInList> ReadAll(Func<BO.EngineerInList?, bool>? filter = null)
     {

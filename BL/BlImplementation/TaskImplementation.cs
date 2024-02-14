@@ -15,7 +15,7 @@ internal class TaskImplementation : BlApi.ITask
     //int EngineerId = 0,
     //EngineerExperience ComplexilyLevel = EngineerExperience.Junior,
     //bool isActive = true
-    private DalApi.IDal _dal = DalApi.Factory.Get;
+    private readonly DalApi.IDal _dal = DalApi.Factory.Get;
     public int Create(BO.Task boTask)
     {
         if (boTask.Start > boTask.ScheduleDate || boTask.ScheduleDate > boTask.ForecastDate ||
@@ -33,7 +33,7 @@ internal class TaskImplementation : BlApi.ITask
 
         boTask?.DependenciesList?.Select(task => new DO.Dependency(boTask.Id, task.Id));
 
-        DO.Task doTask = new DO.Task(
+        DO.Task doTask = new (
             boTask!.Id, boTask.Description, boTask.Alias, false, boTask.CreatedAt,
              boTask.Start, boTask.ForecastDate,
              boTask.DeadLine, boTask.Complete, boTask.Deliverables, boTask.Remarks,
@@ -101,7 +101,7 @@ internal class TaskImplementation : BlApi.ITask
     }
 
 
-    private BO.Status GetStatuesOfTask(DO.Task task)
+    private static BO.Status GetStatuesOfTask(DO.Task task)
     {
 
         if (task.ScheduleDate == DateTime.MinValue)
@@ -114,8 +114,7 @@ internal class TaskImplementation : BlApi.ITask
     }
     public BO.Task? Read(int id)
     {
-        DO.Task? doTask = _dal.Task.Read(id);
-        if (doTask == null) throw new BO.BlDoesNotExistException($"A task with ID number = {id} does not exist.");
+        DO.Task? doTask = _dal.Task.Read(id) ?? throw new BO.BlDoesNotExistException($"A task with ID number = {id} does not exist.");
         BO.MillestoneInTask? milestomeInList = _dal.Task.ReadAll().Select(t => new BO.MillestoneInTask
         {
             Id = t!.Id,
@@ -203,8 +202,8 @@ internal class TaskImplementation : BlApi.ITask
         {
             throw new BO.BlDoesNotExistException($"Engineer with ID={boTask.Engineer!.Id} does not exixt ");
         }
-        DO.Task doTask = new DO.Task
-        (boTask.Id, boTask.Description, boTask.Alias, false/**/, boTask.CreatedAt, boTask.Start,
+        DO.Task doTask = new 
+        (boTask.Id, boTask.Description, boTask.Alias, false, boTask.CreatedAt, boTask.Start,
         boTask.ForecastDate, boTask.DeadLine, boTask.Complete, boTask.Deliverables, boTask.Remarks, boTask.Engineer!.Id, (DO.EngineerExperience)boTask.ComplexilyLevel);
         try
         {

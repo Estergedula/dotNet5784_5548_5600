@@ -34,13 +34,12 @@ internal class MilestoneImplementation : IMilestone
     //public DateTime? Complete { get; set; }
     //public double? CompletionPercentage { get; set; }
     //public string? Remarks { get; set; }
-    public List<BO.TaskInList>? dependecies { get; set; }
+    public List<BO.TaskInList>? Dependecies { get; set; }
     
     public BO.Milestone? Read(int id)
     {
         //Do we need to check bool milestone
-        DO.Task? doTask = _dal.Task.Read(id);
-        if (doTask == null) throw new BO.BlDoesNotExistException($"A milestone with ID number = {id} does not exist.");
+        DO.Task? doTask = _dal.Task.Read(id) ?? throw new BO.BlDoesNotExistException($"A milestone with ID number = {id} does not exist.");
         //.יש לבדוק האם מתודות הקריאה בשכבת הנתונים מחזירות שגיאות
         IEnumerable<DO.Task>tasksWhichDepentOnMe = from d in (_dal.Dependency.ReadAll((d) => d!.DependentTask == id))
                 select _dal.Task.Read(d.DependOnTask);
@@ -53,18 +52,18 @@ internal class MilestoneImplementation : IMilestone
             MileStoneId = doTask!.Id,
             Description = doTask.Description,
             Alias = doTask.Alias,
-            Status = getStatuesOfTask(doTask),
+            Status = GetStatuesOfTask(doTask),
             CreatedAt = doTask.CreatedAt,
             Start = doTask.Start,
             ForecastDate =DateTime.Now /*doTask.ForecastDate,*/,
             DeadLine = doTask.DeadLine,
             Complete = doTask.Complete,
-            CompletionPercentage = getCompletionPercentage(tasksOfMilestone),
+            CompletionPercentage = GetCompletionPercentage(tasksOfMilestone),
             Remarks = doTask.Remarks,
             Dependecies = tasksOfMilestone.ToList()
         };
     }
-    private BO.Status getStatuesOfTask(DO.Task task)
+    private static BO.Status GetStatuesOfTask(DO.Task task)
     {
 
         if (task.ScheduleDate == DateTime.MinValue)
@@ -75,7 +74,7 @@ internal class MilestoneImplementation : IMilestone
             return BO.Status.InJeopardy;
         else return BO.Status.OnTrack;
     }
-    private double getCompletionPercentage(IEnumerable<BO.TaskInList> tasksOfMilestone)
+    private static double GetCompletionPercentage(IEnumerable<BO.TaskInList> tasksOfMilestone)
     {
         int numOfStartTasks = tasksOfMilestone.Sum((taskOdMilstone) => taskOdMilstone.Status==BO.Status.Unscheduled/*===*/? 1:0);
         int numOfAllDependiesTasks = tasksOfMilestone.Count();
@@ -93,7 +92,7 @@ internal class MilestoneImplementation : IMilestone
             _dal.Task.Update(updateMilestone);
             IEnumerable<BO.TaskInList> tasksOfMilestone = from d in (_dal.Dependency.ReadAll((d) => d!.DependentTask == task.Id))
                                                        let taskOfMilestone = _dal.Task.Read(d.Id)
-                                                       select new BO.TaskInList { Id = taskOfMilestone.Id, Description = taskOfMilestone.Description, Alias = taskOfMilestone.Alias, Status = getStatuesOfTask(taskOfMilestone)/*====*/ };
+                                                       select new BO.TaskInList { Id = taskOfMilestone.Id, Description = taskOfMilestone.Description, Alias = taskOfMilestone.Alias, Status = GetStatuesOfTask(taskOfMilestone)/*====*/ };
             return new BO.Milestone
             {
                 Description = updateMilestone.Description,

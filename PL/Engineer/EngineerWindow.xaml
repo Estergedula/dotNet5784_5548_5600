@@ -21,6 +21,7 @@
         </Style>
         <Style 
             TargetType="TextBox">
+            <Setter Property="FontFamily" Value="Segoe UI" />
             <Setter Property="Grid.Column" Value="2"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Background" Value="Yellow"/>

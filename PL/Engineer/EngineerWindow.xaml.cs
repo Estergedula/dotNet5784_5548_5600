@@ -12,7 +12,7 @@ namespace PL.Engineer;
 
 public partial class EngineerWindow : Window
 {
-    private int id;
+    private readonly int id;
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
     public IEnumerable<int> AllTasksId
     {
@@ -54,18 +54,18 @@ public partial class EngineerWindow : Window
 
     public static bool IsValidEmailAddress(string? s)
     {
-        Regex regex = new Regex(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
+        Regex regex = new (@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
         return regex.IsMatch(s!);
     }
 
     public static bool InputIntegrityCheck(BO.Engineer? engineer)
     {
-       return (engineer?.Id <= 0 || engineer!.Name == "" || engineer.Cost <= 0 || !(IsValidEmailAddress(engineer.Email)))?false:true;            
+       return !(engineer?.Id <= 0) && engineer!.Name != "" && !(engineer.Cost <= 0) && IsValidEmailAddress(engineer.Email);            
     }
 
     private void BtnAdd_Click(object sender, RoutedEventArgs e)
     {
-        bool isOk= (CurrentEngineer!.CurrentTask is null) ?false:true;
+        bool isOk= CurrentEngineer!.CurrentTask is not null;
         if (isOk)
         {
             if (id != 0)
