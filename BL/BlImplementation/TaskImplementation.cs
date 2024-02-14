@@ -2,33 +2,12 @@
 
 internal class TaskImplementation : BlApi.ITask
 {
-    //int Id,
-    //string? Description,
-    //string? Alias,
-    //bool Milestone,
-    //DateTime CreatedAt,
-    //DateTime Start,
-    //DateTime ForecastDate,
-    //DateTime DeadLine,
-    //string? Deliverables = null,
-    //string? Remarks = null,
-    //int EngineerId = 0,
-    //EngineerExperience ComplexilyLevel = EngineerExperience.Junior,
-    //bool isActive = true
-    private DalApi.IDal _dal = DalApi.Factory.Get;
-
-    /// <summary>
-    /// Creates new Task object in DAL
-    /// </summary>
-    /// <param name="boTask">The BO task type entity which recieved for creation</param>
-    /// <returns>Id of the engineer created in DAL</returns>
-    /// <exception cref="BO.BlInvalidDataException">Thrown if invalid data was received as input</exception>
-    /// <exception cref="BO.BlAlreadyExistsException">Thrown if an attempt was made to create a task that already exists</exception>
+    private readonly DalApi.IDal _dal = DalApi.Factory.Get;
     public int Create(BO.Task boTask)
     {
-        if (boTask.Start > boTask.ScheduleDate || boTask.ScheduleDate > boTask.ForecastDate ||
-            boTask.ForecastDate < boTask.Complete || boTask.DeadLine < boTask.Complete ||
-            boTask.Id <= 0 || boTask.Alias == "")
+        if (boTask.ScheduleDate < boTask.CreatedAt ||
+        boTask.DeadLine < boTask.Complete ||
+        boTask.Alias == "")
             throw new BO.BlInvalidDataException($"The data you entered is incorrect.");
         try
         {
@@ -41,7 +20,7 @@ internal class TaskImplementation : BlApi.ITask
 
         boTask?.DependenciesList?.Select(task => new DO.Dependency(boTask.Id, task.Id));
 
-        DO.Task doTask = new DO.Task(
+        DO.Task doTask = new(
             boTask!.Id, boTask.Description, boTask.Alias, false, boTask.CreatedAt,
              boTask.Start, boTask.ForecastDate,
              boTask.DeadLine, boTask.Complete, boTask.Deliverables, boTask.Remarks,
@@ -56,45 +35,6 @@ internal class TaskImplementation : BlApi.ITask
             throw new BO.BlAlreadyExistsException($"Task with ID={boTask.Id} already exists", ex);
         }
     }
-
-    //     ---- task רשימת השדות של ----
-    // 1. public int Id 
-    // 2. public required string Description 
-    // 3. public string? Alias 
-    // 4. public MillestoneInTask? Milestone 
-    // 5. public Status Status 
-    // 6. public IEnumerable<TaskInList>? DependenciesList 
-    // 7. public DateTime CreatedAt //תאריך יצירה
-    // 8. public DateTime BaselineStartDate //תאריך התחלה משוער
-    // 9. public DateTime Start //תאריך התחלה בפועל
-    // 10. public DateTime ForecastDate //תאריך משוער לסיום
-    // 11. public DateTime DeadLine //תאריך אחרון לסיום
-    // 12. public DateTime Complete //תאריך סיום בפועל
-    // 13. public string? Deliverables 
-    // 14. public string? Remarks 
-    // 15. public EngineerInTask? Engineer 
-    // 16. public EngineerExperience ComplexilyLevel
-    // 17. public DateTime RegistrationDate
-    //================================
-    //    public int Id { get; init; }
-    //    public required string Description { get; set; }
-    //    public string? Alias { get; set; }
-    //    public MillestoneInTask? Milestone { get; set; }
-    //    public Status Status { get; set; }
-    //    public IEnumerable<TaskInList>? DependenciesList { get; set; }
-    //    public DateTime CreatedAt { get; set; }//תאריך יצירה
-    //    public DateTime BaselineStartDate { get; set; }//תאריך התחלה משוער
-    //    public DateTime Start { get; set; }//תאריך התחלה בפועל
-    //    public DateTime ForecastDate { get; set; }//תאריך משוער לסיום
-    //    public DateTime DeadLine { get; set; }//תאריך אחרון לסיום
-    //    public DateTime Complete { get; set; }//תאריך סיום בפועל
-    //    public string? Deliverables { get; set; }
-    //    public string? Remarks { get; set; }
-    //    public EngineerInTask? Engineer { get; set; }
-    //    public EngineerExperience ComplexilyLevel { get; set; }
-    //    public DateTime RegistrationDate { get; init; }
-
-    //}
 
     /// <summary>
     /// Deletes a Engineer by his Id
@@ -168,7 +108,7 @@ internal class TaskImplementation : BlApi.ITask
             CreatedAt = doTask!.CreatedAt,
             ScheduleDate = doTask.ScheduleDate,
             Start = doTask.Start,
-            ForecastDate = DateTime.Now/*doTask.ForecastDate,*/,
+            ForecastDate = DateTime.Now,
             DeadLine = doTask.DeadLine,
             Complete = doTask.Complete,
             Deliverables = doTask.Deliverables,
@@ -208,7 +148,7 @@ internal class TaskImplementation : BlApi.ITask
             CreatedAt = task!.CreatedAt,
             ScheduleDate = task.ScheduleDate,
             Start = task.Start,
-            ForecastDate = DateTime.Now/*doTask.ForecastDate,*/,
+            ForecastDate = DateTime.Now,
             DeadLine = task.DeadLine,
             Complete = task.Complete,
             Deliverables = task.Deliverables,
@@ -226,9 +166,9 @@ internal class TaskImplementation : BlApi.ITask
     /// <exception cref="BO.BlAlreadyExistsException">Thrown if an attempt was made to create a task that already exists</exception>
     public void Update(BO.Task boTask)
     {
-        if (boTask.Start > boTask.ScheduleDate || boTask.ScheduleDate< boTask.ForecastDate ||
-             boTask.DeadLine < boTask.Complete ||boTask.DeadLine< boTask.ForecastDate||
-            boTask.Id <= 0 || boTask.Alias == "" || boTask.Id <0)
+        if (boTask.ScheduleDate < boTask.CreatedAt ||
+        boTask.DeadLine < boTask.Complete ||
+        boTask.Alias == "")
             throw new BO.BlInvalidDataException($"The data you entered is incorrect.");
         try
         {
@@ -238,8 +178,8 @@ internal class TaskImplementation : BlApi.ITask
         {
             throw new BO.BlDoesNotExistException($"Engineer with ID={boTask.Engineer!.Id} does not exixt ");
         }
-        DO.Task doTask = new DO.Task
-        (boTask.Id, boTask.Description, boTask.Alias, false/**/, boTask.CreatedAt, boTask.Start,
+        DO.Task doTask = new
+        (boTask.Id, boTask.Description, boTask.Alias, false, boTask.CreatedAt, boTask.Start,
         boTask.ForecastDate, boTask.DeadLine, boTask.Complete, boTask.Deliverables, boTask.Remarks, boTask.Engineer!.Id, (DO.EngineerExperience)boTask.ComplexilyLevel);
         try
         {

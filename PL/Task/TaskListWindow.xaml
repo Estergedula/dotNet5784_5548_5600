@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PL.Task"
         mc:Ignorable="d"
         Title="TaskListWindow" Height="640" Width="800"
-        DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}" Foreground="#00000000" Background="#FFEFB9A4">
+        DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}" Foreground="#00000000" Background="#ff99cc">
 
     <!--Extrnal Grid-->
     <Grid>
@@ -22,10 +22,11 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Label Content="select task" Width="111" RenderTransformOrigin="0.5,0.541" Margin="86,10,603,0" Grid.Column="0"/>
-            <ComboBox SelectedValue="{Binding Path=TaskStatus, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource StatusCollectionKey}}" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="CmbTaskStatus_SelectionChange" />
+            <ComboBox SelectedValue="{Binding Path=TaskStatus, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource StatusCollectionKey}}" Background="#8cff66" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="CmbTaskStatus_SelectionChange" />
         </Grid>
-        <Button Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="50" Width="100" Click="BtnAddTask_Click"/>
-        <ListView x:Name="load" Margin="5" Grid.Row="1" ItemsSource="{Binding TaskList}" MouseDoubleClick="LsvDisplayTasks_MouseDoubleClick"  >
+        <Button Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="50" Width="100" Click="BtnAddTask_Click" Background="#8cff66"/>
+        <ListView x:Name="load" Margin="5" Grid.Row="1" ItemsSource="{Binding TaskList}" MouseDoubleClick="LsvDisplayTasks_MouseDoubleClick" Background="#ffcccc
+" >
             <ListView.View >
                 <GridView>
                     <GridViewColumn/>

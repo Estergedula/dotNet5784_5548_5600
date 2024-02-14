@@ -5,13 +5,29 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800" Background="#ccffff
+">
+    <Window.Resources>
+        <Style 
+            TargetType="Button">
+            <Setter Property="FontSize"
+            Value="12" />
+            <Setter Property="FontFamily"
+            Value="Consolas" />
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Width" Value="107"/>
+            <Setter Property="Height" Value="65"/>
+            <Setter Property="Background" Value="#00ffcc"/>
+
+        </Style>
+    </Window.Resources>
+
     <Grid>
+        <Button Content="Create Data" HorizontalAlignment="Left" Margin="495,303,0,0" VerticalAlignment="Top" Click="BtnCreateData_Click"/>
         <!--show engineers-->
-        <Button Content="Handle Engineers" HorizontalAlignment="Left" Margin="95,44,0,0" VerticalAlignment="Top" Height="69" Width="104" Click="BtnEngineers_Click"/>
-        <Button Content="Create Data" HorizontalAlignment="Left" Margin="455,46,0,0" VerticalAlignment="Top" Height="67" Width="107" Click="BtnCreateData_Click"/>
+        <Button Content="Handle Engineers" HorizontalAlignment="Left" Margin="135,301,0,0" VerticalAlignment="Top" Click="BtnEngineer_Click"/>
         <!--show tasks-->
-        <Button Content="Handle Engineers" HorizontalAlignment="Left" Margin="95,44,0,0" VerticalAlignment="Top" Height="69" Width="104" Click="BtnEngineer_Click"/>
-        <Button Content="Handle Tasks" HorizontalAlignment="Left" Margin="271,46,0,0" VerticalAlignment="Top" Height="69" Width="104" Click="BtnTask_Click"/>
+        <Button Content="Handle Tasks" HorizontalAlignment="Left" Margin="311,303,0,0" VerticalAlignment="Top"  Click="BtnTask_Click"/>
+        <Label Content="WELCOME TO OUR SCHEDULE PROGRAM" HorizontalAlignment="Center" Margin="0,116,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.414,-0.292" FontSize="30" FontFamily="Comic Sans MS"/>
     </Grid>
 </Window>

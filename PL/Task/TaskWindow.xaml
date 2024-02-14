@@ -73,7 +73,7 @@
         <Label Content="Status" Grid.Row="3"/>
         <ComboBox  Grid.Row="3" ItemsSource="{Binding Source={StaticResource StatusCollectionKey}}" IsEnabled="False"  SelectedValue="{Binding Status, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
         <Label  Content="CreatedAt" Grid.Row="4"/>
-        <TextBox Text="{Binding CreatedAt, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"   IsEnabled="False"  Grid.Row="4"/>
+        <TextBox Text="{Binding CreatedAt, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true }"   IsEnabled="False"  Grid.Row="4"/>
         <Label Content="ScheduleDate" Grid.Row="5"/>
         <DatePicker  SelectedDate="{Binding ScheduleDate, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true ,StringFormat='dd/mm/yyyy'}" Grid.Row="5"/>
         <Label Content="Start" Grid.Row="6"/>

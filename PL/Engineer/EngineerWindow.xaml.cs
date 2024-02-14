@@ -60,7 +60,7 @@ public partial class EngineerWindow : Window
 
     public static bool InputIntegrityCheck(BO.Engineer? engineer)
     {
-       return !(engineer?.Id <= 0) && engineer!.Name != "" && !(engineer.Cost <= 0) && IsValidEmailAddress(engineer.Email);            
+       return !(engineer?.Id <= 0) && engineer?.Level != BO.EngineerExperience.All&&engineer!.Name != "" && !(engineer.Cost <= 0) && IsValidEmailAddress(engineer.Email);            
     }
 
     private void BtnAdd_Click(object sender, RoutedEventArgs e)
