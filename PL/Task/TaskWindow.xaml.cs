@@ -53,9 +53,9 @@ public partial class TaskWindow : Window
 
     public static bool InputIntegrityCheck(BO.Task? task)
     {
-        if (task?.Id <= 0 || task!.Alias == "")
+        if ( task!.Alias == "" || task.Description == "" || task.CreatedAt is null)
         {
-            MessageBox.Show("ERROR: '\n'The data you entered is incorrect.");
+            MessageBox.Show("ERROR: '\n'Missing data!.");
             return false;
         }
         return true;
@@ -75,7 +75,7 @@ public partial class TaskWindow : Window
           
         }
         if(!isOk)
-            MessageBox.Show("there is no engineer with this id");
+            MessageBox.Show("ERROR: '\n'There is no engineer with this id");
         else
         {
             if (id != 0)
