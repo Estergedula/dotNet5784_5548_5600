@@ -10,8 +10,8 @@ namespace BlImplementation;
 
 internal class TaskInListImplementation : ITaskInList
 {
-    private DalApi.IDal _dal = DalApi.Factory.Get;
-    private BO.Status getStatuesOfTask(DO.Task task)
+    private readonly DalApi.IDal _dal = DalApi.Factory.Get;
+    private static BO.Status GetStatuesOfTask(DO.Task task)
     {
         DateTime now = DateTime.Now;
         if (task.ScheduleDate==null)
@@ -31,7 +31,7 @@ internal class TaskInListImplementation : ITaskInList
                                                   Id = task.Id,
                                                   Description = task.Description!,
                                                   Alias = task!.Alias,
-                                                  Status = getStatuesOfTask(task),
+                                                  Status = GetStatuesOfTask(task),
                                               };
         return filter == null ? allTasks : allTasks.Where(filter);
 

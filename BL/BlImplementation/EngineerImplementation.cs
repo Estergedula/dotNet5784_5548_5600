@@ -45,7 +45,7 @@ internal class EngineerImplementation : IEngineer
         {
             throw new BO.BlInvalidDataException($"The data you entered is incorrect.");
         }
-        DO.Engineer doEngineer = new DO.Engineer
+        DO.Engineer doEngineer = new
         (boEngineer.Id, boEngineer.Name, boEngineer.Email, (DO.EngineerExperience)(boEngineer.Level), boEngineer.Cost);
         try
         {
@@ -113,7 +113,7 @@ internal class EngineerImplementation : IEngineer
         {
             throw new BO.BlDoesNotExistException($"Current task with ID={boEngineer.CurrentTask!.Id} does not exixt ");
         }
-        DO.Engineer doEngineer = new DO.Engineer
+        DO.Engineer doEngineer = new 
        (boEngineer.Id, boEngineer.Name, boEngineer.Email, (DO.EngineerExperience)(boEngineer.Level), boEngineer.Cost);
         try
         {
