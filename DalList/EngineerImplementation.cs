@@ -19,6 +19,7 @@ internal class EngineerImplementation : IEngineer
         DataSource.Engineers.Add(item);
         return item.Id;
     }
+
     /// <summary>
     /// Deletes a Engineer by its Id
     /// </summary>
@@ -31,6 +32,7 @@ internal class EngineerImplementation : IEngineer
             throw new DalDoesNotExistException($"An engineer with ID number = {id} does not exist.");
         else DataSource.Engineers.Remove(engineerToDelete);
     }
+
     /// <summary>
     /// Reads entity Engineer by his ID
     /// </summary>
@@ -40,6 +42,7 @@ internal class EngineerImplementation : IEngineer
     {
         return DataSource.Engineers.FirstOrDefault(engineer => engineer.Id == id);
     }
+
     /// <summary>
     /// Reads entity Engineer by a bool function
     /// </summary>
@@ -49,6 +52,7 @@ internal class EngineerImplementation : IEngineer
     {
         return DataSource.Engineers.FirstOrDefault(filter);
     }
+
     /// <summary>
     /// Reads all engineer objects
     /// </summary>
@@ -60,11 +64,12 @@ internal class EngineerImplementation : IEngineer
         else
             return DataSource.Engineers.Where(filter);
     }
+
     /// <summary>
     /// Updates an Engineer object
     /// </summary>
-    /// <param name="item">object item of engineer to update</param>
-    /// <exception cref="Exception">the input id of the engineer does not exist</exception>
+    /// <param name="item">An object item of engineer to update</param>
+    /// <exception cref="Exception">The input id of the engineer does not exist</exception>
     public void Update(Engineer item) 
     {
         Engineer? engineerToUpdate = Read(item.Id);
