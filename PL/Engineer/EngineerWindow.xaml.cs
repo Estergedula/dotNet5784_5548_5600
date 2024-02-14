@@ -9,7 +9,6 @@ namespace PL.Engineer;
 /// Interaction logic for EngineerWindow.xaml
 /// </summary>
 
-
 public partial class EngineerWindow : Window
 {
     private readonly int id;
