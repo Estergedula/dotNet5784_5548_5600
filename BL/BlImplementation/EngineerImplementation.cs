@@ -7,8 +7,8 @@ namespace BlImplementation;
 internal class EngineerImplementation : IEngineer
 {
 
-    private DalApi.IDal _dal = DalApi.Factory.Get;
-    private bool IsValidEmail(string? email)
+    private readonly DalApi.IDal _dal = DalApi.Factory.Get;
+    private static bool IsValidEmail(string? email)
     {
         bool valid = true;
 
@@ -71,8 +71,7 @@ internal class EngineerImplementation : IEngineer
 
     public BO.Engineer? Read(int id)
     {
-        DO.Engineer? doEngineer = _dal.Engineer.Read(id);
-        if (doEngineer is null) throw new BO.BlDoesNotExistException($"An engineer with ID number = {id} does not exist."); //יש לבדוק מה בנוגע לזריקת חריגות ממתודת קרחאה בשכבת הנתונים
+        DO.Engineer? doEngineer = _dal.Engineer.Read(id) ?? throw new BO.BlDoesNotExistException($"An engineer with ID number = {id} does not exist.");
         return new BO.Engineer
         {
             Id = id,
