@@ -16,8 +16,6 @@
             <Setter Property="FontFamily"
             Value="Consolas" />
             <Setter Property="VerticalAlignment" Value="Center"/>
-            <!--<Setter Property="FontWeight"
-                Value="Bold" />-->
         </Style>
         <Style 
             TargetType="TextBox">

@@ -39,7 +39,7 @@ public partial class TaskWindow : Window
 
     public static bool InputIntegrityCheck(BO.Task? task)
     {
-        if (task!.Alias == "" || task.Description == "" || task.CreatedAt is null)
+        if (task!.Alias == "" || task.Description == "" ||task.ComplexilyLevel==EngineerExperience.All)
         {
             MessageBox.Show("ERROR: '\n'Missing data!.");
             return false;
@@ -90,8 +90,8 @@ public partial class TaskWindow : Window
                 {
                     if (InputIntegrityCheck(CurrentTask))
                     {
-                        s_bl.Task.Create(CurrentTask!);
-                        MessageBox.Show("Task with id " + id + " had created successfully!");
+                        int newIdTask=s_bl.Task.Create(CurrentTask!);
+                        MessageBox.Show("Task with id " + newIdTask + " had created successfully!");
                         this.Close();
                     }
                 }

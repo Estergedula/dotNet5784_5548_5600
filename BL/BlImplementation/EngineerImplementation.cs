@@ -1,5 +1,4 @@
 ﻿using BlApi;
-using BO;
 using System.Net.Mail;
 
 namespace BlImplementation;
@@ -25,16 +24,17 @@ internal class EngineerImplementation : IEngineer
     }
     public int Create(BO.Engineer boEngineer)
     {
-        if (boEngineer.Id <=0|| boEngineer.Name == "" || boEngineer.Cost <= 0 || !IsValidEmail(boEngineer.Email))
+        if (boEngineer.Id <= 0 || boEngineer.Name == "" || boEngineer.Cost <= 0 || !IsValidEmail(boEngineer.Email))
             throw new BO.BlInvalidDataException($"The data you entered is incorrect.");
-        try
-        {
-            Read(boEngineer.CurrentTask!.Id);
-        }
-        catch (BO.BlDoesNotExistException)
-        {
-            throw new BO.BlInvalidDataException($"Current task with ID={boEngineer.CurrentTask!.Id} does not exixt ");
-        }
+        if (boEngineer.CurrentTask!.Id != 0)
+            try
+            {
+                if (_dal.Task.Read(boEngineer.CurrentTask!.Id) is null) throw new BO.BlDoesNotExistException("");
+            }
+            catch (BO.BlDoesNotExistException)
+            {
+                throw new BO.BlInvalidDataException($"Current task with ID={boEngineer.CurrentTask!.Id} does not exixt ");
+            }
         try
         {
             DO.Task currentTask = _dal.Task.Read(boEngineer.CurrentTask!.Id)!;
@@ -113,24 +113,25 @@ internal class EngineerImplementation : IEngineer
         {
             throw new BO.BlDoesNotExistException($"Current task with ID={boEngineer.CurrentTask!.Id} does not exixt ");
         }
-        DO.Engineer doEngineer = new 
-       (boEngineer.Id, boEngineer.Name, boEngineer.Email, (DO.EngineerExperience)(boEngineer.Level), boEngineer.Cost);
+        DO.Engineer doEngineer = new(boEngineer.Id, boEngineer.Name, boEngineer.Email, (DO.EngineerExperience)(boEngineer.Level), boEngineer.Cost);
+        if (boEngineer.CurrentTask!.Id != 0)
+            try
+            {
+                DO.Task currentTask = _dal.Task.Read(boEngineer.CurrentTask!.Id)!;
+                DO.Task copyCurrentTask = currentTask with { EngineerId = boEngineer!.Id } as DO.Task;
+                _dal.Task.Update(copyCurrentTask);
+            }
+            catch
+            {
+                throw new BO.BlInvalidDataException($"The data you entered is incorrect.");
+            }
         try
         {
-            DO.Task currentTask = _dal.Task.Read(boEngineer.CurrentTask!.Id)!;
-            DO.Task copyCurrentTask = currentTask with { EngineerId = boEngineer!.Id } as DO.Task;
-            _dal.Task.Update(copyCurrentTask);
-        }
-        catch {
-            throw new BO.BlInvalidDataException($"The data you entered is incorrect.");
-        }
-        try
-        {
-          
+
             _dal.Engineer.Update(doEngineer);
-           
+
         }
-        
+
         catch (DO.DalAlreadyExistsException ex)
         {
             throw new BO.BlAlreadyExistsException($"An engineer with ID number = {boEngineer.Id} does not exist.", ex);
@@ -152,6 +153,6 @@ internal class EngineerImplementation : IEngineer
                                                         CurrentTask = GetCurrentTaskOfEngineer(doEngineer.Id)
                                                     };
 
-        return filter==null? allEngineersinBo:allEngineersinBo.Where(filter);
+        return filter == null ? allEngineersinBo : allEngineersinBo.Where(filter);
     }
 }

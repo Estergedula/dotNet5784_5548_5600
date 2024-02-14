@@ -71,7 +71,7 @@ public static class Initialization
             EngineerExperience _level= (EngineerExperience)s_rand.Next(1, 3);
             double doubleCost = s_rand.Next(0, 100)/100;
             double _cost = s_rand.Next(MIN_INTEGER_COST, MAX_INTEGER_COST)+doubleCost;
-            string _email = _name+(int)(_id/10000000)+"@gmail.com";
+            string _email = _name.Substring(0,2)+(int)(_id/10000000)+"@gmail.com";
             Engineer newEng = new(_id, _name, _email, _level,_cost);
             try
             {
