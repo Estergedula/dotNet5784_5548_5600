@@ -23,7 +23,7 @@ internal class DependencyImplementation : IDependency
         const string XMLDEPENDENCY = "dependencies";
         XElement listOfDependencies = XMLTools.LoadListFromXMLElement(XMLDEPENDENCY);
         XElement dependencyToAdd = new("Dependency");
-        int _newId = Config.nextDependencyId;
+        int _newId = Config.NextDependencyId;
         XElement _id = new("Id");
         _id.Value = Convert.ToString(_newId);
         dependencyToAdd.Add(_id);

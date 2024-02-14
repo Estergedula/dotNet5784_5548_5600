@@ -43,7 +43,7 @@ public partial class EngineerWindow : Window
                 }
          
             }
-            catch (BO.BlDoesNotExistException) { MessageBox.Show("ERROR: '\n'There is no object with id " + id); }
+            catch (BO.BlDoesNotExistException ex) { MessageBox.Show("ERROR: '\n"+ex.Message); }
         }
         else
         {
@@ -80,13 +80,13 @@ public partial class EngineerWindow : Window
                     }
                     else MessageBox.Show("ERROR: '\n'The data you entered is incorrect.");
                 }
-                catch (BO.BlInvalidDataException)
+                catch (BO.BlInvalidDataException ex)
                 {
-                    MessageBox.Show("ERROR: '\n'There is an invalid input in the object with id " + id);
+                    MessageBox.Show("ERROR: '\n" + ex.Message);
                 }
-                catch (BO.BlDoesNotExistException)
+                catch (BO.BlDoesNotExistException ex)
                 {
-                    MessageBox.Show("ERROR: '\n'There is no object with id " + id);
+                    MessageBox.Show("ERROR: '\n" + ex.Message);
                 }
             }
             else
@@ -101,13 +101,13 @@ public partial class EngineerWindow : Window
                     }
                     else MessageBox.Show("ERROR: '\n'The data you entered is incorrect.");
                 }
-                catch (BO.BlInvalidDataException)
+                catch (BO.BlInvalidDataException ex)
                 {
-                    MessageBox.Show("ERROR: '\n'There is an invalid input in the object with id " + CurrentEngineer!.Id);
+                    MessageBox.Show("ERROR: '\n"+ex.Message);
                 }
-                catch (BO.BlAlreadyExistsException)
+                catch (BO.BlAlreadyExistsException ex)
                 {
-                    MessageBox.Show("ERROR: '\n'There is already an object with id " + CurrentEngineer!.Id);
+                    MessageBox.Show("ERROR: '\n"+ex.Message);
                 }
 
             }

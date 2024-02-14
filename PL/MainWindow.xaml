@@ -8,10 +8,10 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <!--show engineers-->
-        <Button Content="Handle Engineers" HorizontalAlignment="Left" Margin="95,44,0,0" VerticalAlignment="Top" Height="69" Width="104" Click="btnEngineers_Click"/>
-        <Button Content="Create Data" HorizontalAlignment="Left" Margin="455,46,0,0" VerticalAlignment="Top" Height="67" Width="107" Click="btnCreateData_Click"/>
+        <Button Content="Handle Engineers" HorizontalAlignment="Left" Margin="95,44,0,0" VerticalAlignment="Top" Height="69" Width="104" Click="BtnEngineers_Click"/>
+        <Button Content="Create Data" HorizontalAlignment="Left" Margin="455,46,0,0" VerticalAlignment="Top" Height="67" Width="107" Click="BtnCreateData_Click"/>
         <!--show tasks-->
-        <Button Content="Handle Engineers" HorizontalAlignment="Left" Margin="95,44,0,0" VerticalAlignment="Top" Height="69" Width="104" Click="btnEngineer_Click"/>
-        <Button Content="Handle Tasks" HorizontalAlignment="Left" Margin="271,46,0,0" VerticalAlignment="Top" Height="69" Width="104" Click="btnTask_Click"/>
+        <Button Content="Handle Engineers" HorizontalAlignment="Left" Margin="95,44,0,0" VerticalAlignment="Top" Height="69" Width="104" Click="BtnEngineer_Click"/>
+        <Button Content="Handle Tasks" HorizontalAlignment="Left" Margin="271,46,0,0" VerticalAlignment="Top" Height="69" Width="104" Click="BtnTask_Click"/>
     </Grid>
 </Window>
