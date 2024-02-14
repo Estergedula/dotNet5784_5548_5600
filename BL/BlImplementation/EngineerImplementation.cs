@@ -25,7 +25,7 @@ internal class EngineerImplementation : IEngineer
     }
     public int Create(BO.Engineer boEngineer)
     {
-        if (boEngineer.Id <=0|| boEngineer.Name == "" || boEngineer.Cost <= 0 || !IsValidEmail(boEngineer.Email))
+        if (boEngineer.Id < 10000000|| boEngineer.Id > 99999999 || boEngineer.Name == "" || boEngineer.Cost <= 0 || !IsValidEmail(boEngineer.Email))
             throw new BO.BlInvalidDataException($"The data you entered is incorrect.");
         try
         {
@@ -33,7 +33,7 @@ internal class EngineerImplementation : IEngineer
         }
         catch (BO.BlDoesNotExistException)
         {
-            throw new BO.BlInvalidDataException($"Current task with ID={boEngineer.CurrentTask!.Id} does not exixt ");
+            throw new BO.BlInvalidDataException($"Current task with ID={boEngineer.CurrentTask!.Id} does not exixt");
         }
         try
         {
@@ -72,7 +72,7 @@ internal class EngineerImplementation : IEngineer
     public BO.Engineer? Read(int id)
     {
         DO.Engineer? doEngineer = _dal.Engineer.Read(id);
-        if (doEngineer is null) throw new BO.BlDoesNotExistException($"An engineer with ID number = {id} does not exist."); //יש לבדוק מה בנוגע לזריקת חריגות ממתודת קרחאה בשכבת הנתונים
+        if (doEngineer is null) throw new BO.BlDoesNotExistException($"An engineer with ID number = {id} does not exist."); 
         return new BO.Engineer
         {
             Id = id,
