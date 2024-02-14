@@ -1,5 +1,8 @@
 ﻿namespace BO;
 
+/// <summary>
+/// logical auxiliary entity: engineer in task
+/// </summary>
 public class EngineerInTask
 {
     public int Id { get; init; }

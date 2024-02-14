@@ -11,6 +11,7 @@ public static class Tools
 {
     //לא מושלם
     [AttributeUsage(AttributeTargets.Property)]
+
     class PropertyDisplayAttribute : Attribute
     {
         public String DisplayValue { get; set; }
@@ -19,6 +20,13 @@ public static class Tools
             DisplayValue = displayName;
         }
     }
+
+    /// <summary>
+    /// The method examines each type T at runtime with the help of reflection, and produces a string of all its attributes that were examined at runtime
+    /// </summary>
+    /// <typeparam name="T">type of the entity</typeparam>
+    /// <param name="t">the name of the entity</param>
+    /// <returns>A string of all its attributes that were examined at runtime</returns>
     public static string ToStringProperty<T>( this T t)
     {
         string str = "";
@@ -43,6 +51,13 @@ public static class Tools
         }
         return str;
     }
+
+    /// <summary>
+    /// Convert from dalagete to type
+    /// </summary>
+    /// <param name="sourceDelegate">the type</param>
+    /// <param name="targetType">the type</param>
+    /// <returns>the type after convertion</returns>
     public static Delegate ConvertDelegate(Delegate sourceDelegate, Type targetType)
     {
         return Delegate.CreateDelegate(

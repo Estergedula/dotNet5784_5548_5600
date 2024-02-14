@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace BO;
 
+/// <summary>
+/// logical auxiliary entity: engineer in list
+/// </summary>
 public class EngineerInList
 {
     public int Id { get; init; }

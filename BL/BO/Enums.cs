@@ -2,6 +2,10 @@
 using DO;
 
 namespace BO;
+
+/// <summary>
+/// Enumeration of task statuses
+/// </summary>
 public enum Status
 {
     Unscheduled, 
@@ -10,6 +14,10 @@ public enum Status
     InJeopardy,
     All
 }
+
+/// <summary>
+/// Enumeration of engineer experiences
+/// </summary>
 public enum EngineerExperience
 {
     Expert = 1,
