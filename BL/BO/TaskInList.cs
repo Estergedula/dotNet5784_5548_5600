@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace BO;
 
+/// <summary>
+/// task-on-list helper entity - for task list screen and milestones screen
+/// </summary>
 public class TaskInList
 {
     public int Id { get; init; }
@@ -16,9 +19,3 @@ public class TaskInList
 
 
 }
-//●	ישות עזר של משימה-ברשימה - עבור מסך רשימת משימות ומסך אבני דרך:
-//○	מזהה 
-//○	תיאור
-//○	כינוי
-//○	סטטוס
-

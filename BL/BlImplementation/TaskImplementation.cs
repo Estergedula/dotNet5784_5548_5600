@@ -15,7 +15,7 @@ internal class TaskImplementation : BlApi.ITask
     //int EngineerId = 0,
     //EngineerExperience ComplexilyLevel = EngineerExperience.Junior,
     //bool isActive = true
-    private readonly DalApi.IDal _dal = DalApi.Factory.Get;
+    private DalApi.IDal _dal = DalApi.Factory.Get;
     public int Create(BO.Task boTask)
     {
         if (boTask.Start > boTask.ScheduleDate || boTask.ScheduleDate > boTask.ForecastDate ||
@@ -24,20 +24,20 @@ internal class TaskImplementation : BlApi.ITask
             throw new BO.BlInvalidDataException($"The data you entered is incorrect.");
         try
         {
-            _dal.Task.Read(boTask.Engineer!.Id);
+            _dal.Task.Read(boTask.EngineerId!.Id);
         }
         catch (DO.DalDoesNotExistException)
         {
-            throw new BO.BlDoesNotExistException($"ENginner with ID={boTask.Engineer!.Id} does not exixt ");
+            throw new BO.BlDoesNotExistException($"ENginner with ID={boTask.EngineerId!.Id} does not exixt ");
         }
 
         boTask?.DependenciesList?.Select(task => new DO.Dependency(boTask.Id, task.Id));
 
-        DO.Task doTask = new (
+        DO.Task doTask = new DO.Task(
             boTask!.Id, boTask.Description, boTask.Alias, false, boTask.CreatedAt,
              boTask.Start, boTask.ForecastDate,
              boTask.DeadLine, boTask.Complete, boTask.Deliverables, boTask.Remarks,
-             boTask.Engineer!.Id, (DO.EngineerExperience)boTask.ComplexilyLevel, true);
+             boTask.EngineerId!.Id, (DO.EngineerExperience)boTask.ComplexilyLevel, true);
         try
         {
             int idTask = _dal.Task.Create(doTask);
@@ -101,7 +101,7 @@ internal class TaskImplementation : BlApi.ITask
     }
 
 
-    private static BO.Status GetStatuesOfTask(DO.Task task)
+    private BO.Status GetStatuesOfTask(DO.Task task)
     {
 
         if (task.ScheduleDate == DateTime.MinValue)
@@ -114,7 +114,8 @@ internal class TaskImplementation : BlApi.ITask
     }
     public BO.Task? Read(int id)
     {
-        DO.Task? doTask = _dal.Task.Read(id) ?? throw new BO.BlDoesNotExistException($"A task with ID number = {id} does not exist.");
+        DO.Task? doTask = _dal.Task.Read(id);
+        if (doTask == null) throw new BO.BlDoesNotExistException($"A task with ID number = {id} does not exist.");
         BO.MillestoneInTask? milestomeInList = _dal.Task.ReadAll().Select(t => new BO.MillestoneInTask
         {
             Id = t!.Id,
@@ -148,7 +149,7 @@ internal class TaskImplementation : BlApi.ITask
             DeadLine = doTask.DeadLine,
             Complete = doTask.Complete,
             Deliverables = doTask.Deliverables,
-            Engineer = new BO.EngineerInTask { Id = doTask.EngineerId, Name = engineerOfTask!.Name },
+            EngineerId = new BO.EngineerInTask { Id = doTask.EngineerId, Name = engineerOfTask!.Name },
             Remarks = doTask.Remarks,
             ComplexilyLevel = (BO.EngineerExperience)doTask.ComplexilyLevel
         };
@@ -196,15 +197,15 @@ internal class TaskImplementation : BlApi.ITask
             throw new BO.BlInvalidDataException($"The data you entered is incorrect.");
         try
         {
-            _dal.Task.Read(boTask.Engineer!.Id);
+            _dal.Task.Read(boTask.EngineerId!.Id);
         }
         catch (DO.DalDoesNotExistException)
         {
-            throw new BO.BlDoesNotExistException($"Engineer with ID={boTask.Engineer!.Id} does not exixt ");
+            throw new BO.BlDoesNotExistException($"Engineer with ID={boTask.EngineerId!.Id} does not exixt ");
         }
-        DO.Task doTask = new 
-        (boTask.Id, boTask.Description, boTask.Alias, false, boTask.CreatedAt, boTask.Start,
-        boTask.ForecastDate, boTask.DeadLine, boTask.Complete, boTask.Deliverables, boTask.Remarks, boTask.Engineer!.Id, (DO.EngineerExperience)boTask.ComplexilyLevel);
+        DO.Task doTask = new DO.Task
+        (boTask.Id, boTask.Description, boTask.Alias, false/**/, boTask.CreatedAt, boTask.Start,
+        boTask.ForecastDate, boTask.DeadLine, boTask.Complete, boTask.Deliverables, boTask.Remarks, boTask.EngineerId!.Id, (DO.EngineerExperience)boTask.ComplexilyLevel);
         try
         {
             _dal.Task.Update(doTask);

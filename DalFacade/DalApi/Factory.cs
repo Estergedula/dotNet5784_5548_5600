@@ -3,8 +3,15 @@ using static DalApi.Config;
 using System.Reflection;
 namespace DalApi;
 
+/// <summary>
+/// A manufacturer class that will use the Config class to load and initialize the correct class with which we want to implement the data layer.
+/// </summary>
 public static class Factory
 {
+    /// <summary>
+    /// The class contains a method called Get that produces/returns an initialization of the corresponding class DalList or DalXml,
+    /// according to what is written in the configuration file dal-config.xml which it knows how to read with the help of the Config class.
+    /// </summary>
     public static IDal Get
     {
         get

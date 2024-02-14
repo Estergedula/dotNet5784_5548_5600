@@ -45,7 +45,7 @@ public partial class TaskWindow : Window
         }
         else
         {
-            CurrentTask = new BO.Task { Id=0,Alias="",Description="",CreatedAt=DateTime.Now,Engineer=new EngineerInTask { Id=0} };
+            CurrentTask = new BO.Task { Id=0,Alias="",Description="",CreatedAt=DateTime.Now,EngineerId=new EngineerInTask { Id=0} };
         }
     }
 
@@ -64,7 +64,7 @@ public partial class TaskWindow : Window
         bool isOk = true;
         try
         {
-            s_bl.Engineer.Read(CurrentTask!.Engineer!.Id);
+            s_bl.Engineer.Read(CurrentTask!.EngineerId!.Id);
                 
         }
         catch(BO.BlDoesNotExistException)
@@ -121,19 +121,3 @@ public partial class TaskWindow : Window
     }
 }
 
-//public required int Id { get; init; }
-//public required string Description { get; set; }
-//public required string? Alias { get; set; }
-//public MillestoneInTask? Milestone { get; set; }
-//public Status Status { get; set; }
-//public IEnumerable<TaskInList>? DependenciesList { get; set; }?????????????
-//public required DateTime CreatedAt { get; set; }//תאריך יצירה
-//public DateTime ScheduleDate { get; set; }//תאריך התחלה משוער
-//public DateTime Start { get; set; }//תאריך התחלה בפועל
-//public DateTime ForecastDate { get; set; }//תאריך משוער לסיום
-//public DateTime DeadLine { get; set; }//תאריך אחרון לסיום
-//public DateTime Complete { get; set; }//תאריך סיום בפועל
-//public string? Deliverables { get; set; }
-//public string? Remarks { get; set; }
-//public EngineerInTask? Engineer { get; set; }
-//public EngineerExperience ComplexilyLevel { get; set; }
