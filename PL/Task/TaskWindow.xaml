@@ -75,15 +75,15 @@
         <Label  Content="CreatedAt" Grid.Row="4"/>
         <TextBox Text="{Binding CreatedAt, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"   IsEnabled="False"  Grid.Row="4"/>
         <Label Content="ScheduleDate" Grid.Row="5"/>
-        <DatePicker  SelectedDate="{Binding ScheduleDate, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Grid.Row="5"/>
+        <DatePicker  SelectedDate="{Binding ScheduleDate, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true ,StringFormat='dd/mm/yyyy'}" Grid.Row="5"/>
         <Label Content="Start" Grid.Row="6"/>
-        <DatePicker  SelectedDate="{Binding Start, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Grid.Row="6"/>
+        <DatePicker  SelectedDate="{Binding Start, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true, StringFormat='dd/mm/yyyy'}" Grid.Row="6"/>
         <Label Content="ForecastDate" Grid.Row="7"/>
-        <DatePicker  SelectedDate="{Binding ForecastDate, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Grid.Row="7"/>
+        <DatePicker  SelectedDate="{Binding ForecastDate, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true,StringFormat='dd/mm/yyyy'}" Grid.Row="7"/>
         <Label Content="DeadLine" Grid.Row="8"/>
-        <DatePicker  SelectedDate="{Binding DeadLine, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Grid.Row="8"/>
+        <DatePicker  SelectedDate="{Binding DeadLine, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true ,StringFormat='dd/mm/yyyy'}" Grid.Row="8"/>
         <Label Content="Complete" Grid.Row="9"/>
-        <DatePicker SelectedDate="{Binding Complete, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Grid.Row="9"/>
+        <DatePicker SelectedDate="{Binding Complete, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true ,StringFormat='dd/mm/yyyy'}" Grid.Row="9"/>
         <Label Content="Deliverables" Grid.Row="10"/>
         <TextBox Text="{Binding Deliverables, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  Grid.Row="10"/>
         <Label Content="Remarks" Grid.Row="11"/>

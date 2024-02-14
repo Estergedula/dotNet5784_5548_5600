@@ -1,16 +1,24 @@
-﻿using DalApi;
-
+﻿
 namespace Dal;
+using DalApi;
+
 /// <summary>
-/// A class that inherits and implements the interface by initializing the subinterfaces in the access classes
+///  A data layer object using xml
 /// </summary>
 sealed internal class DalXml : IDal
 {
-    public static IDal Instance { get; }  = new DalXml();
+    /// <summary>
+    /// So that the object is initialized only on the first use we used Lazy
+    /// and so that 2 entities cannot use it at the same time we sent true to the constructor which makes it thread safe
+    /// </summary>
+    public static IDal Instance { get; } = new Lazy<DalXml>(() => new DalXml(), true).Value;
+
+    // empty ctor for DalXml
     private DalXml() { }
+    public IEngineer Engineer => new EngineerImplementation();
+
     public ITask Task => new TaskImplementation();
 
     public IDependency Dependency => new DependencyImplementation();
-
-    public IEngineer Engineer => new EngineerImplementation();
 }
+
