@@ -40,14 +40,12 @@ public partial class TaskWindow : Window
             try
             {
                 CurrentTask = s_bl!.Task!.Read(id);
-          
-            
             }
             catch (BO.BlDoesNotExistException) { MessageBox.Show("ERROR: '\n'There is no object with id "+id); }
         }
         else
         {
-            CurrentTask=new BO.Task { Id=0,Alias="",Description="",CreatedAt=DateTime.Now,Engineer=new EngineerInTask { Id=0} };
+            CurrentTask = new BO.Task { Id=0,Alias="",Description="",CreatedAt=DateTime.Now,Engineer=new EngineerInTask { Id=0} };
         }
     }
 
@@ -85,7 +83,7 @@ public partial class TaskWindow : Window
                     if (InputIntegrityCheck(CurrentTask))
                     {
                         s_bl.Task.Update(CurrentTask!);
-                        MessageBox.Show("Object with id " + id + "had updated successfully!");
+                        MessageBox.Show("Task with id " + id + " had updated successfully!");
                         this.Close();
                     }
                 }
@@ -105,7 +103,7 @@ public partial class TaskWindow : Window
                     if (InputIntegrityCheck(CurrentTask))
                     {
                         s_bl.Task.Create(CurrentTask!);
-                        MessageBox.Show("Object with id " + id + "had created successfully!");
+                        MessageBox.Show("Task with id " + id + " had created successfully!");
                         this.Close();
                     }
                 }
