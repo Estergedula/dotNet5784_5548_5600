@@ -14,6 +14,9 @@ public partial class TaskListWindow : Window
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
 
     public BO.Status TaskStatus { get; set; } = BO.Status.All;
+    /// <summary>
+    /// List of task
+    /// </summary>
     public IEnumerable<BO.TaskInList>? TaskList
     {
         get { return (IEnumerable<BO.TaskInList>)GetValue(TaskListProperty); }
@@ -23,12 +26,21 @@ public partial class TaskListWindow : Window
     public static readonly DependencyProperty TaskListProperty =
         DependencyProperty.Register("TaskList", typeof(IEnumerable<BO.TaskInList>), typeof(TaskListWindow), new PropertyMetadata(null));
 
+    /// <summary>
+    /// Shows the window of task list
+    /// </summary>
     public TaskListWindow()
     {
         InitializeComponent();
         var temp = s_bl?.TaskInList.ReadAll();
         TaskList = temp;
     }
+
+    /// <summary>
+    /// Select stats of task from the enum
+    /// </summary>
+    /// <param name="sender">The button</param>
+    /// <param name="e">The event</param>
     private void CmbTaskStatus_SelectionChange(object sender, SelectionChangedEventArgs e)
     {
         var temp = TaskStatus == BO.Status.All ? s_bl?.TaskInList.ReadAll() :
@@ -36,7 +48,11 @@ public partial class TaskListWindow : Window
         TaskList = temp;
     }
 
-
+    /// <summary>
+    /// Display list of tasks when the user dubbleclicks
+    /// </summary>
+    /// <param name="sender">The button</param>
+    /// <param name="e">The event</param>
     private void LsvDisplayTasks_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
         BO.TaskInList? taskInList = (sender as ListView)?.SelectedItem as BO.TaskInList;
@@ -46,6 +62,11 @@ public partial class TaskListWindow : Window
         TaskList = temp;
     }
 
+    /// <summary>
+    /// Call the add task method from the task window
+    /// </summary>
+    /// <param name="sender">The button</param>
+    /// <param name="e">The event</param>
     private void BtnAddTask_Click(object sender, RoutedEventArgs e)
     {
         new TaskWindow().ShowDialog();
